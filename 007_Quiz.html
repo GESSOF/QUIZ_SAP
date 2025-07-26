@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 002 - SAP HANA - Arquitectura y Componentes</title>
+    <title>Quiz 007 - SAP HANA - Diseño y Evolución de Bases de Datos</title>
     <style>
         * {
             margin: 0;
@@ -334,19 +334,6 @@
             color: #bf360c;
         }
 
-        .exam-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        .exam-note strong {
-            color: #e65100;
-        }
-
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -375,15 +362,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧠 Quiz 002 - SAP HANA</h1>
-            <p>Arquitectura y Componentes - Preparación para Certificación</p>
+            <h1>🏗️ Quiz 007 - SAP HANA</h1>
+            <p>Diseño de Bases de Datos y Evolución Histórica</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">20</span>
+                    <span class="stat-number" id="totalQuestions">18</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -412,286 +399,255 @@
         const questions = [
             {
                 id: 1,
-                category: "Ediciones de SAP HANA",
+                category: "Analogía del Diseño",
                 difficulty: 1,
-                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
+                question: "Según la analogía de construcción presentada en el video, ¿qué rol cumple el cliente en el diseño de bases de datos?",
                 options: [
-                    "Standard, Professional, Enterprise",
-                    "Standard, Enterprise, Express",
-                    "Basic, Advanced, Premium",
-                    "Starter, Business, Enterprise"
+                    "Crea los planos detallados",
+                    "Entrega el boceto inicial (Modelo Conceptual)",
+                    "Implementa la base de datos físicamente",
+                    "Define los tipos de datos específicos"
                 ],
                 correct: 1,
-                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
+                explanation: "En la analogía de construcción, el cliente entrega el boceto inicial, que equivale al Modelo Conceptual en el diseño de bases de datos."
             },
             {
                 id: 2,
-                category: "SAP HANA Express Edition",
-                difficulty: 1,
-                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
+                category: "Los Tres Modelos de Diseño",
+                difficulty: 2,
+                question: "¿Cuáles son los tres modelos de diseño de bases de datos en orden secuencial?",
                 options: [
-                    "Es la más potente",
-                    "Es totalmente gratuita",
-                    "Solo funciona en la nube",
-                    "Requiere más memoria"
+                    "Físico, Lógico, Conceptual",
+                    "Conceptual, Físico, Lógico",
+                    "Conceptual, Lógico, Físico",
+                    "Lógico, Conceptual, Físico"
                 ],
-                correct: 1,
-                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
+                correct: 2,
+                explanation: "El orden correcto es: 1) Modelo Conceptual (boceto), 2) Modelo Lógico (planos), 3) Modelo Físico (construcción)."
             },
             {
                 id: 3,
-                category: "SAP HANA Express Edition",
+                category: "Modelo Conceptual",
                 difficulty: 2,
-                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
+                question: "¿Cuál es la característica principal del Modelo Conceptual?",
                 options: [
-                    "16 GB",
-                    "32 GB",
-                    "64 GB",
-                    "128 GB"
+                    "Define tipos de datos específicos",
+                    "Es totalmente independiente del lenguaje y sistema gestor",
+                    "Incluye detalles de implementación física",
+                    "Especifica índices y claves foráneas"
                 ],
                 correct: 1,
-                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
+                explanation: "El Modelo Conceptual es totalmente independiente del lenguaje, no incluye tipos de datos específicos, sistema gestor particular ni lenguaje de implementación."
             },
             {
                 id: 4,
-                category: "Motor XSA",
-                difficulty: 3,
-                question: "¿En qué estándar abierto se basa el motor XSA?",
+                category: "Modelo Conceptual",
+                difficulty: 1,
+                question: "¿Qué porcentaje de bases de datos relacionales utiliza Diagramas Entidad-Relación según el video?",
                 options: [
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Foundry",
-                    "OpenStack"
+                    "85%",
+                    "95%",
+                    "99%",
+                    "100%"
                 ],
                 correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
-                examNote: true
+                explanation: "Según el video, el 99% de las bases de datos relacionales utilizan Diagramas Entidad-Relación como herramienta principal del Modelo Conceptual."
             },
             {
                 id: 5,
-                category: "Herramientas ETL",
+                category: "Modelo Conceptual",
                 difficulty: 2,
-                question: "¿Qué significa SDI en el contexto de SAP HANA?",
+                question: "¿Cuál NO es un objetivo del Modelo Conceptual?",
                 options: [
-                    "System Data Integration",
-                    "Smart Data Integration",
-                    "Secure Data Interface",
-                    "Standard Data Import"
+                    "Establecer la información que se quiere almacenar",
+                    "Definir la estructura de almacenamiento",
+                    "Especificar tipos de datos físicos",
+                    "Crear relaciones lógicas y coherentes"
                 ],
-                correct: 1,
-                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
+                correct: 2,
+                explanation: "El Modelo Conceptual NO especifica tipos de datos físicos, ya que es independiente del lenguaje y se centra en problemas estructurales de la información."
             },
             {
                 id: 6,
-                category: "Calidad de Datos",
+                category: "Modelo Lógico",
                 difficulty: 2,
-                question: "¿Qué significa SDQ en SAP HANA?",
+                question: "¿Cuál es la función principal del Modelo Lógico según la analogía de construcción?",
                 options: [
-                    "Smart Data Quality",
-                    "System Data Query",
-                    "Secure Data Queue",
-                    "Standard Data Quantity"
+                    "Entregar el boceto inicial",
+                    "Realizar el trabajo del arquitecto creando planos detallados",
+                    "Construir físicamente la estructura",
+                    "Mantener la base de datos funcionando"
                 ],
-                correct: 0,
-                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
+                correct: 1,
+                explanation: "El Modelo Lógico equivale al trabajo del arquitecto, transformando el modelo conceptual en algo implementable físicamente mediante planos detallados."
             },
             {
                 id: 7,
-                category: "Herramientas de Desarrollo",
+                category: "Modelo Lógico",
                 difficulty: 3,
-                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
+                question: "Para sistemas relacionales, ¿qué debe indicar el Modelo Lógico?",
                 options: [
-                    "Web IDE es más antiguo",
-                    "No hay diferencia",
-                    "Web IDE es para XSA, Studio es para XS",
-                    "Studio es solo para administración"
+                    "Solo las tablas principales",
+                    "Relaciones entre tablas, atributos, claves primarias y foráneas, índices",
+                    "Únicamente los tipos de datos",
+                    "Solo la estructura física de archivos"
                 ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
-                examNote: true
+                correct: 1,
+                explanation: "El Modelo Lógico para sistemas relacionales debe indicar relaciones entre tablas, atributos de cada entidad, claves primarias y foráneas, e índices necesarios."
             },
             {
                 id: 8,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
+                category: "Modelo Lógico",
+                difficulty: 2,
+                question: "¿Qué herramientas ayudan en el Modelo Lógico para obtener un modelo correcto?",
                 options: [
-                    "Mover datos al disco",
-                    "Realizar procesamientos en la capa de base de datos",
-                    "Comprimir información",
-                    "Reducir el uso de memoria"
+                    "Diagramas de flujo",
+                    "Formas Normales",
+                    "Códigos de programación",
+                    "Esquemas físicos"
                 ],
                 correct: 1,
-                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
-                examNote: true
+                explanation: "Las Formas Normales son una serie de reglas que ayudan a realizar las modificaciones necesarias para obtener un modelo lógico correcto para implementar."
             },
             {
                 id: 9,
-                category: "Arquitectura SAP",
+                category: "Modelo Físico",
                 difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
+                question: "¿Cuál es el propósito del Modelo Físico?",
                 options: [
-                    "2 capas: Cliente y Servidor",
-                    "3 capas: Cliente, Aplicación y Base de datos",
-                    "4 capas: Cliente, Web, Aplicación y Base de datos",
-                    "1 capa: Todo integrado"
+                    "Crear el diseño conceptual",
+                    "Transformar el modelo lógico para mayor eficiencia y crear objetos físicos",
+                    "Definir solo las relaciones",
+                    "Establecer los requerimientos del cliente"
                 ],
                 correct: 1,
-                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
+                explanation: "El Modelo Físico transforma el modelo lógico para mayor eficiencia y crea los objetos físicos reales en la base de datos."
             },
             {
                 id: 10,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Qué es Dynamic Tiering en SAP HANA?",
+                category: "Modelo Físico",
+                difficulty: 3,
+                question: "¿Qué decisiones críticas se deben tomar en campos de texto durante la implementación física?",
                 options: [
-                    "Un sistema de copias de seguridad",
-                    "Una capa basada en disco para datos menos críticos",
-                    "Un método de compresión",
-                    "Una técnica de indexación"
+                    "Solo el nombre del campo",
+                    "Tipo de dato específico, codificación (ASCII vs Unicode), longitud variable vs tamaño fijo",
+                    "Únicamente el tamaño máximo",
+                    "Solo la posición en la tabla"
                 ],
                 correct: 1,
-                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
+                explanation: "En campos de texto se debe decidir el tipo de dato específico, codificación (ASCII vs Unicode) y si usar longitud variable o tamaño fijo."
             },
             {
                 id: 11,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
+                category: "Evolución Histórica",
+                difficulty: 1,
+                question: "¿Cuáles son las tres eras principales en la evolución de las bases de datos?",
                 options: [
-                    "Motor OLAP",
-                    "Motor JOIN",
-                    "Motor de Cálculo",
-                    "Motor SQL"
+                    "Relacionales, Pre-relacionales, Post-relacionales",
+                    "Pre-relacionales, Relacionales, Post-relacionales",
+                    "Post-relacionales, Relacionales, Pre-relacionales",
+                    "Jerárquicas, Relacionales, Orientadas a objetos"
                 ],
-                correct: 2,
-                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
+                correct: 1,
+                explanation: "Las tres eras son: Pre-relacionales (jerárquico y red), Relacionales (revolución y estándar actual), Post-relacionales (orientados a objetos)."
             },
             {
                 id: 12,
-                category: "Motores de SAP HANA",
+                category: "Sistemas Pre-relacionales",
                 difficulty: 2,
-                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
+                question: "¿Cuál es la principal limitación del Modelo Jerárquico?",
                 options: [
-                    "Crear documentos",
-                    "Búsquedas difusas y minería de texto",
-                    "Traducir idiomas",
-                    "Formatear texto"
+                    "No puede almacenar datos numéricos",
+                    "Cada nodo solo puede tener un nodo padre",
+                    "No permite relaciones entre datos",
+                    "Solo funciona con datos de texto"
                 ],
                 correct: 1,
-                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
+                explanation: "El Modelo Jerárquico tiene la limitación de que cada nodo solo puede tener un nodo padre, como un árbol genealógico tradicional."
             },
             {
                 id: 13,
-                category: "Motores de SAP HANA",
+                category: "Sistemas Pre-relacionales",
                 difficulty: 2,
-                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
+                question: "¿Cuál fue la mejora principal del Modelo de Red respecto al Jerárquico?",
                 options: [
-                    "Gestión de memoria",
-                    "Análisis de datos espaciales y geográficos",
-                    "Optimización de consultas",
-                    "Backup de datos"
+                    "Mayor velocidad de procesamiento",
+                    "Un nodo puede tener varios nodos padre",
+                    "Mejor compresión de datos",
+                    "Soporte para más tipos de datos"
                 ],
                 correct: 1,
-                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
+                explanation: "La mejora principal del Modelo de Red fue permitir que un nodo pueda tener varios nodos padre, superando la limitación jerárquica."
             },
             {
                 id: 14,
-                category: "Motores de SAP HANA",
+                category: "Sistema Relacional",
                 difficulty: 2,
-                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
+                question: "¿Qué característica revolucionaria tiene el Sistema Relacional?",
                 options: [
-                    "Datos financieros",
-                    "Datos altamente conectados en red",
-                    "Datos de texto",
-                    "Datos multimedia"
+                    "Usa estructuras jerárquicas mejoradas",
+                    "Se olvida de las relaciones jerárquicas y utiliza conceptos matemáticos",
+                    "Solo mejora la velocidad de los sistemas anteriores",
+                    "Permite únicamente relaciones simples"
                 ],
                 correct: 1,
-                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
+                explanation: "El Sistema Relacional es revolucionario porque se olvida de las relaciones jerárquicas tradicionales y utiliza conceptos matemáticos para establecer relaciones, representar datos y definir operaciones."
             },
             {
                 id: 15,
-                category: "Herramientas ETL",
+                category: "Sistema Relacional",
                 difficulty: 1,
-                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
+                question: "¿Qué sucede cuando se habla de 'bases de datos' sin especificar el tipo?",
                 options: [
-                    "Error, Test, Load",
-                    "Extract, Transform, Load",
-                    "Execute, Transfer, Link",
-                    "Export, Transfer, List"
+                    "Se refiere a bases de datos jerárquicas",
+                    "Se asume que son bases de datos relacionales",
+                    "Se debe especificar obligatoriamente",
+                    "Se refiere a bases de datos orientadas a objetos"
                 ],
                 correct: 1,
-                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
+                explanation: "Actualmente, cuando se habla de 'bases de datos' sin especificar el tipo, se asume que son relacionales porque se convirtieron en el estándar universal."
             },
             {
                 id: 16,
-                category: "Tecnología In-Memory",
-                difficulty: 2,
-                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
+                category: "Sistemas Post-relacionales",
+                difficulty: 3,
+                question: "En el Modelo Orientado a Objetos, ¿de qué están compuestos los objetos?",
                 options: [
-                    "Menor costo de hardware",
-                    "Eliminar el cuello de botella entre disco duro y RAM",
-                    "Mayor capacidad de almacenamiento",
-                    "Mejor interfaz de usuario"
+                    "Solo de datos",
+                    "Variables (atributos) y métodos (funciones)",
+                    "Únicamente de funciones",
+                    "Solo de relaciones"
                 ],
                 correct: 1,
-                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
+                explanation: "En el Modelo Orientado a Objetos, los objetos están compuestos por variables (atributos) que almacenan datos y métodos (funciones) que los manipulan."
             },
             {
                 id: 17,
-                category: "Herramientas de Administración",
+                category: "Sistemas Post-relacionales",
                 difficulty: 2,
-                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
+                question: "¿Cómo se realiza la manipulación de datos en el Modelo Orientado a Objetos?",
                 options: [
-                    "Web IDE for SAP HANA",
-                    "SAP HANA Studio",
-                    "SAP HANA Cockpit",
-                    "SAP HANA Express"
+                    "Mediante consultas SQL",
+                    "Mediante mensajes entre objetos",
+                    "Mediante comandos directos",
+                    "Mediante índices"
                 ],
-                correct: 2,
-                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
+                correct: 1,
+                explanation: "En el Modelo Orientado a Objetos, la manipulación de datos se realiza mediante mensajes que permiten la comunicación entre objetos."
             },
             {
                 id: 18,
-                category: "Herramientas ETL",
+                category: "Aplicaciones Prácticas",
                 difficulty: 2,
-                question: "¿Qué es SLT en el ecosistema SAP HANA?",
+                question: "¿En qué influyen directamente las decisiones tomadas en el Modelo Físico?",
                 options: [
-                    "Sistema de respaldo",
-                    "SAP Landscape Transformation Replication Server",
-                    "Herramienta de desarrollo",
-                    "Sistema de monitoreo"
+                    "Solo en la apariencia visual",
+                    "En la eficacia del sistema, rendimiento de consultas y espacio de almacenamiento",
+                    "Únicamente en la seguridad",
+                    "Solo en la facilidad de programación"
                 ],
                 correct: 1,
-                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
-            },
-            {
-                id: 19,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
-                options: [
-                    "Temperatura física del hardware",
-                    "Frecuencia de acceso a los datos",
-                    "Tipo de encriptación",
-                    "Formato de almacenamiento"
-                ],
-                correct: 1,
-                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
-            },
-            {
-                id: 20,
-                category: "Motor XS vs XSA",
-                difficulty: 3,
-                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
-                options: [
-                    "Menor velocidad",
-                    "No fue diseñado para aplicaciones empresariales escalables",
-                    "Mayor consumo de memoria",
-                    "Incompatibilidad con Windows"
-                ],
-                correct: 1,
-                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
+                explanation: "Las decisiones del Modelo Físico influyen directamente en la eficacia del sistema, el rendimiento de las consultas y el espacio de almacenamiento requerido."
             }
         ];
 
@@ -730,7 +686,6 @@
                     <div class="explanation" id="explanation">
                         <h4>💡 Explicación:</h4>
                         <p>${question.explanation}</p>
-                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
@@ -822,26 +777,27 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 90) {
-                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
+            if (finalScore >= 85) {
+                message = '🎉 ¡Excelente! Dominas muy bien el diseño y evolución de las bases de datos.';
             } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
+                message = '👍 ¡Buen trabajo! Tienes una comprensión sólida del proceso de diseño de BD.';
             } else {
-                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
+                message = '📚 Necesitas reforzar los conceptos sobre diseño y evolución de bases de datos.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
+                    <h4>🏗️ Puntos clave sobre Diseño y Evolución de BD:</h4>
                     <ul>
-                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
-                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
-                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
-                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
-                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
-                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
-                        <li>Tecnología In-Memory y sus ventajas</li>
+                        <li>Analogía de construcción: Cliente (Conceptual) → Arquitecto (Lógico) → Constructor (Físico)</li>
+                        <li>Modelo Conceptual: independiente del lenguaje, 99% usan Diagramas E-R</li>
+                        <li>Modelo Lógico: transforma a implementable, usa Formas Normales</li>
+                        <li>Modelo Físico: crea objetos reales, decisiones críticas de implementación</li>
+                        <li>Evolución: Pre-relacionales → Relacionales → Post-relacionales</li>
+                        <li>Jerárquico: un padre por nodo, Red: múltiples padres</li>
+                        <li>Relacional: revolución con conceptos matemáticos, estándar actual</li>
+                        <li>Orientado a objetos: variables + métodos, comunicación por mensajes</li>
                     </ul>
                 </div>
             `;

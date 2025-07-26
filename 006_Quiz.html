@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 002 - SAP HANA - Arquitectura y Componentes</title>
+    <title>Quiz 006 - SAP HANA - Reglas de Codd</title>
     <style>
         * {
             margin: 0;
@@ -334,19 +334,6 @@
             color: #bf360c;
         }
 
-        .exam-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        .exam-note strong {
-            color: #e65100;
-        }
-
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -375,8 +362,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧠 Quiz 002 - SAP HANA</h1>
-            <p>Arquitectura y Componentes - Preparación para Certificación</p>
+            <h1>📊 Quiz 006 - SAP HANA</h1>
+            <p>Las 12 Reglas de Codd para Bases de Datos Relacionales</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -412,286 +399,283 @@
         const questions = [
             {
                 id: 1,
-                category: "Ediciones de SAP HANA",
+                category: "Fundamentos de BD Relacionales",
                 difficulty: 1,
-                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
+                question: "¿Cuál es el tipo de base de datos más extendido en la actualidad según el video?",
                 options: [
-                    "Standard, Professional, Enterprise",
-                    "Standard, Enterprise, Express",
-                    "Basic, Advanced, Premium",
-                    "Starter, Business, Enterprise"
+                    "Bases de datos orientadas a objetos",
+                    "Bases de datos relacionales",
+                    "Bases de datos NoSQL",
+                    "Bases de datos jerárquicas"
                 ],
                 correct: 1,
-                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
+                explanation: "Las bases de datos relacionales son el tipo de base de datos más extendido en la actualidad, basándose en el modelo relacional con tablas bidimensionales."
             },
             {
                 id: 2,
-                category: "SAP HANA Express Edition",
+                category: "Terminología Básica",
                 difficulty: 1,
-                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
+                question: "¿Qué es una 'tupla' en el contexto de bases de datos relacionales?",
                 options: [
-                    "Es la más potente",
-                    "Es totalmente gratuita",
-                    "Solo funciona en la nube",
-                    "Requiere más memoria"
+                    "Cada columna de la tabla",
+                    "Cada fila de la tabla",
+                    "El nombre de la tabla",
+                    "Las relaciones entre tablas"
                 ],
                 correct: 1,
-                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
+                explanation: "Una tupla es cada fila de la tabla, representando una entidad individual con sus características específicas."
             },
             {
                 id: 3,
-                category: "SAP HANA Express Edition",
-                difficulty: 2,
-                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
+                category: "Terminología Básica",
+                difficulty: 1,
+                question: "¿Qué representa un 'atributo' en una tabla relacional?",
                 options: [
-                    "16 GB",
-                    "32 GB",
-                    "64 GB",
-                    "128 GB"
+                    "Cada fila de la tabla",
+                    "El nombre de la tabla",
+                    "Cada columna de la tabla (características de la entidad)",
+                    "Las claves primarias únicamente"
                 ],
-                correct: 1,
-                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
+                correct: 2,
+                explanation: "Un atributo es cada columna de la tabla, representando las características o propiedades de las entidades almacenadas."
             },
             {
                 id: 4,
-                category: "Motor XSA",
-                difficulty: 3,
-                question: "¿En qué estándar abierto se basa el motor XSA?",
+                category: "Regla 1",
+                difficulty: 2,
+                question: "Según la Regla 1 de Codd, ¿cómo debe presentarse toda la información en una base de datos relacional?",
                 options: [
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Foundry",
-                    "OpenStack"
+                    "En archivos de texto plano",
+                    "Por medio de valores en tablas",
+                    "En estructuras jerárquicas",
+                    "En formatos binarios"
                 ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
-                examNote: true
+                correct: 1,
+                explanation: "La Regla 1 establece que toda la información debe poder presentarse por medio de valores en tablas, con todos los registros teniendo el mismo número de campos."
             },
             {
                 id: 5,
-                category: "Herramientas ETL",
+                category: "Regla 2",
                 difficulty: 2,
-                question: "¿Qué significa SDI en el contexto de SAP HANA?",
+                question: "¿Cuáles son los tres elementos necesarios para acceder a cualquier dato según la Regla 2?",
                 options: [
-                    "System Data Integration",
-                    "Smart Data Integration",
-                    "Secure Data Interface",
-                    "Standard Data Import"
+                    "Usuario, contraseña y permisos",
+                    "Nombre de tabla, valor de su clave y nombre de una columna",
+                    "IP del servidor, puerto y base de datos",
+                    "Esquema, índice y tipo de dato"
                 ],
                 correct: 1,
-                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
+                explanation: "La Regla 2 (Acceso Garantizado) establece que todo dato debe ser accesible mediante la combinación de nombre de tabla, valor de su clave y nombre de una columna."
             },
             {
                 id: 6,
-                category: "Calidad de Datos",
+                category: "Regla 3",
                 difficulty: 2,
-                question: "¿Qué significa SDQ en SAP HANA?",
+                question: "¿Para qué tipos de información permite la Regla 3 el uso de valores nulos?",
                 options: [
-                    "Smart Data Quality",
-                    "System Data Query",
-                    "Secure Data Queue",
-                    "Standard Data Quantity"
+                    "Solo para información opcional",
+                    "Para información desconocida e inaplicable",
+                    "Únicamente para campos numéricos",
+                    "Solo para campos de texto"
                 ],
-                correct: 0,
-                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
+                correct: 1,
+                explanation: "La Regla 3 permite valores nulos para representar información desconocida e inaplicable, independientemente del tipo de dato."
             },
             {
                 id: 7,
-                category: "Herramientas de Desarrollo",
+                category: "Regla 4",
                 difficulty: 3,
-                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
+                question: "¿Qué debe permitir el catálogo dinámico según la Regla 4?",
                 options: [
-                    "Web IDE es más antiguo",
-                    "No hay diferencia",
-                    "Web IDE es para XSA, Studio es para XS",
-                    "Studio es solo para administración"
+                    "Solo consultar la estructura de tablas",
+                    "Consultar metadatos con el mismo lenguaje que se usa para los datos",
+                    "Únicamente mostrar permisos de usuario",
+                    "Solo información de rendimiento"
                 ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
-                examNote: true
+                correct: 1,
+                explanation: "La Regla 4 establece que la descripción de la base de datos debe ser consultable por usuarios autorizados usando el mismo lenguaje que para los datos, incluyendo metadatos como base de datos actual, usuario, fecha, etc."
             },
             {
                 id: 8,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
+                category: "Regla 5",
+                difficulty: 2,
+                question: "¿Qué capacidades debe incluir el lenguaje de datos completo según la Regla 5?",
                 options: [
-                    "Mover datos al disco",
-                    "Realizar procesamientos en la capa de base de datos",
-                    "Comprimir información",
-                    "Reducir el uso de memoria"
+                    "Solo consultas básicas",
+                    "Definición, manipulación, restricciones de integridad, autorizaciones y control de transacciones",
+                    "Únicamente inserción y borrado",
+                    "Solo funciones matemáticas"
                 ],
                 correct: 1,
-                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
-                examNote: true
+                explanation: "La Regla 5 requiere un lenguaje completo que permita definición de datos y vistas, manipulación de datos, restricciones de integridad, autorizaciones de acceso y control de transacciones. SQL cumple todos estos requisitos."
             },
             {
                 id: 9,
-                category: "Arquitectura SAP",
+                category: "Regla 6",
                 difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
+                question: "¿Qué establece la Regla 6 sobre las vistas?",
                 options: [
-                    "2 capas: Cliente y Servidor",
-                    "3 capas: Cliente, Aplicación y Base de datos",
-                    "4 capas: Cliente, Web, Aplicación y Base de datos",
-                    "1 capa: Todo integrado"
+                    "Las vistas solo pueden ser de lectura",
+                    "Toda vista teóricamente debe poder actualizarse",
+                    "Las vistas no pueden contener joins",
+                    "Solo se permiten vistas simples"
                 ],
                 correct: 1,
-                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
+                explanation: "La Regla 6 establece que toda vista teóricamente debe poder actualizarse en el sistema, manteniendo la capacidad de actualización cuando sea técnicamente posible."
             },
             {
                 id: 10,
-                category: "Gestión de Datos",
+                category: "Regla 7",
                 difficulty: 2,
-                question: "¿Qué es Dynamic Tiering en SAP HANA?",
+                question: "¿Qué caracteriza a las operaciones de alto nivel según la Regla 7?",
                 options: [
-                    "Un sistema de copias de seguridad",
-                    "Una capa basada en disco para datos menos críticos",
-                    "Un método de compresión",
-                    "Una técnica de indexación"
+                    "Requieren programación compleja por parte del usuario",
+                    "Son instrucciones sencillas donde el sistema se ocupa de las tareas de bajo nivel",
+                    "Solo funcionan con tablas pequeñas",
+                    "Necesitan conocimiento profundo del hardware"
                 ],
                 correct: 1,
-                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
+                explanation: "La Regla 7 establece operaciones de alto nivel con instrucciones sencillas (como DELETE) donde el sistema automáticamente se ocupa de localizar, eliminar, liberar memoria y reorganizar la información."
             },
             {
                 id: 11,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
+                category: "Regla 8",
+                difficulty: 3,
+                question: "¿Qué debe mantenerse inalterado según la Regla 8 de Independencia Física?",
                 options: [
-                    "Motor OLAP",
-                    "Motor JOIN",
-                    "Motor de Cálculo",
-                    "Motor SQL"
+                    "La estructura de las tablas",
+                    "Los programas aplicativos ante cambios en mecanismos de almacenamiento y métodos de acceso",
+                    "Los permisos de usuario",
+                    "Las claves primarias"
                 ],
-                correct: 2,
-                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
+                correct: 1,
+                explanation: "La Regla 8 establece que los programas aplicativos deben permanecer inalterados ante cambios en mecanismos de almacenamiento, métodos de acceso y ubicación física de los datos."
             },
             {
                 id: 12,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
+                category: "Regla 9",
+                difficulty: 3,
+                question: "¿Qué condición deben cumplir los cambios para mantener la independencia lógica según la Regla 9?",
                 options: [
-                    "Crear documentos",
-                    "Búsquedas difusas y minería de texto",
-                    "Traducir idiomas",
-                    "Formatear texto"
+                    "Deben ser aprobados por todos los usuarios",
+                    "Deben preservar la información y estar permitidos por el sistema",
+                    "Solo pueden hacerse durante el mantenimiento",
+                    "Requieren reiniciar la base de datos"
                 ],
                 correct: 1,
-                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
+                explanation: "La Regla 9 permite cambios que preserven la información y estén permitidos por el sistema, sin afectar los programas aplicativos."
             },
             {
                 id: 13,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
+                category: "Regla 10",
+                difficulty: 3,
+                question: "¿Dónde deben almacenarse las reglas de integridad según la Regla 10?",
                 options: [
-                    "Gestión de memoria",
-                    "Análisis de datos espaciales y geográficos",
-                    "Optimización de consultas",
-                    "Backup de datos"
+                    "En los programas de aplicación",
+                    "En el catálogo de la base de datos",
+                    "En archivos externos",
+                    "En la memoria del servidor"
                 ],
                 correct: 1,
-                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
+                explanation: "La Regla 10 establece que las reglas de integridad deben definirse mediante el lenguaje de datos y almacenarse en el catálogo de la base de datos, NO en programas de aplicación."
             },
             {
                 id: 14,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
+                category: "Regla 11",
+                difficulty: 3,
+                question: "¿Qué debe soportar el lenguaje según la Regla 11 sin alterar los programas?",
                 options: [
-                    "Datos financieros",
-                    "Datos altamente conectados en red",
-                    "Datos de texto",
-                    "Datos multimedia"
+                    "Solo bases de datos locales",
+                    "Bases de datos distribuidas cuando se distribuyan o redistribuyan los datos",
+                    "Únicamente replicación de datos",
+                    "Solo copias de seguridad"
                 ],
                 correct: 1,
-                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
+                explanation: "La Regla 11 requiere soporte para bases de datos distribuidas sin que el usuario sea consciente de si los datos están en un solo servidor o distribuidos en múltiples localizaciones."
             },
             {
                 id: 15,
-                category: "Herramientas ETL",
-                difficulty: 1,
-                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
+                category: "Regla 12",
+                difficulty: 3,
+                question: "¿Qué prohíbe la Regla 12 (No Subversión) respecto a los lenguajes de bajo nivel?",
                 options: [
-                    "Error, Test, Load",
-                    "Extract, Transform, Load",
-                    "Execute, Transfer, Link",
-                    "Export, Transfer, List"
+                    "Usarlos completamente",
+                    "Utilizarlos para saltarse reglas de integridad y evitar restricciones de lenguajes de alto nivel",
+                    "Acceder a más de una fila a la vez",
+                    "Crear índices automáticamente"
                 ],
                 correct: 1,
-                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
+                explanation: "La Regla 12 prohíbe que los lenguajes de bajo nivel con acceso fila a fila se utilicen para saltarse reglas de integridad o evitar restricciones de lenguajes de alto nivel."
             },
             {
                 id: 16,
-                category: "Tecnología In-Memory",
-                difficulty: 2,
-                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
+                category: "Historia y Contexto",
+                difficulty: 1,
+                question: "¿En qué año se establecieron las reglas de Codd?",
                 options: [
-                    "Menor costo de hardware",
-                    "Eliminar el cuello de botella entre disco duro y RAM",
-                    "Mayor capacidad de almacenamiento",
-                    "Mejor interfaz de usuario"
+                    "1969",
+                    "1970",
+                    "1971",
+                    "1975"
                 ],
                 correct: 1,
-                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
+                explanation: "Las 12 reglas de Codd fueron establecidas por Edgar F. Codd en 1970, proporcionando los fundamentos teóricos de las bases de datos relacionales."
             },
             {
                 id: 17,
-                category: "Herramientas de Administración",
+                category: "Importancia de las Reglas",
                 difficulty: 2,
-                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
+                question: "¿Cuál NO es una de las ventajas importantes que proporcionan las reglas de Codd?",
                 options: [
-                    "Web IDE for SAP HANA",
-                    "SAP HANA Studio",
-                    "SAP HANA Cockpit",
-                    "SAP HANA Express"
+                    "Abstracción que simplifica el trabajo del desarrollador",
+                    "Independencia entre aplicaciones y detalles de implementación",
+                    "Aumento automático de la velocidad de procesamiento",
+                    "Garantía de integridad y confiabilidad de los datos"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
+                explanation: "Las reglas de Codd proporcionan abstracción, independencia, integridad, portabilidad y escalabilidad, pero no garantizan automáticamente mayor velocidad de procesamiento."
             },
             {
                 id: 18,
-                category: "Herramientas ETL",
+                category: "Aplicación Práctica",
                 difficulty: 2,
-                question: "¿Qué es SLT en el ecosistema SAP HANA?",
+                question: "¿Qué lenguaje cumple con todos los requisitos de la Regla 5 según se menciona en el video?",
                 options: [
-                    "Sistema de respaldo",
-                    "SAP Landscape Transformation Replication Server",
-                    "Herramienta de desarrollo",
-                    "Sistema de monitoreo"
+                    "Java",
+                    "SQL",
+                    "Python",
+                    "JavaScript"
                 ],
                 correct: 1,
-                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
+                explanation: "El video específicamente menciona que SQL cumple todos los requisitos de la Regla 5 para un lenguaje de datos completo."
             },
             {
                 id: 19,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
+                category: "Estructura de Datos",
+                difficulty: 1,
+                question: "¿En qué se basa principalmente el modelo relacional?",
                 options: [
-                    "Temperatura física del hardware",
-                    "Frecuencia de acceso a los datos",
-                    "Tipo de encriptación",
-                    "Formato de almacenamiento"
+                    "Estructuras jerárquicas",
+                    "Tablas bidimensionales compuestas por filas y columnas",
+                    "Grafos dirigidos",
+                    "Arrays multidimensionales"
                 ],
                 correct: 1,
-                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
+                explanation: "El modelo relacional se basa en tablas bidimensionales compuestas por filas y columnas como estructura principal para organizar la información."
             },
             {
                 id: 20,
-                category: "Motor XS vs XSA",
-                difficulty: 3,
-                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
+                category: "Concepto General",
+                difficulty: 1,
+                question: "Según la conclusión del video, ¿es necesario memorizar las reglas de Codd al detalle?",
                 options: [
-                    "Menor velocidad",
-                    "No fue diseñado para aplicaciones empresariales escalables",
-                    "Mayor consumo de memoria",
-                    "Incompatibilidad con Windows"
+                    "Sí, es imprescindible memorizarlas todas",
+                    "No es necesario memorizar, pero sí comprenderlas para tener una base sólida",
+                    "Solo las primeras 6 reglas son importantes",
+                    "Solo es necesario para exámenes de certificación"
                 ],
                 correct: 1,
-                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
+                explanation: "El video concluye que aunque no es necesario memorizar estas reglas al detalle, comprenderlas proporciona una base sólida para trabajar con bases de datos relacionales."
             }
         ];
 
@@ -730,7 +714,6 @@
                     <div class="explanation" id="explanation">
                         <h4>💡 Explicación:</h4>
                         <p>${question.explanation}</p>
-                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
@@ -822,26 +805,28 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 90) {
-                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
+            if (finalScore >= 85) {
+                message = '🎉 ¡Excelente! Dominas muy bien las reglas fundamentales de las bases de datos relacionales.';
             } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
+                message = '👍 ¡Buen trabajo! Tienes una comprensión sólida de las reglas de Codd.';
             } else {
-                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
+                message = '📚 Necesitas reforzar los conceptos de las reglas de Codd. ¡Sigue estudiando!';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
+                    <h4>📊 Puntos clave sobre las Reglas de Codd:</h4>
                     <ul>
-                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
-                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
-                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
-                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
-                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
-                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
-                        <li>Tecnología In-Memory y sus ventajas</li>
+                        <li>12 reglas establecidas por Edgar F. Codd en 1970</li>
+                        <li>Fundamentos teóricos de las bases de datos relacionales</li>
+                        <li>Terminología: Tupla (fila), Atributo (columna), Relación (tabla)</li>
+                        <li>Reglas 1-4: Representación de información y acceso garantizado</li>
+                        <li>Reglas 5-8: Lenguaje completo y operaciones de alto nivel</li>
+                        <li>Reglas 9-12: Independencia lógica, física y de distribución</li>
+                        <li>SQL cumple todos los requisitos del lenguaje completo</li>
+                        <li>Importancia: abstracción, independencia, integridad, portabilidad</li>
+                        <li>No es necesario memorizar, pero sí comprender para base sólida</li>
                     </ul>
                 </div>
             `;

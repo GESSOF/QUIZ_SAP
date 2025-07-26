@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 002 - SAP HANA - Arquitectura y Componentes</title>
+    <title>Quiz 004 - SAP HANA - Alta Disponibilidad y Seguridad</title>
     <style>
         * {
             margin: 0;
@@ -334,19 +334,6 @@
             color: #bf360c;
         }
 
-        .exam-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        .exam-note strong {
-            color: #e65100;
-        }
-
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -375,15 +362,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧠 Quiz 002 - SAP HANA</h1>
-            <p>Arquitectura y Componentes - Preparación para Certificación</p>
+            <h1>🔒 Quiz 004 - SAP HANA</h1>
+            <p>Alta Disponibilidad y Sistemas de Seguridad</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">20</span>
+                    <span class="stat-number" id="totalQuestions">18</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -412,286 +399,255 @@
         const questions = [
             {
                 id: 1,
-                category: "Ediciones de SAP HANA",
+                category: "Alta Disponibilidad",
                 difficulty: 1,
-                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
+                question: "¿Cuál es el objetivo principal de la alta disponibilidad en SAP HANA?",
                 options: [
-                    "Standard, Professional, Enterprise",
-                    "Standard, Enterprise, Express",
-                    "Basic, Advanced, Premium",
-                    "Starter, Business, Enterprise"
+                    "Mejorar la velocidad de procesamiento",
+                    "Que múltiples usuarios puedan acceder simultáneamente sin bloqueos, incluyendo tolerancia a desastres",
+                    "Reducir el consumo de memoria",
+                    "Simplificar la administración del sistema"
                 ],
                 correct: 1,
-                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
+                explanation: "La alta disponibilidad busca que múltiples usuarios puedan acceder al sistema simultáneamente sin bloqueos, incluyendo tolerancia a desastres, como un generador de emergencia en un hospital."
             },
             {
                 id: 2,
-                category: "SAP HANA Express Edition",
-                difficulty: 1,
-                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
+                category: "Arquitectura Scale Out",
+                difficulty: 2,
+                question: "¿Qué componentes incluye la arquitectura Scale Out en un data center?",
                 options: [
-                    "Es la más potente",
-                    "Es totalmente gratuita",
-                    "Solo funciona en la nube",
-                    "Requiere más memoria"
+                    "Solo servidores activos",
+                    "Servidores activos + almacenamiento compartido + servidor en espera",
+                    "Solo base de datos distribuida",
+                    "Únicamente servidores de respaldo"
                 ],
                 correct: 1,
-                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
+                explanation: "La arquitectura Scale Out incluye servidores activos, almacenamiento compartido y servidor en espera (standby) para garantizar continuidad del servicio."
             },
             {
                 id: 3,
-                category: "SAP HANA Express Edition",
+                category: "Sistemas Distribuidos",
                 difficulty: 2,
-                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
+                question: "¿Qué sucede en un sistema distribuido multinacional cuando falla un data center completo?",
                 options: [
-                    "16 GB",
-                    "32 GB",
-                    "64 GB",
-                    "128 GB"
+                    "El sistema se detiene completamente",
+                    "Se pierde toda la información",
+                    "El tráfico se desvía automáticamente a otro data center",
+                    "Solo funciona el servidor local"
                 ],
-                correct: 1,
-                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
+                correct: 2,
+                explanation: "En sistemas distribuidos con servidores en diferentes países, si falla un data center completo, el tráfico se desvía automáticamente a otro data center."
             },
             {
                 id: 4,
-                category: "Motor XSA",
-                difficulty: 3,
-                question: "¿En qué estándar abierto se basa el motor XSA?",
+                category: "Componentes Técnicos",
+                difficulty: 2,
+                question: "¿Cuál es la función del servidor de nombres en SAP HANA?",
                 options: [
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Foundry",
-                    "OpenStack"
+                    "Almacenar los datos principales",
+                    "Traducir IPs a nombres reconocibles",
+                    "Ejecutar las consultas SQL",
+                    "Gestionar los usuarios y roles"
                 ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
-                examNote: true
+                correct: 1,
+                explanation: "El servidor de nombres se encarga de traducir direcciones IP a nombres reconocibles, facilitando la administración del sistema."
             },
             {
                 id: 5,
-                category: "Herramientas ETL",
+                category: "Componentes Técnicos",
                 difficulty: 2,
-                question: "¿Qué significa SDI en el contexto de SAP HANA?",
+                question: "¿Cuántos servidores maestros puede tener SAP HANA para redundancia en la administración?",
                 options: [
-                    "System Data Integration",
-                    "Smart Data Integration",
-                    "Secure Data Interface",
-                    "Standard Data Import"
+                    "Solo 1 servidor maestro",
+                    "Hasta 2 servidores maestros",
+                    "Hasta 3 servidores maestros",
+                    "Ilimitados servidores maestros"
                 ],
-                correct: 1,
-                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
+                correct: 2,
+                explanation: "SAP HANA puede tener hasta 3 servidores maestros para proporcionar redundancia en la administración del sistema."
             },
             {
                 id: 6,
-                category: "Calidad de Datos",
-                difficulty: 2,
-                question: "¿Qué significa SDQ en SAP HANA?",
+                category: "Seguridad General",
+                difficulty: 1,
+                question: "¿Qué elementos protege la seguridad en SAP HANA?",
                 options: [
-                    "Smart Data Quality",
-                    "System Data Query",
-                    "Secure Data Queue",
-                    "Standard Data Quantity"
+                    "Solo la base de datos",
+                    "Solo las aplicaciones XS",
+                    "Base de datos, aplicaciones del motor XS y objetos de desarrollo en repositorios",
+                    "Únicamente los objetos de desarrollo"
                 ],
-                correct: 0,
-                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
+                correct: 2,
+                explanation: "SAP HANA proporciona seguridad completa para la base de datos, aplicaciones del motor XS (clásica y avanzada) y objetos de desarrollo en repositorios."
             },
             {
                 id: 7,
-                category: "Herramientas de Desarrollo",
-                difficulty: 3,
-                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
+                category: "Autenticación",
+                difficulty: 1,
+                question: "¿Qué es la autenticación en SAP HANA?",
                 options: [
-                    "Web IDE es más antiguo",
-                    "No hay diferencia",
-                    "Web IDE es para XSA, Studio es para XS",
-                    "Studio es solo para administración"
+                    "Proceso de asignación de roles",
+                    "Proceso de verificación de identidad cuando un usuario intenta conectarse",
+                    "Proceso de cifrado de datos",
+                    "Proceso de auditoría del sistema"
                 ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
-                examNote: true
+                correct: 1,
+                explanation: "La autenticación es el proceso de verificación de identidad cuando un usuario intenta conectarse a la base de datos HANA."
             },
             {
                 id: 8,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
+                category: "Métodos de Autenticación",
+                difficulty: 2,
+                question: "¿Cuáles son los dos métodos principales de autenticación en SAP HANA?",
                 options: [
-                    "Mover datos al disco",
-                    "Realizar procesamientos en la capa de base de datos",
-                    "Comprimir información",
-                    "Reducir el uso de memoria"
+                    "Usuario/Contraseña y biometría",
+                    "Usuario/Contraseña y Kerberos",
+                    "Kerberos y certificados digitales",
+                    "Tokens y tarjetas inteligentes"
                 ],
                 correct: 1,
-                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
-                examNote: true
+                explanation: "Los dos métodos principales de autenticación en SAP HANA son Usuario/Contraseña (método tradicional) y Kerberos (protocolo avanzado)."
             },
             {
                 id: 9,
-                category: "Arquitectura SAP",
-                difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
+                category: "Protocolo Kerberos",
+                difficulty: 3,
+                question: "¿Quién creó el protocolo Kerberos?",
                 options: [
-                    "2 capas: Cliente y Servidor",
-                    "3 capas: Cliente, Aplicación y Base de datos",
-                    "4 capas: Cliente, Web, Aplicación y Base de datos",
-                    "1 capa: Todo integrado"
+                    "Microsoft",
+                    "MIT (Instituto Tecnológico de Massachusetts)",
+                    "SAP",
+                    "IBM"
                 ],
                 correct: 1,
-                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
+                explanation: "El protocolo Kerberos fue creado por el MIT (Instituto Tecnológico de Massachusetts) para permitir autenticación segura en redes inseguras."
             },
             {
                 id: 10,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Qué es Dynamic Tiering en SAP HANA?",
+                category: "Protocolo Kerberos",
+                difficulty: 3,
+                question: "¿Qué significa KDC en el protocolo Kerberos?",
                 options: [
-                    "Un sistema de copias de seguridad",
-                    "Una capa basada en disco para datos menos críticos",
-                    "Un método de compresión",
-                    "Una técnica de indexación"
+                    "Kerberos Database Center",
+                    "Key Distribution Center",
+                    "Kerberos Data Control",
+                    "Key Database Controller"
                 ],
                 correct: 1,
-                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
+                explanation: "KDC significa Key Distribution Center (Centro de Distribución de Claves), uno de los componentes clave del protocolo Kerberos."
             },
             {
                 id: 11,
-                category: "Motores de SAP HANA",
+                category: "Usuarios y Roles",
                 difficulty: 2,
-                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
+                question: "¿Cuál es la filosofía de seguridad recomendada para asignar privilegios?",
                 options: [
-                    "Motor OLAP",
-                    "Motor JOIN",
-                    "Motor de Cálculo",
-                    "Motor SQL"
+                    "Dar acceso completo a todos los usuarios",
+                    "Lo menos posible - cada usuario debe tener acceso únicamente a lo que necesita",
+                    "Asignar permisos según la antigüedad del empleado",
+                    "Todos los usuarios deben tener los mismos permisos"
                 ],
-                correct: 2,
-                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
+                correct: 1,
+                explanation: "La filosofía de seguridad es 'lo menos posible' - cada usuario debe tener acceso únicamente a los recursos que realmente necesita para su trabajo."
             },
             {
                 id: 12,
-                category: "Motores de SAP HANA",
+                category: "Sistema de Roles",
                 difficulty: 2,
-                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
+                question: "¿Qué es un rol en SAP HANA?",
                 options: [
-                    "Crear documentos",
-                    "Búsquedas difusas y minería de texto",
-                    "Traducir idiomas",
-                    "Formatear texto"
+                    "Un tipo de usuario especial",
+                    "Una 'caja' que contiene un conjunto de privilegios predefinidos para un perfil específico",
+                    "Un método de cifrado",
+                    "Una herramienta de auditoría"
                 ],
                 correct: 1,
-                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
+                explanation: "Un rol es como una 'caja' que contiene un conjunto de privilegios predefinidos para un perfil específico de trabajo (desarrollador, modelador, usuario normal)."
             },
             {
                 id: 13,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
+                category: "Cifrado",
+                difficulty: 1,
+                question: "¿Cuál es el objetivo principal del cifrado en SAP HANA?",
                 options: [
-                    "Gestión de memoria",
-                    "Análisis de datos espaciales y geográficos",
-                    "Optimización de consultas",
-                    "Backup de datos"
+                    "Acelerar las consultas",
+                    "Garantizar que la información solo sea legible por usuarios con permisos y autenticación correcta",
+                    "Reducir el espacio de almacenamiento",
+                    "Mejorar la conectividad de red"
                 ],
                 correct: 1,
-                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
+                explanation: "El cifrado garantiza que la información permanezca segura y solo sea legible por usuarios con permisos y autenticación correcta."
             },
             {
                 id: 14,
-                category: "Motores de SAP HANA",
+                category: "Historia del Cifrado",
                 difficulty: 2,
-                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
+                question: "¿Qué ejemplo histórico de cifrado se menciona en el curso?",
                 options: [
-                    "Datos financieros",
-                    "Datos altamente conectados en red",
-                    "Datos de texto",
-                    "Datos multimedia"
+                    "Código Morse",
+                    "Máquina Enigma de la Segunda Guerra Mundial",
+                    "Alfabeto César",
+                    "Código Navajo"
                 ],
                 correct: 1,
-                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
+                explanation: "Se menciona la Máquina Enigma de la Segunda Guerra Mundial como ejemplo histórico de cifrado que cambiaba la posición de las letras."
             },
             {
                 id: 15,
-                category: "Herramientas ETL",
+                category: "Audit Logging",
                 difficulty: 1,
-                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
+                question: "¿Qué son los Audit Logs en SAP HANA?",
                 options: [
-                    "Error, Test, Load",
-                    "Extract, Transform, Load",
-                    "Execute, Transfer, Link",
-                    "Export, Transfer, List"
+                    "Archivos de configuración del sistema",
+                    "Registros que hacen seguimiento completo de todas las actividades del sistema",
+                    "Copias de seguridad automáticas",
+                    "Reportes de rendimiento"
                 ],
                 correct: 1,
-                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
+                explanation: "Los Audit Logs (también llamados logs o trazas del sistema) registran un seguimiento completo de todas las actividades en el sistema."
             },
             {
                 id: 16,
-                category: "Tecnología In-Memory",
+                category: "Beneficios de Auditoría",
                 difficulty: 2,
-                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
+                question: "¿Cuál NO es un beneficio de la auditoría en SAP HANA?",
                 options: [
-                    "Menor costo de hardware",
-                    "Eliminar el cuello de botella entre disco duro y RAM",
-                    "Mayor capacidad de almacenamiento",
-                    "Mejor interfaz de usuario"
+                    "Trazabilidad completa de actividades",
+                    "Detección de anomalías y comportamientos sospechosos",
+                    "Mejora automática del rendimiento del sistema",
+                    "Cumplimiento de requisitos legales y normativos"
                 ],
-                correct: 1,
-                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
+                correct: 2,
+                explanation: "La auditoría no mejora automáticamente el rendimiento. Sus beneficios incluyen trazabilidad, detección de anomalías, cumplimiento normativo e investigación de incidentes."
             },
             {
                 id: 17,
                 category: "Herramientas de Administración",
                 difficulty: 2,
-                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
+                question: "¿Cuál es la principal diferencia entre SAP HANA 1.0 y 2.0 en herramientas de administración?",
                 options: [
-                    "Web IDE for SAP HANA",
-                    "SAP HANA Studio",
-                    "SAP HANA Cockpit",
-                    "SAP HANA Express"
+                    "HANA 1.0 usaba HANA Studio para todo; HANA 2.0 prioriza Cockpit (Web) para administración",
+                    "No hay diferencias entre las versiones",
+                    "HANA 2.0 solo usa HANA Studio",
+                    "HANA 1.0 solo tenía herramientas web"
                 ],
-                correct: 2,
-                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
+                correct: 0,
+                explanation: "HANA 1.0 usaba HANA Studio como herramienta única para desarrollo, modelado y administración. HANA 2.0 adopta un enfoque híbrido priorizando Cockpit (Web) para administración."
             },
             {
                 id: 18,
-                category: "Herramientas ETL",
+                category: "Evolución de Herramientas",
                 difficulty: 2,
-                question: "¿Qué es SLT en el ecosistema SAP HANA?",
+                question: "¿Cuál es la recomendación de SAP para el futuro de las herramientas de administración?",
                 options: [
-                    "Sistema de respaldo",
-                    "SAP Landscape Transformation Replication Server",
-                    "Herramienta de desarrollo",
-                    "Sistema de monitoreo"
+                    "Mantener HANA Studio como principal herramienta",
+                    "Priorizar Cockpit (Web) y se espera que sea la única herramienta de administración",
+                    "Crear nuevas herramientas de línea de comandos",
+                    "Volver a herramientas de escritorio tradicionales"
                 ],
                 correct: 1,
-                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
-            },
-            {
-                id: 19,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
-                options: [
-                    "Temperatura física del hardware",
-                    "Frecuencia de acceso a los datos",
-                    "Tipo de encriptación",
-                    "Formato de almacenamiento"
-                ],
-                correct: 1,
-                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
-            },
-            {
-                id: 20,
-                category: "Motor XS vs XSA",
-                difficulty: 3,
-                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
-                options: [
-                    "Menor velocidad",
-                    "No fue diseñado para aplicaciones empresariales escalables",
-                    "Mayor consumo de memoria",
-                    "Incompatibilidad con Windows"
-                ],
-                correct: 1,
-                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
+                explanation: "SAP recomienda priorizar Cockpit (Web) para todas las tareas posibles y se espera que en el futuro sea la única herramienta de administración."
             }
         ];
 
@@ -730,7 +686,6 @@
                     <div class="explanation" id="explanation">
                         <h4>💡 Explicación:</h4>
                         <p>${question.explanation}</p>
-                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
@@ -822,26 +777,27 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 90) {
-                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
+            if (finalScore >= 85) {
+                message = '🎉 ¡Excelente! Dominas muy bien los conceptos de alta disponibilidad y seguridad en SAP HANA.';
             } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
+                message = '👍 ¡Buen trabajo! Tienes una base sólida en seguridad y alta disponibilidad de HANA.';
             } else {
-                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
+                message = '📚 Necesitas reforzar los conceptos de seguridad y alta disponibilidad. ¡Sigue estudiando!';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
+                    <h4>🔒 Puntos clave sobre Alta Disponibilidad y Seguridad:</h4>
                     <ul>
-                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
-                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
-                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
-                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
-                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
-                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
-                        <li>Tecnología In-Memory y sus ventajas</li>
+                        <li>Alta disponibilidad: tolerancia a desastres y acceso simultáneo</li>
+                        <li>Arquitectura Scale Out: servidores activos + almacenamiento + standby</li>
+                        <li>Autenticación: Usuario/Contraseña y protocolo Kerberos (MIT)</li>
+                        <li>Filosofía de seguridad: "lo menos posible" en privilegios</li>
+                        <li>Sistema de roles para gestión eficiente de permisos</li>
+                        <li>Cifrado: protección desde Enigma hasta algoritmos modernos</li>
+                        <li>Audit Logs: trazabilidad completa de actividades</li>
+                        <li>Herramientas: HANA Studio (1.0) → Cockpit Web (2.0)</li>
                     </ul>
                 </div>
             `;

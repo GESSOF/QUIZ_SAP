@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAP HANA Certification Quiz - Escenarios de Implementación</title>
+    <title>Quiz SAP HANA - Escenarios de Implementación</title>
     <style>
         * {
             margin: 0;
@@ -19,24 +19,12 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .header {
@@ -44,85 +32,146 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .header p {
             font-size: 1.1em;
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
         }
 
         .content {
-            padding: 30px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
-            width: 0%;
-            transition: width 0.3s ease;
+            padding: 40px;
         }
 
         .question-card {
-            background: #f8f9fa;
+            background: white;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid #2a5298;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
 
-        .question-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .question-number {
-            background: #2a5298;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #667eea;
+            font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
         }
 
         .question-text {
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: 600;
-            margin-bottom: 20px;
-            color: #333;
+            margin-bottom: 25px;
             line-height: 1.4;
+            color: #333;
         }
 
         .options {
             display: grid;
-            gap: 12px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .option {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -130,165 +179,182 @@
         }
 
         .option:hover {
-            border-color: #2a5298;
-            transform: translateX(5px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .option.selected {
-            border-color: #2a5298;
-            background: #e8f0fe;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
         .option.correct {
             border-color: #4CAF50;
-            background: #e8f5e8;
-            animation: pulse 0.5s ease-in-out;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
         }
 
         .option.incorrect {
             border-color: #f44336;
-            background: #ffebee;
-            animation: shake 0.5s ease-in-out;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .show-answer-btn {
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .show-answer-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .explanation {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
             padding: 20px;
-            margin-top: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
         }
 
-        @keyframes fadeIn {
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .explanation h4 {
-            color: #856404;
+            color: #2e7d32;
             margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .explanation p {
-            color: #856404;
-            line-height: 1.6;
-        }
-
-        .score-section {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .score-section h3 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .score-section p {
             font-size: 1.2em;
-            opacity: 0.9;
         }
 
-        .reset-btn {
-            background: white;
-            color: #4CAF50;
-            border: none;
-            padding: 10px 20px;
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
             border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
         }
 
-        .reset-btn:hover {
-            background: #f0f0f0;
-            transform: translateY(-2px);
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
         }
 
-        .category-tag {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .difficulty-indicator {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-dot {
-            width: 8px;
-            height: 8px;
+        .score-circle {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            background: #ddd;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
         }
 
-        .difficulty-dot.active {
-            background: #ff9800;
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
         }
 
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
             }
             
             .content {
                 padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -296,23 +362,35 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 SAP HANA Certification Quiz</h1>
+            <h1>🎯 Quiz SAP HANA</h1>
             <p>Escenarios de Implementación - Preparación para Certificación</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">15</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
         </div>
 
         <div class="content">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar"></div>
-            </div>
-
-            <div id="questionsContainer">
-                <!-- Questions will be loaded here -->
-            </div>
-
-            <div class="score-section" id="scoreSection" style="display: none;">
-                <h3>🏆 Resultados Finales</h3>
-                <p id="finalScore"></p>
-                <button class="reset-btn" onclick="resetQuiz()">🔄 Reiniciar Quiz</button>
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
             </div>
         </div>
     </div>
@@ -531,140 +609,169 @@
             }
         ];
 
-        let currentScore = 0;
-        let answeredQuestions = 0;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
 
-        function initializeQuiz() {
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-            
-            questions.forEach((question, index) => {
-                const questionCard = createQuestionCard(question, index);
-                container.appendChild(questionCard);
-            });
-            
+        function initQuiz() {
+            displayQuestion();
             updateProgress();
         }
 
-        function createQuestionCard(question, index) {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.innerHTML = `
-                <div class="category-tag">${question.category}</div>
-                <div class="difficulty-indicator">
-                    ${Array.from({length: 3}, (_, i) => 
-                        `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
-                    ).join('')}
-                </div>
-                <div class="question-number">${question.id}</div>
-                <div class="question-text">${question.question}</div>
-                <div class="options">
-                    ${question.options.map((option, optIndex) => `
-                        <div class="option" onclick="selectOption(${index}, ${optIndex})" data-question="${index}" data-option="${optIndex}">
-                            ${option}
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-meta">
+                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                        <div class="category-tag">${question.category}</div>
+                        <div class="difficulty-indicator">
+                            ${Array.from({length: 3}, (_, i) => 
+                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                            ).join('')}
                         </div>
-                    `).join('')}
-                </div>
-                <button class="show-answer-btn" onclick="showAnswer(${index})">Ver Respuesta</button>
-                <div class="explanation" id="explanation-${index}">
-                    <h4>💡 Explicación:</h4>
-                    <p>${question.explanation}</p>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
                 </div>
             `;
-            return card;
-        }
-
-        function selectOption(questionIndex, optionIndex) {
-            const questionCard = document.querySelectorAll('.question-card')[questionIndex];
-            const options = questionCard.querySelectorAll('.option');
             
-            // Remove previous selections
-            options.forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // Add selection to clicked option
-            options[optionIndex].classList.add('selected');
-        }
-
-        function showAnswer(questionIndex) {
-            const question = questions[questionIndex];
-            const questionCard = document.querySelectorAll('.question-card')[questionIndex];
-            const options = questionCard.querySelectorAll('.option');
-            const explanation = document.getElementById(`explanation-${questionIndex}`);
-            
-            // Check if question was already answered
-            if (explanation.style.display === 'block') {
-                return;
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
             }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
             
-            // Show correct answer
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
             options.forEach((option, index) => {
+                option.onclick = null;
                 if (index === question.correct) {
                     option.classList.add('correct');
-                } else if (option.classList.contains('selected')) {
+                } else if (index === selectedIndex && index !== question.correct) {
                     option.classList.add('incorrect');
                 }
             });
             
-            // Check if answer was correct
-            const selectedOption = questionCard.querySelector('.option.selected');
-            if (selectedOption) {
-                const selectedIndex = parseInt(selectedOption.dataset.option);
-                if (selectedIndex === question.correct) {
-                    currentScore++;
-                }
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
             }
-            
-            answeredQuestions++;
-            explanation.style.display = 'block';
-            
-            updateProgress();
-            
-            // Show final score if all questions answered
-            if (answeredQuestions === questions.length) {
-                setTimeout(showFinalScore, 1000);
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
             }
         }
 
         function updateProgress() {
-            const progressBar = document.getElementById('progressBar');
-            const progress = (answeredQuestions / questions.length) * 100;
-            progressBar.style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
         }
 
         function showFinalScore() {
-            const scoreSection = document.getElementById('scoreSection');
-            const finalScore = document.getElementById('finalScore');
+            const finalScore = Math.round((score / questions.length) * 100);
             
-            const percentage = Math.round((currentScore / questions.length) * 100);
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
             let message = '';
-            
-            if (percentage >= 80) {
-                message = `¡Excelente! ${currentScore}/${questions.length} (${percentage}%) - Estás listo para la certificación 🎉`;
-            } else if (percentage >= 60) {
-                message = `Buen trabajo! ${currentScore}/${questions.length} (${percentage}%) - Sigue practicando 👍`;
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas los escenarios de implementación de SAP HANA.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Revisa algunos conceptos de implementación.';
             } else {
-                message = `Necesitas más práctica: ${currentScore}/${questions.length} (${percentage}%) - ¡No te rindas! 💪`;
+                message = '📚 Necesitas estudiar más sobre escenarios de implementación. ¡Sigue practicando!';
             }
             
-            finalScore.textContent = message;
-            scoreSection.style.display = 'block';
-            
-            // Scroll to score section
-            scoreSection.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>📋 Puntos clave sobre escenarios de implementación:</h4>
+                    <ul>
+                        <li>Diferencias entre HANA como acelerador vs. Business Suite</li>
+                        <li>Entender la arquitectura XSA y Cloud Foundry</li>
+                        <li>Conocer las herramientas de desarrollo (Web IDE vs HANA Studio)</li>
+                        <li>Comprender los conceptos de push down y virtualización</li>
+                        <li>Dominar las opciones de despliegue (on-premise vs cloud)</li>
+                        <li>Saber sobre herramientas ETL como SLT</li>
+                    </ul>
+                </div>
+            `;
         }
 
-        function resetQuiz() {
-            currentScore = 0;
-            answeredQuestions = 0;
-            document.getElementById('scoreSection').style.display = 'none';
-            initializeQuiz();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
         }
 
         // Initialize quiz when page loads
-        document.addEventListener('DOMContentLoaded', initializeQuiz);
+        window.onload = initQuiz;
     </script>
 </body>
 </html>

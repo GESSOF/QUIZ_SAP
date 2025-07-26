@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 002 - SAP HANA - Arquitectura y Componentes</title>
+    <title>Quiz 011 - Práctica Modelo Entidad-Relación SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -112,45 +112,11 @@
             opacity: 1;
         }
 
-        .question-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
         .question-number {
             color: #667eea;
             font-size: 1.2em;
             font-weight: bold;
-        }
-
-        .category-tag {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .difficulty-indicator {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        .difficulty-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .difficulty-dot.active {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            margin-bottom: 15px;
         }
 
         .question-text {
@@ -334,25 +300,29 @@
             color: #bf360c;
         }
 
-        .exam-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        .exam-note strong {
-            color: #e65100;
-        }
-
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
             .container {
-                margin: 10px;
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
             }
             
             .content {
+                padding: 20px;
+            }
+            
+            .question-card {
                 padding: 20px;
             }
             
@@ -361,13 +331,45 @@
                 gap: 15px;
             }
             
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
             .buttons {
                 flex-direction: column;
             }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
 
-            .question-meta {
-                flex-direction: column;
-                align-items: flex-start;
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
             }
         }
     </style>
@@ -375,15 +377,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧠 Quiz 002 - SAP HANA</h1>
-            <p>Arquitectura y Componentes - Preparación para Certificación</p>
+            <h1>🎯 Quiz 011</h1>
+            <p>Práctica Modelo Entidad-Relación - SAP HANA</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">20</span>
+                    <span class="stat-number" id="totalQuestions">8</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -411,287 +413,92 @@
     <script>
         const questions = [
             {
-                id: 1,
-                category: "Ediciones de SAP HANA",
-                difficulty: 1,
-                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
+                question: "¿Cuál es el primer paso en la metodología de análisis de texto para crear un modelo E-R?",
                 options: [
-                    "Standard, Professional, Enterprise",
-                    "Standard, Enterprise, Express",
-                    "Basic, Advanced, Premium",
-                    "Starter, Business, Enterprise"
+                    "Identificar las relaciones entre entidades",
+                    "Marcar sustantivos como candidatos a entidades o atributos",
+                    "Crear las claves primarias",
+                    "Definir la cardinalidad de las relaciones"
                 ],
                 correct: 1,
-                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
+                explanation: "El primer paso es marcar los sustantivos del texto, ya que estos son candidatos a entidades o atributos. Después se procede con los verbos para identificar relaciones."
             },
             {
-                id: 2,
-                category: "SAP HANA Express Edition",
-                difficulty: 1,
-                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
+                question: "¿Por qué es recomendable descomponer atributos complejos como 'Nombre Completo' en elementos más básicos?",
                 options: [
-                    "Es la más potente",
-                    "Es totalmente gratuita",
-                    "Solo funciona en la nube",
-                    "Requiere más memoria"
+                    "Para ocupar más espacio en la base de datos",
+                    "Para mayor versatilidad en consultas y mejor gestión de datos",
+                    "Es una regla obligatoria en SAP HANA",
+                    "Para hacer el diseño más complicado"
                 ],
                 correct: 1,
-                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
+                explanation: "Descomponer atributos como 'Nombre Completo' en 'Nombre', 'Apellido1', 'Apellido2' permite consultas más específicas, mejor gestión interna y evita procesamiento adicional de cadenas."
             },
             {
-                id: 3,
-                category: "SAP HANA Express Edition",
-                difficulty: 2,
-                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
+                question: "¿Cuándo un atributo debe ubicarse en la relación y no en una entidad?",
                 options: [
-                    "16 GB",
-                    "32 GB",
-                    "64 GB",
-                    "128 GB"
+                    "Cuando es un campo numérico",
+                    "Cuando nace de la relación entre dos entidades y requiere información de ambas",
+                    "Cuando es un campo de texto largo",
+                    "Cuando es una fecha"
                 ],
                 correct: 1,
-                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
+                explanation: "Un atributo va en la relación cuando 'nace' de la conexión entre dos entidades, como la 'nota' de un alumno en una asignatura, que solo tiene sentido con ambas entidades."
             },
             {
-                id: 4,
-                category: "Motor XSA",
-                difficulty: 3,
-                question: "¿En qué estándar abierto se basa el motor XSA?",
+                question: "En el ejemplo del sistema escolar, ¿cuál es la cardinalidad de la relación IMPARTE entre PROFESORES y ALUMNOS?",
                 options: [
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Foundry",
-                    "OpenStack"
+                    "1:1 (uno a uno)",
+                    "1:N (uno a muchos)",
+                    "N:M (muchos a muchos)",
+                    "No existe relación directa"
                 ],
                 correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
-                examNote: true
+                explanation: "Es una relación N:M porque un alumno puede tener varios profesores y un profesor puede tener varios alumnos. Esto requiere tratamiento especial en el modelo relacional."
             },
             {
-                id: 5,
-                category: "Herramientas ETL",
-                difficulty: 2,
-                question: "¿Qué significa SDI en el contexto de SAP HANA?",
+                question: "¿Qué es el sistema de mandantes en SAP?",
                 options: [
-                    "System Data Integration",
-                    "Smart Data Integration",
-                    "Secure Data Interface",
-                    "Standard Data Import"
+                    "Un tipo de relación entre entidades",
+                    "Una distribución por clientes que separa información en la misma base de datos física",
+                    "Un método de autenticación de usuarios",
+                    "Una herramienta de respaldo de datos"
                 ],
                 correct: 1,
-                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
+                explanation: "El sistema de mandantes permite separar información de diferentes organizaciones en la misma base de datos física, donde cada usuario solo accede a datos de su mandante específico."
             },
             {
-                id: 6,
-                category: "Calidad de Datos",
-                difficulty: 2,
-                question: "¿Qué significa SDQ en SAP HANA?",
+                question: "En el ejercicio completo del sistema comercial, ¿cuál es la cardinalidad entre PROVEEDORES y PRODUCTOS?",
                 options: [
-                    "Smart Data Quality",
-                    "System Data Query",
-                    "Secure Data Queue",
-                    "Standard Data Quantity"
-                ],
-                correct: 0,
-                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
-            },
-            {
-                id: 7,
-                category: "Herramientas de Desarrollo",
-                difficulty: 3,
-                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
-                options: [
-                    "Web IDE es más antiguo",
-                    "No hay diferencia",
-                    "Web IDE es para XSA, Studio es para XS",
-                    "Studio es solo para administración"
+                    "N:M (muchos a muchos)",
+                    "1:1 (uno a uno)",
+                    "1:N (uno a muchos)",
+                    "No pueden relacionarse"
                 ],
                 correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
-                examNote: true
+                explanation: "Es 1:N porque según el enunciado 'un producto solo puede ser suministrado por un proveedor' pero 'un proveedor puede suministrar diferentes productos'."
             },
             {
-                id: 8,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
+                question: "¿Cuándo es preferible usar una clave primaria artificial (como ID) en lugar de una natural (como DNI)?",
                 options: [
-                    "Mover datos al disco",
-                    "Realizar procesamientos en la capa de base de datos",
-                    "Comprimir información",
-                    "Reducir el uso de memoria"
-                ],
-                correct: 1,
-                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
-                examNote: true
-            },
-            {
-                id: 9,
-                category: "Arquitectura SAP",
-                difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
-                options: [
-                    "2 capas: Cliente y Servidor",
-                    "3 capas: Cliente, Aplicación y Base de datos",
-                    "4 capas: Cliente, Web, Aplicación y Base de datos",
-                    "1 capa: Todo integrado"
-                ],
-                correct: 1,
-                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
-            },
-            {
-                id: 10,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Qué es Dynamic Tiering en SAP HANA?",
-                options: [
-                    "Un sistema de copias de seguridad",
-                    "Una capa basada en disco para datos menos críticos",
-                    "Un método de compresión",
-                    "Una técnica de indexación"
-                ],
-                correct: 1,
-                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
-            },
-            {
-                id: 11,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
-                options: [
-                    "Motor OLAP",
-                    "Motor JOIN",
-                    "Motor de Cálculo",
-                    "Motor SQL"
+                    "Siempre, en todos los casos",
+                    "Nunca, las claves naturales son siempre mejores",
+                    "Cuando no existe un campo natural único o para simplificar el diseño",
+                    "Solo en tablas con menos de 100 registros"
                 ],
                 correct: 2,
-                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
+                explanation: "Se usa clave artificial cuando no hay un campo natural único disponible o cuando se quiere simplificar el diseño. En el ejemplo de CLIENTES se agregó un ID porque no había un identificador único claro."
             },
             {
-                id: 12,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
+                question: "Al analizar el texto de requisitos del cliente, ¿qué elementos generalmente se descartan durante el análisis?",
                 options: [
-                    "Crear documentos",
-                    "Búsquedas difusas y minería de texto",
-                    "Traducir idiomas",
-                    "Formatear texto"
-                ],
-                correct: 1,
-                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
-            },
-            {
-                id: 13,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
-                options: [
-                    "Gestión de memoria",
-                    "Análisis de datos espaciales y geográficos",
-                    "Optimización de consultas",
-                    "Backup de datos"
-                ],
-                correct: 1,
-                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
-            },
-            {
-                id: 14,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
-                options: [
-                    "Datos financieros",
-                    "Datos altamente conectados en red",
-                    "Datos de texto",
-                    "Datos multimedia"
-                ],
-                correct: 1,
-                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
-            },
-            {
-                id: 15,
-                category: "Herramientas ETL",
-                difficulty: 1,
-                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
-                options: [
-                    "Error, Test, Load",
-                    "Extract, Transform, Load",
-                    "Execute, Transfer, Link",
-                    "Export, Transfer, List"
-                ],
-                correct: 1,
-                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
-            },
-            {
-                id: 16,
-                category: "Tecnología In-Memory",
-                difficulty: 2,
-                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
-                options: [
-                    "Menor costo de hardware",
-                    "Eliminar el cuello de botella entre disco duro y RAM",
-                    "Mayor capacidad de almacenamiento",
-                    "Mejor interfaz de usuario"
-                ],
-                correct: 1,
-                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
-            },
-            {
-                id: 17,
-                category: "Herramientas de Administración",
-                difficulty: 2,
-                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
-                options: [
-                    "Web IDE for SAP HANA",
-                    "SAP HANA Studio",
-                    "SAP HANA Cockpit",
-                    "SAP HANA Express"
+                    "Los sustantivos que representan entidades principales",
+                    "Los verbos que indican relaciones importantes",
+                    "Palabras como 'base de datos', 'queremos', 'guardar' que se refieren al proceso",
+                    "Los atributos específicos de las entidades"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
-            },
-            {
-                id: 18,
-                category: "Herramientas ETL",
-                difficulty: 2,
-                question: "¿Qué es SLT en el ecosistema SAP HANA?",
-                options: [
-                    "Sistema de respaldo",
-                    "SAP Landscape Transformation Replication Server",
-                    "Herramienta de desarrollo",
-                    "Sistema de monitoreo"
-                ],
-                correct: 1,
-                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
-            },
-            {
-                id: 19,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
-                options: [
-                    "Temperatura física del hardware",
-                    "Frecuencia de acceso a los datos",
-                    "Tipo de encriptación",
-                    "Formato de almacenamiento"
-                ],
-                correct: 1,
-                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
-            },
-            {
-                id: 20,
-                category: "Motor XS vs XSA",
-                difficulty: 3,
-                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
-                options: [
-                    "Menor velocidad",
-                    "No fue diseñado para aplicaciones empresariales escalables",
-                    "Mayor consumo de memoria",
-                    "Incompatibilidad con Windows"
-                ],
-                correct: 1,
-                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
+                explanation: "Se descartan palabras que se refieren al proceso de desarrollo o aspectos técnicos, no al dominio del problema. Por ejemplo, 'base de datos', 'queremos', 'guardar' no son parte del modelo conceptual."
             }
         ];
 
@@ -710,15 +517,7 @@
             
             container.innerHTML = `
                 <div class="question-card active">
-                    <div class="question-meta">
-                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
-                        <div class="category-tag">${question.category}</div>
-                        <div class="difficulty-indicator">
-                            ${Array.from({length: 3}, (_, i) => 
-                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
-                            ).join('')}
-                        </div>
-                    </div>
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
                     <div class="question-text">${question.question}</div>
                     <div class="options" id="options">
                         ${question.options.map((option, index) => `
@@ -730,7 +529,6 @@
                     <div class="explanation" id="explanation">
                         <h4>💡 Explicación:</h4>
                         <p>${question.explanation}</p>
-                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
@@ -822,26 +620,27 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 90) {
-                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
-            } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas la metodología práctica del modelo E-R.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa algunos aspectos de la metodología práctica.';
             } else {
-                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
+                message = '📚 Necesitas practicar más el análisis de texto y modelado E-R.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
+                    <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
-                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
-                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
-                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
-                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
-                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
-                        <li>Tecnología In-Memory y sus ventajas</li>
+                        <li>Metodología de análisis de texto: sustantivos y verbos</li>
+                        <li>Descomposición de atributos complejos para mayor eficiencia</li>
+                        <li>Identificación de atributos que pertenecen a las relaciones</li>
+                        <li>Análisis de cardinalidad en relaciones (1:1, 1:N, N:M)</li>
+                        <li>Sistema de mandantes en SAP para separación de datos</li>
+                        <li>Definición apropiada de claves primarias naturales vs artificiales</li>
+                        <li>Filtrado de elementos irrelevantes en el análisis</li>
+                        <li>Transformación sistemática de requisitos a modelo conceptual</li>
                     </ul>
                 </div>
             `;
