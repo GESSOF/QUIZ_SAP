@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONTROL UNIDAD 1 | SAP HANA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .question-card {
+            border-left: 5px solid #667eea;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        .option {
+            padding: 10px 15px;
+            background: #eef;
+            border-radius: 10px;
+            cursor: default;
+        }
+        .explanation {
+            margin-top: 15px;
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📘 CONTROL UNIFICADO – UNIDAD 1</h1>
+        <p style="text-align:center;">Resumen de los Quizzes 004, 005, 006 y 007</p>
+        
+    <div class="question-card">
+        <div class="question-number">Pregunta 1</div>
+        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
+        <div class="options">
+            <div class="option">Reemplazar completamente el sistema SAP existente</div>
+<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
+<div class="option">Crear una nueva arquitectura de tres capas</div>
+<div class="option">Eliminar la necesidad de herramientas ETL</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 2</div>
+        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
+        <div class="options">
+            <div class="option">Enterprise Edition</div>
+<div class="option">Express Edition</div>
+<div class="option">Standard Edition</div>
+<div class="option">Developer Edition</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 3</div>
+        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
+        <div class="options">
+            <div class="option">2 capas</div>
+<div class="option">3 capas</div>
+<div class="option">4 capas</div>
+<div class="option">1 capa</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 4</div>
+        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
+        <div class="options">
+            <div class="option">Orientado a filas</div>
+<div class="option">Orientado a columnas</div>
+<div class="option">Ambos son iguales</div>
+<div class="option">Depende de la base de datos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 5</div>
+        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Cargar datos desde disco</div>
+<div class="option">Procesar datos directamente en la base de datos</div>
+<div class="option">Comprimir tablas en memoria</div>
+<div class="option">Reducir uso de CPU</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 6</div>
+        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
+        <div class="options">
+            <div class="option">SAP HANA Studio</div>
+<div class="option">SAP Web IDE</div>
+<div class="option">Eclipse</div>
+<div class="option">Visual Studio Code</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 7</div>
+        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Copiar datos en múltiples servidores</div>
+<div class="option">Procesar datos sin almacenarlos físicamente</div>
+<div class="option">Encriptar todos los registros</div>
+<div class="option">Reducir el tamaño de los datos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 8</div>
+        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Motor SQL</div>
+<div class="option">Motor de Cálculo</div>
+<div class="option">Motor OLAP</div>
+<div class="option">Motor de Texto</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 9</div>
+        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Control de seguridad</div>
+<div class="option">Procesamiento de texto</div>
+<div class="option">Análisis geoespacial</div>
+<div class="option">Procesamiento OLAP</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 10</div>
+        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Asignación de permisos</div>
+<div class="option">Verificación de identidad del usuario</div>
+<div class="option">Control de sesiones</div>
+<div class="option">Auditoría del sistema</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 11</div>
+        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
+        <div class="options">
+            <div class="option">SAP</div>
+<div class="option">MIT</div>
+<div class="option">IBM</div>
+<div class="option">Oracle</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 12</div>
+        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
+        <div class="options">
+            <div class="option">Permisos máximos para todos</div>
+<div class="option">Acceso mínimo necesario</div>
+<div class="option">Permisos por antigüedad</div>
+<div class="option">Igualdad de accesos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 13</div>
+        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
+        <div class="options">
+            <div class="option">ZIP</div>
+<div class="option">GZIP</div>
+<div class="option">Compresión de diccionario</div>
+<div class="option">Compresión de índice</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 14</div>
+        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
+        <div class="options">
+            <div class="option">Compresión</div>
+<div class="option">Velocidad de agregación</div>
+<div class="option">Acceso rápido a registros completos</div>
+<div class="option">Procesamiento paralelo</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 15</div>
+        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
+        <div class="options">
+            <div class="option">1,000</div>
+<div class="option">5,000</div>
+<div class="option">10,000</div>
+<div class="option">16,000</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 1</div>
+        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
+        <div class="options">
+            <div class="option">Reemplazar completamente el sistema SAP existente</div>
+<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
+<div class="option">Crear una nueva arquitectura de tres capas</div>
+<div class="option">Eliminar la necesidad de herramientas ETL</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 2</div>
+        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
+        <div class="options">
+            <div class="option">Enterprise Edition</div>
+<div class="option">Express Edition</div>
+<div class="option">Standard Edition</div>
+<div class="option">Developer Edition</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 3</div>
+        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
+        <div class="options">
+            <div class="option">2 capas</div>
+<div class="option">3 capas</div>
+<div class="option">4 capas</div>
+<div class="option">1 capa</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 4</div>
+        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
+        <div class="options">
+            <div class="option">Orientado a filas</div>
+<div class="option">Orientado a columnas</div>
+<div class="option">Ambos son iguales</div>
+<div class="option">Depende de la base de datos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 5</div>
+        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Cargar datos desde disco</div>
+<div class="option">Procesar datos directamente en la base de datos</div>
+<div class="option">Comprimir tablas en memoria</div>
+<div class="option">Reducir uso de CPU</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 6</div>
+        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
+        <div class="options">
+            <div class="option">SAP HANA Studio</div>
+<div class="option">SAP Web IDE</div>
+<div class="option">Eclipse</div>
+<div class="option">Visual Studio Code</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 7</div>
+        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Copiar datos en múltiples servidores</div>
+<div class="option">Procesar datos sin almacenarlos físicamente</div>
+<div class="option">Encriptar todos los registros</div>
+<div class="option">Reducir el tamaño de los datos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 8</div>
+        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Motor SQL</div>
+<div class="option">Motor de Cálculo</div>
+<div class="option">Motor OLAP</div>
+<div class="option">Motor de Texto</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 9</div>
+        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Control de seguridad</div>
+<div class="option">Procesamiento de texto</div>
+<div class="option">Análisis geoespacial</div>
+<div class="option">Procesamiento OLAP</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 10</div>
+        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
+        <div class="options">
+            <div class="option">Asignación de permisos</div>
+<div class="option">Verificación de identidad del usuario</div>
+<div class="option">Control de sesiones</div>
+<div class="option">Auditoría del sistema</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 11</div>
+        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
+        <div class="options">
+            <div class="option">SAP</div>
+<div class="option">MIT</div>
+<div class="option">IBM</div>
+<div class="option">Oracle</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 12</div>
+        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
+        <div class="options">
+            <div class="option">Permisos máximos para todos</div>
+<div class="option">Acceso mínimo necesario</div>
+<div class="option">Permisos por antigüedad</div>
+<div class="option">Igualdad de accesos</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 13</div>
+        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
+        <div class="options">
+            <div class="option">ZIP</div>
+<div class="option">GZIP</div>
+<div class="option">Compresión de diccionario</div>
+<div class="option">Compresión de índice</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 14</div>
+        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
+        <div class="options">
+            <div class="option">Compresión</div>
+<div class="option">Velocidad de agregación</div>
+<div class="option">Acceso rápido a registros completos</div>
+<div class="option">Procesamiento paralelo</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="question-number">Pregunta 15</div>
+        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
+        <div class="options">
+            <div class="option">1,000</div>
+<div class="option">5,000</div>
+<div class="option">10,000</div>
+<div class="option">16,000</div>
+
+        </div>
+        <div class="explanation">
+            <h4>Explicación:</h4>
+            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
+        </div>
+    </div>
+    
+    </div>
+</body>
+</html>
