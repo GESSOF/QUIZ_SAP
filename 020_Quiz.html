@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 020 - Comando UPDATE</title>
+    <title>Quiz 020 - SAP HANA Studio en Detalle</title>
     <style>
         * {
             margin: 0;
@@ -300,25 +300,6 @@
             color: #bf360c;
         }
 
-        .danger-highlight {
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-
-        .danger-highlight h4 {
-            color: #c62828;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-
-        .danger-highlight p {
-            color: #c62828;
-            font-weight: 500;
-        }
-
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -396,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔄 Quiz 020</h1>
-            <p>Comando UPDATE - Modificación de Datos</p>
+            <h1>🎯 Quiz 020 | SAP HANA</h1>
+            <p>SAP HANA Studio - Interfaz Detallada</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -432,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Cuál es la sintaxis completa del comando UPDATE?",
+                question: "¿En qué plataforma tecnológica se basa SAP HANA Studio?",
                 options: [
-                    "UPDATE tabla VALUES (valores) WHERE condición;",
-                    "UPDATE tabla SET campo = valor WHERE condición;",
-                    "UPDATE SET campo = valor FROM tabla WHERE condición;",
-                    "UPDATE WHERE condición SET campo = valor IN tabla;"
+                    "Visual Studio",
+                    "Eclipse",
+                    "IntelliJ IDEA",
+                    "NetBeans"
                 ],
                 correct: 1,
-                explanation: "La sintaxis correcta es: UPDATE tabla SET campo = valor WHERE condición; donde UPDATE especifica la operación, tabla es la tabla a modificar, SET introduce las asignaciones, y WHERE filtra qué registros modificar."
+                explanation: "SAP HANA Studio es una aplicación basada en Java que corre sobre la plataforma Eclipse. Eclipse es una plataforma de programación de código abierto extensible mediante plugins."
             },
             {
-                question: "¿Cuál es la diferencia fundamental entre INSERT y UPDATE?",
+                question: "¿Con qué motor es compatible SAP HANA Studio en HANA 2.0?",
                 options: [
-                    "INSERT es más rápido que UPDATE",
-                    "INSERT agrega nuevos registros, UPDATE modifica registros existentes",
-                    "INSERT requiere WHERE, UPDATE no",
-                    "No hay diferencias, son sinónimos"
+                    "Solo con motor XSA",
+                    "Solo con motor XS clásico",
+                    "Con ambos motores XS y XSA",
+                    "No es compatible con HANA 2.0"
                 ],
                 correct: 1,
-                explanation: "INSERT agrega nuevos registros a la tabla, mientras que UPDATE modifica registros que ya existen en la tabla. UPDATE no crea nuevos registros, solo cambia los valores de los existentes."
+                explanation: "SAP HANA Studio puede utilizarse en HANA 2.0 cuando se trabaja en modo desarrollo del motor XS clásico, pero NO puede utilizarse para desarrollar aplicaciones en el motor XSA."
             },
             {
-                question: "¿Qué sucede si ejecutas UPDATE sin la cláusula WHERE?",
+                question: "¿Cuál es el único objeto de la base de datos que almacena información de forma física?",
                 options: [
-                    "Se genera un error de sintaxis",
-                    "No se modifica ningún registro",
-                    "Se modifican TODOS los registros de la tabla",
-                    "Solo se modifica el primer registro"
+                    "Las vistas",
+                    "Los procedimientos",
+                    "Las tablas",
+                    "Las funciones"
                 ],
                 correct: 2,
-                explanation: "Si ejecutas UPDATE sin WHERE, se modifican TODOS los registros de la tabla. Esta es una de las operaciones más peligrosas en SQL y puede causar pérdida masiva de datos. WHERE es técnicamente opcional pero prácticamente obligatorio."
+                explanation: "El único objeto de la base de datos que almacena información (datos) de forma física son las TABLAS. Todo el resto de objetos nos muestran esa información, pero no la almacenan físicamente."
             },
             {
-                question: "¿Cuál es la regla para modificar múltiples campos en una sola sentencia UPDATE?",
+                question: "¿Qué contiene el nodo CATALOG en el árbol de navegación?",
                 options: [
-                    "Separar las asignaciones con AND: SET campo1 = valor1 AND campo2 = valor2",
-                    "Separar las asignaciones con comas: SET campo1 = valor1, campo2 = valor2",
-                    "Usar múltiples SET: SET campo1 = valor1 SET campo2 = valor2",
-                    "No es posible modificar múltiples campos en una sola sentencia"
+                    "Elementos lógicos de trabajo como vistas de atributos",
+                    "Elementos físicos que cualquier usuario va a utilizar",
+                    "Solo herramientas de administración",
+                    "Únicamente procedimientos y funciones"
                 ],
                 correct: 1,
-                explanation: "Para modificar múltiples campos se separan las asignaciones con comas: SET campo1 = valor1, campo2 = valor2. NO se usa AND entre asignaciones, solo comas. Todas las asignaciones se ejecutan como una sola transacción."
+                explanation: "El nodo CATALOG navega por los elementos físicos que cualquier usuario va a utilizar: tablas físicas, vistas, procedimientos, funciones, índices. El nodo CONTENT contiene los elementos lógicos."
             },
             {
-                question: "¿Cuál es el protocolo de seguridad recomendado antes de ejecutar un UPDATE?",
+                question: "¿Qué son las perspectivas en SAP HANA Studio?",
                 options: [
-                    "Ejecutar UPDATE directamente para mayor velocidad",
-                    "Crear un backup completo de toda la base de datos",
-                    "Ejecutar un SELECT con el mismo WHERE para verificar qué registros se modificarán",
-                    "Usar solo UPDATE en tablas pequeñas"
-                ],
-                correct: 2,
-                explanation: "El protocolo de seguridad es ejecutar primero un SELECT con exactamente el mismo WHERE que planeas usar en el UPDATE. Esto te permite verificar qué registros se van a modificar antes de hacer los cambios permanentes."
-            },
-            {
-                question: "¿Cuáles son las consecuencias potenciales de un UPDATE sin WHERE en producción?",
-                options: [
-                    "Solo afecta el rendimiento del sistema",
-                    "Pérdida masiva de datos, impacto empresarial, posible despido",
-                    "Los cambios se pueden deshacer automáticamente",
-                    "No tiene consecuencias graves"
+                    "Tipos de conexiones a la base de datos",
+                    "Entornos de usuario predefinidos para distintos usos",
+                    "Herramientas de backup y recovery",
+                    "Sistemas de autenticación"
                 ],
                 correct: 1,
-                explanation: "Un UPDATE sin WHERE en producción puede causar: pérdida masiva de datos únicos, impacto empresarial grave (clientes perdidos, facturas corruptas), tiempo de inactividad para restaurar desde backup, y consecuencias laborales severas incluyendo posible despido."
+                explanation: "Las perspectivas son entornos de usuario predefinidos o vistas para distintos usos de las aplicaciones. Son configuraciones de pantalla optimizadas para tareas específicas como modelado, administración, desarrollo y debug."
             },
             {
-                question: "¿Cuáles son las medidas de seguridad disponibles para protegerse de errores con UPDATE?",
+                question: "¿Cuál es la diferencia principal entre HANA 1.0 y HANA 2.0 en términos de nomenclatura?",
                 options: [
-                    "Solo backups automáticos",
-                    "Transacciones con COMMIT/ROLLBACK, verificación previa con SELECT, y backups",
-                    "UPDATE no requiere medidas especiales de seguridad",
-                    "Solo verificar la sintaxis"
+                    "HANA 1.0 usa XSA, HANA 2.0 usa XS",
+                    "HANA 1.0 va hasta SPS 12 con motor XS, HANA 2.0 desde SPS 13+ con ambos motores",
+                    "No hay diferencias en la nomenclatura",
+                    "HANA 2.0 elimina completamente el motor XS"
                 ],
                 correct: 1,
-                explanation: "Las medidas de seguridad incluyen: transacciones con COMMIT/ROLLBACK (cuando están disponibles), verificación previa con SELECT usando el mismo WHERE, backups regulares, y trabajar en entornos de desarrollo antes que en producción."
+                explanation: "HANA 1.0 incluye versiones hasta SPS 12 con motor XS clásico e interfaz HANA Studio principal. HANA 2.0 va desde SPS 13+ con ambos motores (XS + XSA) e interfaz Web IDE principal."
             },
             {
-                question: "¿Cuándo sería válido ejecutar UPDATE sin WHERE?",
+                question: "¿Qué reemplazó a las Unidades de Entrega en HANA 2.0?",
                 options: [
-                    "Nunca es válido omitir WHERE",
-                    "En casos muy raros donde realmente quieres cambiar todos los registros, pero aun así es mejor usar WHERE para confirmación",
-                    "Siempre es seguro omitir WHERE",
-                    "Solo en tablas con menos de 10 registros"
+                    "Órdenes de transporte SAP",
+                    "Contenedores HDI",
+                    "Paquetes de desarrollo",
+                    "Smart Data Access"
                 ],
                 correct: 1,
-                explanation: "Aunque hay casos raros donde podrías querer cambiar todos los registros (como cambio de estado global), es mejor usar WHERE para confirmación (ej: WHERE estado IS NOT NULL). Incluso en casos válidos, contar primero con SELECT COUNT(*) es más seguro."
+                explanation: "Las Unidades de Entrega funcionaban en HANA 1.0 para exportar modificaciones entre sistemas. En HANA 2.0 con Web IDE, esto ha desaparecido y se utilizan los contenedores HDI que ofrecen funcionalidad similar con tecnología más moderna."
+            },
+            {
+                question: "¿Cuál es la diferencia entre Web Development Workbench y Web IDE?",
+                options: [
+                    "Son exactamente la misma herramienta",
+                    "Web Development Workbench es para motor XS, Web IDE es para motor XSA",
+                    "Web IDE es solo para administración, Workbench para desarrollo",
+                    "Web Development Workbench es más moderno que Web IDE"
+                ],
+                correct: 1,
+                explanation: "Web Development Workbench era para desarrollo en motor XS (HANA 1.0) - interfaz web liviana solo para desarrolladores. Web IDE es para motor XSA (HANA 2.0) - interfaz moderna recomendada. Son herramientas diferentes para diferentes motores."
             }
         ];
 
@@ -640,11 +621,11 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas el comando UPDATE de forma segura.';
+                message = '🎉 ¡Excelente! Dominas SAP HANA Studio en detalle.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos para mayor seguridad.';
+                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
             } else {
-                message = '📚 Necesitas repasar el material sobre comando UPDATE. La seguridad es crítica.';
+                message = '📚 Necesitas repasar el material sobre HANA Studio.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
@@ -652,19 +633,17 @@
                 <div class="study-tips">
                     <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Sintaxis: UPDATE tabla SET campo = valor WHERE condición</li>
-                        <li>Diferencia INSERT (crear) vs UPDATE (modificar existentes)</li>
-                        <li>PELIGRO CRÍTICO: UPDATE sin WHERE modifica TODOS los registros</li>
-                        <li>Múltiples campos: usar comas, no AND en las asignaciones</li>
-                        <li>Protocolo de seguridad: SELECT antes del UPDATE con mismo WHERE</li>
-                        <li>Consecuencias graves: pérdida de datos, impacto empresarial, despido</li>
-                        <li>Medidas de protección: COMMIT/ROLLBACK, verificación, backups</li>
-                        <li>WHERE prácticamente obligatorio, incluso para cambios masivos válidos</li>
+                        <li>SAP HANA Studio: interfaz original basada en Eclipse</li>
+                        <li>Compatibilidad: solo motor XS clásico en HANA 2.0</li>
+                        <li>Almacenamiento físico: SOLO las tablas almacenan datos</li>
+                        <li>Navegación: CATALOG (físico) vs CONTENT (lógico)</li>
+                        <li>Perspectivas: entornos predefinidos (Modelado, Administración)</li>
+                        <li>Evolución: HANA 1.0 (XS) vs HANA 2.0 (XS + XSA)</li>
+                        <li>Unidades de Entrega vs Contenedores HDI</li>
+                        <li>Web Development Workbench vs Web IDE</li>
+                        <li>Estado actual: funcional pero en declive</li>
+                        <li>Importancia para certificaciones SAP HANA</li>
                     </ul>
-                </div>
-                <div class="danger-highlight">
-                    <h4>🚨 RECORDATORIO CRÍTICO</h4>
-                    <p>UPDATE sin WHERE = Desastre garantizado. Esta es la causa #1 de despidos relacionados con bases de datos. ¡SIEMPRE verifica con SELECT primero!</p>
                 </div>
             `;
         }

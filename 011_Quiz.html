@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 011 - Práctica Modelo Entidad-Relación SAP HANA</title>
+    <title>Quiz 011 - SAP HANA - Datos vs Información</title>
     <style>
         * {
             margin: 0;
@@ -112,11 +112,45 @@
             opacity: 1;
         }
 
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .question-number {
             color: #667eea;
             font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
         }
 
         .question-text {
@@ -301,28 +335,11 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
             .container {
-                margin: 0;
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
+                margin: 10px;
             }
             
             .content {
-                padding: 20px;
-            }
-            
-            .question-card {
                 padding: 20px;
             }
             
@@ -331,45 +348,13 @@
                 gap: 15px;
             }
             
-            .stat-item {
-                padding: 12px 20px;
-            }
-            
             .buttons {
                 flex-direction: column;
             }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-            
-            .question-text {
-                font-size: 1.1em;
-            }
-            
-            .option {
-                padding: 15px;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .content {
-                padding: 15px;
-            }
-            
-            .question-card {
-                padding: 15px;
-            }
-            
-            .score-circle {
-                width: 120px;
-                height: 120px;
-                font-size: 2em;
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -377,15 +362,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 Quiz 011</h1>
-            <p>Práctica Modelo Entidad-Relación - SAP HANA</p>
+            <h1>📊 Quiz 011 | SAP HANA</h1>
+            <p>Datos vs Información - Modelado en Hana</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span class="stat-number" id="totalQuestions">18</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -413,92 +398,256 @@
     <script>
         const questions = [
             {
-                question: "¿Cuál es el primer paso en la metodología de análisis de texto para crear un modelo E-R?",
+                id: 1,
+                category: "Conceptos Fundamentales",
+                difficulty: 1,
+                question: "Según el video, ¿qué es una base de datos?",
                 options: [
-                    "Identificar las relaciones entre entidades",
-                    "Marcar sustantivos como candidatos a entidades o atributos",
-                    "Crear las claves primarias",
-                    "Definir la cardinalidad de las relaciones"
+                    "Un programa para crear gráficos",
+                    "Un conjunto de datos que están almacenados para su uso en el futuro",
+                    "Una aplicación para procesar información",
+                    "Un sistema operativo especializado"
                 ],
                 correct: 1,
-                explanation: "El primer paso es marcar los sustantivos del texto, ya que estos son candidatos a entidades o atributos. Después se procede con los verbos para identificar relaciones."
+                explanation: "Una base de datos es definida como un conjunto de datos que están almacenados para su uso en el futuro, y el resultado del procesamiento de esos datos es la información."
             },
             {
-                question: "¿Por qué es recomendable descomponer atributos complejos como 'Nombre Completo' en elementos más básicos?",
+                id: 2,
+                category: "Conceptos Fundamentales",
+                difficulty: 2,
+                question: "¿Cuál es la diferencia principal entre datos e información?",
                 options: [
-                    "Para ocupar más espacio en la base de datos",
-                    "Para mayor versatilidad en consultas y mejor gestión de datos",
-                    "Es una regla obligatoria en SAP HANA",
-                    "Para hacer el diseño más complicado"
+                    "Los datos son más importantes que la información",
+                    "No hay diferencia, son sinónimos",
+                    "Los datos son elementos individuales sin contexto, la información es el resultado de su procesamiento",
+                    "La información siempre viene antes que los datos"
+                ],
+                correct: 2,
+                explanation: "Los datos son elementos individuales que por sí solos no constituyen información útil, mientras que la información es el resultado del procesamiento adecuado de los datos."
+            },
+            {
+                id: 3,
+                category: "Los Datos",
+                difficulty: 1,
+                question: "¿Qué caracteriza a los datos según el contenido del módulo?",
+                options: [
+                    "Permiten tomar decisiones inmediatamente",
+                    "Son elementos individuales que por sí solos no constituyen información útil",
+                    "Siempre contienen información completa",
+                    "No necesitan procesamiento"
                 ],
                 correct: 1,
-                explanation: "Descomponer atributos como 'Nombre Completo' en 'Nombre', 'Apellido1', 'Apellido2' permite consultas más específicas, mejor gestión interna y evita procesamiento adicional de cadenas."
+                explanation: "Los datos son elementos individuales que por sí solos no constituyen información útil en el sentido de la palabra, ya que no permiten la adopción de la decisión más conveniente."
             },
             {
-                question: "¿Cuándo un atributo debe ubicarse en la relación y no en una entidad?",
+                id: 4,
+                category: "Los Datos",
+                difficulty: 2,
+                question: "En el ejemplo del video, ¿cuáles son considerados datos individuales?",
                 options: [
-                    "Cuando es un campo numérico",
-                    "Cuando nace de la relación entre dos entidades y requiere información de ambas",
-                    "Cuando es un campo de texto largo",
-                    "Cuando es una fecha"
+                    "Informes completos de una persona",
+                    "Nombre, apellido, número de teléfono, año de nacimiento por separado",
+                    "Estadísticas procesadas",
+                    "Consultas de base de datos"
                 ],
                 correct: 1,
-                explanation: "Un atributo va en la relación cuando 'nace' de la conexión entre dos entidades, como la 'nota' de un alumno en una asignatura, que solo tiene sentido con ambas entidades."
+                explanation: "El video ejemplifica que elementos como nombre de una persona, apellido, número de teléfono y año de nacimiento, cada uno por separado, son datos que no constituyen información útil."
             },
             {
-                question: "En el ejemplo del sistema escolar, ¿cuál es la cardinalidad de la relación IMPARTE entre PROFESORES y ALUMNOS?",
+                id: 5,
+                category: "Los Datos",
+                difficulty: 2,
+                question: "¿Cuáles son las características principales de los datos mencionadas en el módulo?",
                 options: [
-                    "1:1 (uno a uno)",
-                    "1:N (uno a muchos)",
-                    "N:M (muchos a muchos)",
-                    "No existe relación directa"
-                ],
-                correct: 2,
-                explanation: "Es una relación N:M porque un alumno puede tener varios profesores y un profesor puede tener varios alumnos. Esto requiere tratamiento especial en el modelo relacional."
-            },
-            {
-                question: "¿Qué es el sistema de mandantes en SAP?",
-                options: [
-                    "Un tipo de relación entre entidades",
-                    "Una distribución por clientes que separa información en la misma base de datos física",
-                    "Un método de autenticación de usuarios",
-                    "Una herramienta de respaldo de datos"
+                    "Completos, procesados, útiles, finales",
+                    "Atomicidad, sin contexto, requieren procesamiento, materia prima",
+                    "Grandes, complejos, relacionales, estructurados",
+                    "Rápidos, seguros, accesibles, verificables"
                 ],
                 correct: 1,
-                explanation: "El sistema de mandantes permite separar información de diferentes organizaciones en la misma base de datos física, donde cada usuario solo accede a datos de su mandante específico."
+                explanation: "Las características de los datos son: atomicidad (elementos indivisibles), sin contexto (por sí solos no tienen significado), requieren procesamiento, y son materia prima para generar información."
             },
             {
-                question: "En el ejercicio completo del sistema comercial, ¿cuál es la cardinalidad entre PROVEEDORES y PRODUCTOS?",
+                id: 6,
+                category: "Tipos de Datos",
+                difficulty: 2,
+                question: "¿Qué limitación tienen los datos de tipo carácter según el módulo?",
                 options: [
-                    "N:M (muchos a muchos)",
-                    "1:1 (uno a uno)",
-                    "1:N (uno a muchos)",
-                    "No pueden relacionarse"
+                    "No se pueden almacenar",
+                    "Los números no sirven para operaciones matemáticas",
+                    "Solo pueden contener letras",
+                    "Ocupan demasiado espacio"
                 ],
-                correct: 2,
-                explanation: "Es 1:N porque según el enunciado 'un producto solo puede ser suministrado por un proveedor' pero 'un proveedor puede suministrar diferentes productos'."
+                correct: 1,
+                explanation: "Los datos de tipo carácter, aunque contengan números como en DNI o número de teléfono, no sirven para realizar operaciones matemáticas."
             },
             {
-                question: "¿Cuándo es preferible usar una clave primaria artificial (como ID) en lugar de una natural (como DNI)?",
+                id: 7,
+                category: "Tipos de Datos",
+                difficulty: 1,
+                question: "¿Cuál es la expresión más básica de la informática según el video?",
                 options: [
-                    "Siempre, en todos los casos",
-                    "Nunca, las claves naturales son siempre mejores",
-                    "Cuando no existe un campo natural único o para simplificar el diseño",
-                    "Solo en tablas con menos de 100 registros"
+                    "Los datos numéricos",
+                    "Los datos booleanos (true/false)",
+                    "Las cadenas de texto",
+                    "Los datos de fecha"
                 ],
-                correct: 2,
-                explanation: "Se usa clave artificial cuando no hay un campo natural único disponible o cuando se quiere simplificar el diseño. En el ejemplo de CLIENTES se agregó un ID porque no había un identificador único claro."
+                correct: 1,
+                explanation: "Los datos booleanos, que manejan valores lógicos como true/false, 1/0, verdadero/falso, son considerados la expresión más básica de la informática."
             },
             {
-                question: "Al analizar el texto de requisitos del cliente, ¿qué elementos generalmente se descartan durante el análisis?",
+                id: 8,
+                category: "Tipos de Datos",
+                difficulty: 3,
+                question: "¿Qué tipos de datos tienen alto consumo de recursos según el módulo?",
                 options: [
-                    "Los sustantivos que representan entidades principales",
-                    "Los verbos que indican relaciones importantes",
-                    "Palabras como 'base de datos', 'queremos', 'guardar' que se refieren al proceso",
-                    "Los atributos específicos de las entidades"
+                    "Caracteres y cadenas",
+                    "Numéricos y booleanos",
+                    "Datos binarios (videos, audios, documentos)",
+                    "Fechas y horas"
                 ],
                 correct: 2,
-                explanation: "Se descartan palabras que se refieren al proceso de desarrollo o aspectos técnicos, no al dominio del problema. Por ejemplo, 'base de datos', 'queremos', 'guardar' no son parte del modelo conceptual."
+                explanation: "Los datos binarios, que almacenan información como videos, audios y documentos en código binario, tienen alto consumo de recursos del sistema."
+            },
+            {
+                id: 9,
+                category: "Tipos de Datos",
+                difficulty: 2,
+                question: "¿Qué diferencia a los datos numéricos de los datos carácter que contienen números?",
+                options: [
+                    "El tamaño de almacenamiento",
+                    "Los numéricos permiten operaciones matemáticas",
+                    "Los caracteres son más precisos",
+                    "No hay diferencia práctica"
+                ],
+                correct: 1,
+                explanation: "Los datos numéricos permiten realizar operaciones matemáticas, mientras que los datos carácter que contienen números (como DNI) no pueden usarse para cálculos matemáticos."
+            },
+            {
+                id: 10,
+                category: "La Información",
+                difficulty: 2,
+                question: "¿Qué requiere la información para ser útil según el módulo?",
+                options: [
+                    "Solo debe estar procesada por computadora",
+                    "Debe facilitar una idea clara y completa de la situación para la toma de decisiones",
+                    "Debe ocupar mucho espacio de almacenamiento",
+                    "Debe ser siempre numérica"
+                ],
+                correct: 1,
+                explanation: "Para que una información sea útil, es necesario que facilite al responsable de la toma de decisiones una idea clara y completa de la situación, aportando una base sobre la que decidir."
+            },
+            {
+                id: 11,
+                category: "La Información",
+                difficulty: 3,
+                question: "¿Qué advierte el módulo sobre el procesamiento de datos?",
+                options: [
+                    "Siempre produce información útil",
+                    "Es automáticamente efectivo",
+                    "Podemos procesar datos de mil maneras y aún así no obtener información útil",
+                    "Solo funciona con datos numéricos"
+                ],
+                correct: 2,
+                explanation: "El módulo advierte que podemos procesar los datos de mil maneras diferentes y que aún así no sea información, dado que no nos aporta nada útil para la toma de decisiones."
+            },
+            {
+                id: 12,
+                category: "La Información",
+                difficulty: 2,
+                question: "En el ejemplo de transformación, ¿qué convierte los datos en información?",
+                options: [
+                    "Almacenar más datos",
+                    "Combinar nombre + apellido + edad + dirección + sueldo de forma útil",
+                    "Usar un software más avanzado",
+                    "Aumentar la velocidad de procesamiento"
+                ],
+                correct: 1,
+                explanation: "Cuando combinamos datos como nombre + apellido + edad calculada + dirección + sueldo y los presentamos de forma que permitan conocer el perfil completo de una persona, hemos convertido los datos en información."
+            },
+            {
+                id: 13,
+                category: "Cualidades de la Información",
+                difficulty: 2,
+                question: "¿Cuáles son las cinco cualidades de una buena información mencionadas en el módulo?",
+                options: [
+                    "Velocidad, seguridad, accesibilidad, formato, tamaño",
+                    "Precisión, exactitud, oportunidad, integridad, significatividad",
+                    "Cantidad, calidad, costo, tiempo, espacio",
+                    "Origen, destino, formato, estructura, contenido"
+                ],
+                correct: 1,
+                explanation: "Las cinco cualidades de una buena información son: precisión (adaptada al objetivo), exactitud (verificable), oportunidad (momento correcto), integridad (completa), y significatividad (clara y relevante)."
+            },
+            {
+                id: 14,
+                category: "Cualidades de la Información",
+                difficulty: 3,
+                question: "¿Cómo se ejemplifica la precisión en el módulo?",
+                options: [
+                    "Todos los sistemas necesitan la misma precisión",
+                    "Programa de almacenamiento usa enteros, aplicación científica necesita muchos decimales",
+                    "Solo importa la velocidad de procesamiento",
+                    "La precisión siempre debe ser máxima"
+                ],
+                correct: 1,
+                explanation: "La precisión depende del objetivo: un programa de almacenamiento es útil con números enteros (20 muebles), mientras que una aplicación científica necesita mayor precisión con decimales (peso atómico)."
+            },
+            {
+                id: 15,
+                category: "Cualidades de la Información",
+                difficulty: 3,
+                question: "¿Qué problema ilustra el ejemplo del código postal en supermercados?",
+                options: [
+                    "La dificultad técnica de almacenamiento",
+                    "La importancia de la exactitud: si los clientes mienten, las conclusiones serán erróneas",
+                    "La necesidad de más espacio de almacenamiento",
+                    "La complejidad de los sistemas de punto de venta"
+                ],
+                correct: 1,
+                explanation: "El ejemplo del código postal ilustra que si la información no es exacta (clientes que mienten), puede llevarnos a cometer errores, ya que los estudios de clientela llegarán a conclusiones erróneas."
+            },
+            {
+                id: 16,
+                category: "Cualidades de la Información",
+                difficulty: 3,
+                question: "¿Qué contraste hace el módulo sobre oportunidad entre análisis humano y automatizado?",
+                options: [
+                    "El análisis humano es siempre mejor",
+                    "Un dependiente procesa datos visuales en tiempo real, el sistema debe hacer lo mismo mientras el cliente está presente",
+                    "Los sistemas automatizados son más lentos",
+                    "No hay diferencia entre ambos análisis"
+                ],
+                correct: 1,
+                explanation: "El ejemplo muestra que un dependiente procesa datos visuales (melena, pendientes, ropa) en tiempo real para orientar al cliente, mientras que el sistema automatizado debe hacer lo mismo mientras el cliente está en la tienda, no después."
+            },
+            {
+                id: 17,
+                category: "Rendimiento y Optimización",
+                difficulty: 2,
+                question: "¿Qué impacto tiene el volumen de datos según el módulo?",
+                options: [
+                    "Cambia completamente la lógica de las operaciones",
+                    "Solo afecta al tiempo de procesamiento",
+                    "Hace que las herramientas no funcionen",
+                    "Requiere diferentes tipos de datos"
+                ],
+                correct: 1,
+                explanation: "El volumen de datos solo afecta al tiempo de procesamiento. Las herramientas y operaciones no dependen del volumen, sino de la lógica y el razonamiento adecuado."
+            },
+            {
+                id: 18,
+                category: "Aplicación Práctica",
+                difficulty: 3,
+                question: "¿Cuál es el objetivo final de cualquier sistema de gestión de bases de datos?",
+                options: [
+                    "Almacenar la mayor cantidad de datos posible",
+                    "Transformar datos brutos en información valiosa para la toma de decisiones",
+                    "Procesar datos lo más rápido posible",
+                    "Usar la tecnología más avanzada disponible"
+                ],
+                correct: 1,
+                explanation: "El propósito fundamental de cualquier sistema de gestión de bases de datos es transformar datos brutos en información valiosa que facilite la toma de decisiones informadas y estratégicas."
             }
         ];
 
@@ -517,7 +666,15 @@
             
             container.innerHTML = `
                 <div class="question-card active">
-                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-meta">
+                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                        <div class="category-tag">${question.category}</div>
+                        <div class="difficulty-indicator">
+                            ${Array.from({length: 3}, (_, i) => 
+                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
                     <div class="question-text">${question.question}</div>
                     <div class="options" id="options">
                         ${question.options.map((option, index) => `
@@ -620,27 +777,27 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas la metodología práctica del modelo E-R.';
-            } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Repasa algunos aspectos de la metodología práctica.';
+            if (finalScore >= 85) {
+                message = '🎉 ¡Excelente! Dominas perfectamente la diferencia entre datos e información.';
+            } else if (finalScore >= 70) {
+                message = '👍 ¡Buen trabajo! Tienes una comprensión sólida de los conceptos de datos e información.';
             } else {
-                message = '📚 Necesitas practicar más el análisis de texto y modelado E-R.';
+                message = '📚 Necesitas reforzar los conceptos sobre datos, información y sus cualidades.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave para dominar:</h4>
+                    <h4>📊 Puntos clave sobre Datos vs Información:</h4>
                     <ul>
-                        <li>Metodología de análisis de texto: sustantivos y verbos</li>
-                        <li>Descomposición de atributos complejos para mayor eficiencia</li>
-                        <li>Identificación de atributos que pertenecen a las relaciones</li>
-                        <li>Análisis de cardinalidad en relaciones (1:1, 1:N, N:M)</li>
-                        <li>Sistema de mandantes en SAP para separación de datos</li>
-                        <li>Definición apropiada de claves primarias naturales vs artificiales</li>
-                        <li>Filtrado de elementos irrelevantes en el análisis</li>
-                        <li>Transformación sistemática de requisitos a modelo conceptual</li>
+                        <li><strong>Base de datos:</strong> conjunto de datos almacenados para uso futuro</li>
+                        <li><strong>Datos:</strong> elementos individuales sin contexto, no permiten decisiones</li>
+                        <li><strong>Información:</strong> datos procesados que facilitan toma de decisiones</li>
+                        <li><strong>Tipos de datos:</strong> carácter, cadenas, numérico, booleano, fecha, binario</li>
+                        <li><strong>5 Cualidades:</strong> precisión, exactitud, oportunidad, integridad, significatividad</li>
+                        <li><strong>Procesamiento:</strong> no garantiza información útil automáticamente</li>
+                        <li><strong>Optimización:</strong> elección correcta de tipos de datos es crucial en big data</li>
+                        <li><strong>Objetivo:</strong> convertir datos brutos en información valiosa para decisiones</li>
                     </ul>
                 </div>
             `;

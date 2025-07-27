@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 021 - Comando DELETE SAP HANA</title>
+    <title>Quiz 021 - SAP Web IDE for SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 Quiz 021</h1>
-            <p>Comando DELETE - SAP HANA</p>
+            <h1>?? Quiz 021 | SAP HANA</h1>
+            <p>SAP Web IDE for SAP HANA - Entorno Oficial</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué se considera DELETE el comando más peligroso de SQL?",
+                question: "¿Qué es SAP Web IDE for SAP HANA?",
                 options: [
-                    "Porque es muy complejo de escribir",
-                    "Porque sin WHERE elimina TODA la tabla y es irreversible",
-                    "Porque solo funciona en SAP HANA",
-                    "Porque requiere permisos especiales"
+                    "Una herramienta de administración de base de datos",
+                    "Un entorno de desarrollo integrado basado en web para aplicaciones SAP HANA",
+                    "Un sistema operativo para servidores HANA",
+                    "Una aplicación para crear reportes"
                 ],
                 correct: 1,
-                explanation: "DELETE sin WHERE elimina TODOS los registros de la tabla de forma permanente. A diferencia de UPDATE que modifica datos, DELETE los elimina completamente, siendo solo recuperables desde backups."
+                explanation: "SAP Web IDE for SAP HANA es un entorno de desarrollo integrado basado en web utilizado para el desarrollo de aplicaciones basadas en SAP HANA que comprenden interfaces de usuario web o móviles, lógica empresarial y modelos de datos extensos."
             },
             {
-                question: "¿Cuál es la sintaxis correcta básica del comando DELETE?",
+                question: "¿Con qué motor es compatible SAP Web IDE for SAP HANA?",
                 options: [
-                    "DELETE tabla WHERE condición",
-                    "DELETE FROM tabla WHERE condición",
-                    "DELETE * FROM tabla WHERE condición",
-                    "DELETE ROWS FROM tabla WHERE condición"
+                    "Solo con XS Classic",
+                    "Solo con XS Advanced (XSA)",
+                    "Con ambos: XS Classic y XSA",
+                    "Con cualquier motor de base de datos"
                 ],
                 correct: 1,
-                explanation: "La sintaxis correcta es DELETE FROM tabla WHERE condición. Es extremadamente simple: solo dos palabras clave obligatorias (DELETE FROM) y opcionalmente WHERE, lo que la hace engañosamente peligrosa."
+                explanation: "SAP Web IDE for SAP HANA SOLO funciona con XS Advanced (XSA). No es compatible con el desarrollo XS Classic, a diferencia de SAP Web ID que sí trabajaba con XS Classic."
             },
             {
-                question: "¿Cuál es la principal diferencia entre UPDATE y DELETE?",
+                question: "¿Cuáles son las tres capas de la arquitectura de SAP Web IDE for SAP HANA?",
                 options: [
-                    "UPDATE es más rápido que DELETE",
-                    "UPDATE modifica valores existentes, DELETE elimina registros completos",
-                    "DELETE solo funciona con números",
-                    "No hay diferencias significativas"
+                    "Presentación, Aplicación, Datos",
+                    "Cliente (Web IDE), Servidor (XSA), Datos (SQL/HDI)",
+                    "Frontend, Backend, Base de Datos",
+                    "Usuario, Sistema, Almacenamiento"
                 ],
                 correct: 1,
-                explanation: "UPDATE modifica valores existentes manteniendo los registros en la tabla. DELETE elimina registros completos, haciendo que desaparezcan permanentemente de la tabla."
+                explanation: "La arquitectura de 3 capas consiste en: Capa Cliente (SAP Web IDE for SAP HANA), Capa Servidor (XS Advanced - XSA), y Capa de Datos (SQL + HDI para acceso a datos y catálogo)."
             },
             {
-                question: "¿Qué sucede si ejecutas 'DELETE FROM empleados;' (sin WHERE)?",
+                question: "¿Cuáles son las dos vistas principales del Web IDE?",
                 options: [
-                    "Se eliminan solo los empleados inactivos",
-                    "Se eliminan TODOS los empleados de la tabla",
-                    "El sistema pide confirmación",
-                    "Se produce un error de sintaxis"
+                    "Vista de Administración y Vista de Usuario",
+                    "Vista de Desarrollo y Explorador de Base de Datos",
+                    "Vista de Código y Vista de Diseño",
+                    "Vista de Proyecto y Vista de Archivos"
                 ],
                 correct: 1,
-                explanation: "DELETE FROM tabla sin WHERE elimina TODOS los registros de la tabla. Es catastrófico: todos los empleados desaparecerían permanentemente, solo recuperables desde backup con pérdida de datos posteriores."
+                explanation: "Las dos vistas principales son: Vista de Desarrollo (para escribir código y modelado de datos) y Explorador de Base de Datos (para navegar objetos de BD, consola SQL y gestión de conexiones)."
             },
             {
-                question: "¿Cuál es el protocolo de seguridad OBLIGATORIO antes de ejecutar DELETE?",
+                question: "¿Qué extensión de archivo se utiliza para crear vistas calculadas?",
                 options: [
-                    "Hacer backup de toda la base de datos",
-                    "Usar SELECT con el mismo WHERE para verificar qué se eliminará",
-                    "Pedir autorización al supervisor",
-                    "Ejecutar en horario nocturno"
-                ],
-                correct: 1,
-                explanation: "SIEMPRE debes usar SELECT con exactamente el mismo WHERE que planeas usar en DELETE. Esto te permite verificar cuántos registros se eliminarán y confirmar que son los correctos antes de la eliminación irreversible."
-            },
-            {
-                question: "En la cláusula WHERE de DELETE, ¿qué funcionalidades puedes usar?",
-                options: [
-                    "Solo operadores de igualdad (=)",
-                    "Toda la funcionalidad disponible en SELECT: operadores, patrones, subconsultas",
-                    "Solo campos numéricos",
-                    "Máximo dos condiciones"
-                ],
-                correct: 1,
-                explanation: "WHERE en DELETE acepta toda la potencia que has aprendido en SELECT: operadores de comparación, LIKE, BETWEEN, IN, subconsultas, AND, OR, etc. Si puedes escribirlo en SELECT, puedes usarlo en DELETE."
-            },
-            {
-                question: "¿Cómo puedes recuperar datos eliminados accidentalmente con DELETE?",
-                options: [
-                    "Usando el comando UNDELETE",
-                    "Solo desde copias de seguridad (backups)",
-                    "Con ROLLBACK siempre funciona",
-                    "Los datos se recuperan automáticamente"
-                ],
-                correct: 1,
-                explanation: "DELETE es permanente. Los datos eliminados solo se pueden recuperar desde copias de seguridad, perdiendo cualquier cambio posterior al backup. Por eso el protocolo de verificación previa es VITAL."
-            },
-            {
-                question: "¿Cuál es la secuencia correcta del protocolo de seguridad para DELETE?",
-                options: [
-                    "DELETE → verificar → backup",
-                    "Backup → DELETE → verificar",
-                    "SELECT verificar → COUNT registros → DELETE → verificar resultado",
-                    "DELETE → SELECT → corregir errores"
+                    ".hdbtable",
+                    ".hdbview",
+                    ".hdbcalculationview",
+                    ".hdbprocedure"
                 ],
                 correct: 2,
-                explanation: "Protocolo correcto: 1) SELECT con mismo WHERE (verificar QUÉ se eliminará), 2) COUNT registros (verificar CUÁNTOS), 3) DELETE con confianza, 4) Verificar resultado. El backup es recomendable en datos críticos antes del DELETE."
+                explanation: "La extensión .hdbcalculationview se utiliza para crear vistas calculadas y abre automáticamente el editor gráfico especializado para este tipo de objetos complejos."
+            },
+            {
+                question: "¿Qué es un contenedor HDI?",
+                options: [
+                    "Un tipo especial de tabla en HANA",
+                    "Una caja lógica sobre el esquema físico que permite desarrollo sin esquema",
+                    "Un archivo de configuración del proyecto",
+                    "Una herramienta de backup de datos"
+                ],
+                correct: 1,
+                explanation: "Un contenedor HDI es una 'caja lógica' que se encuentra sobre el esquema físico de la base de datos, permitiendo que el desarrollo se desacople de los componentes físicos y facilitando el 'desarrollo sin esquema'."
+            },
+            {
+                question: "¿Cuál es una ventaja clave de los contenedores HDI compared con XS Classic?",
+                options: [
+                    "Mayor velocidad de procesamiento",
+                    "Menor uso de memoria",
+                    "Capacidad de tener múltiples versiones de aplicaciones coexistentes",
+                    "Interfaz más simple"
+                ],
+                correct: 2,
+                explanation: "A diferencia de XS Classic donde todos los objetos se implementaban en un esquema fijo, HDI permite que diferentes versiones de la base de datos coexistan en el mismo sistema SAP HANA, cada una con su propio esquema generado automáticamente."
+            },
+            {
+                question: "¿Qué tipo de proyecto se recomienda crear principalmente en Web IDE for SAP HANA?",
+                options: [
+                    "Business Application Project",
+                    "Database Application Project",
+                    "Multi-Target Application Project",
+                    "Single Module Project"
+                ],
+                correct: 2,
+                explanation: "Se recomienda crear un 'Multi-Target Application Project' como proyecto principal, ya que proporciona las plantillas y estructuras necesarias para el modelado y desarrollo de aplicaciones complejas con múltiples módulos."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            ← Anterior
+                            �?Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
                         </button>
                     </div>
                 </div>
@@ -621,26 +621,26 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas el comando DELETE y su protocolo de seguridad.';
+                message = '🎉 ¡Excelente! Dominas SAP Web IDE for SAP HANA.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Repasa el protocolo de seguridad para perfeccionar.';
+                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
             } else {
-                message = '⚠️ CRÍTICO: Debes dominar DELETE antes de usarlo en producción.';
+                message = '📚 Necesitas repasar el material sobre Web IDE for SAP HANA.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>🛡️ Puntos críticos para dominar DELETE:</h4>
+                    <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li><strong>Peligro extremo:</strong> DELETE sin WHERE = tabla vacía</li>
-                        <li><strong>Protocolo obligatorio:</strong> SELECT primero, DELETE después</li>
-                        <li><strong>Diferencia vital:</strong> UPDATE modifica, DELETE elimina</li>
-                        <li><strong>WHERE completo:</strong> Toda funcionalidad de SELECT disponible</li>
-                        <li><strong>Irreversibilidad:</strong> Solo backup puede salvar datos perdidos</li>
-                        <li><strong>Verificación triple:</strong> SELECT → COUNT → DELETE → verificar</li>
-                        <li><strong>Entornos seguros:</strong> Nunca practicar en producción</li>
-                        <li><strong>Mantra vital:</strong> "SELECT primero, DELETE después, verificar siempre"</li>
+                        <li>Diferencia entre SAP Web ID y SAP Web IDE for SAP HANA</li>
+                        <li>Compatibilidad exclusiva con XS Advanced (XSA)</li>
+                        <li>Arquitectura de 3 capas: Cliente, Servidor, Datos</li>
+                        <li>Dos vistas principales: Desarrollo y Explorador BD</li>
+                        <li>Sistema basado en archivos con extensiones específicas</li>
+                        <li>Contenedores HDI y desarrollo sin esquema</li>
+                        <li>Creación de proyectos Multi-Target Application</li>
+                        <li>Ventajas de HDI vs XS Classic para versionado</li>
                     </ul>
                 </div>
             `;

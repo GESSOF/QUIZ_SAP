@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 012 - 10 Ejercicios de Modelado SAP HANA</title>
+    <title>Quiz 012 SAP HANA - Modelado de Datos</title>
     <style>
         * {
             margin: 0;
@@ -301,28 +301,11 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
             .container {
-                margin: 0;
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
+                margin: 10px;
             }
             
             .content {
-                padding: 20px;
-            }
-            
-            .question-card {
                 padding: 20px;
             }
             
@@ -331,45 +314,8 @@
                 gap: 15px;
             }
             
-            .stat-item {
-                padding: 12px 20px;
-            }
-            
             .buttons {
                 flex-direction: column;
-            }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-            
-            .question-text {
-                font-size: 1.1em;
-            }
-            
-            .option {
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .content {
-                padding: 15px;
-            }
-            
-            .question-card {
-                padding: 15px;
-            }
-            
-            .score-circle {
-                width: 120px;
-                height: 120px;
-                font-size: 2em;
             }
         }
     </style>
@@ -377,15 +323,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 Quiz 012</h1>
-            <p>10 Ejercicios Completos de Modelado - SAP HANA</p>
+            <h1>🎯 Quiz 012 | SAP HANA</h1>
+            <p>Modelado de Datos - Fundamentos y Conceptos Clave</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span class="stat-number" id="totalQuestions">15</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -413,92 +359,169 @@
     <script>
         const questions = [
             {
-                question: "¿Cuál es el primer paso en la metodología sistemática de 5 pasos para crear un modelo de base de datos?",
+                question: "¿Por qué el modelado de datos es considerado el paso más importante al iniciar un proyecto?",
                 options: [
-                    "Definir los atributos de cada entidad",
-                    "Análisis del texto para identificar sustantivos que representen entidades",
-                    "Establecer las relaciones entre entidades",
-                    "Convertir el diagrama a modelo relacional"
+                    "Porque determina el lenguaje de programación a utilizar",
+                    "Porque constituye la estructura sobre la que se apoyará toda la aplicación",
+                    "Porque es el más fácil de implementar",
+                    "Porque es requerido por SAP HANA únicamente"
                 ],
                 correct: 1,
-                explanation: "El primer paso en la metodología es el análisis del texto para identificar sustantivos que representen entidades y sus atributos correspondientes. Este análisis textual es fundamental para extraer todos los elementos del sistema."
+                explanation: "El modelado de datos constituye la estructura sobre la que se apoyará toda la aplicación. Si el diseño es deficiente, todo lo que se construya sobre él será también deficiente."
             },
             {
-                question: "En el Sistema de Empresa (Ejercicio 1), ¿qué tipo de relación existe entre Pedidos y Artículos?",
+                question: "¿Cuál es el principio fundamental que se debe tener en cuenta al diseñar una base de datos?",
                 options: [
-                    "1:1 (uno a uno)",
-                    "1:N (uno a varios)",
-                    "N:M (varios a varios)",
-                    "No existe relación directa"
+                    "Usar la mayor cantidad de tablas posible",
+                    "Si el diseño de nuestra base de datos es deficiente, todo lo que construyamos sobre ella será también deficiente",
+                    "Siempre usar el modelo más complejo disponible",
+                    "Enfocarse únicamente en la velocidad de acceso"
+                ],
+                correct: 1,
+                explanation: "Este es el principio fundamental del modelado: la calidad del diseño de la base de datos determina la calidad de toda la aplicación que se construya sobre ella."
+            },
+            {
+                question: "¿Qué muestran los modelos de datos según su definición?",
+                options: [
+                    "Solo las tablas y sus nombres",
+                    "La estructura lógica de la base de datos, incluidas las relaciones y limitaciones",
+                    "Únicamente los datos que se van a almacenar",
+                    "Solo la tecnología específica a utilizar"
+                ],
+                correct: 1,
+                explanation: "Los modelos muestran la estructura lógica de la base de datos, incluidas las relaciones y limitaciones que determinan cómo se almacenan los datos y cómo se accede a ellos."
+            },
+            {
+                question: "¿Cuál fue el modelo que 'marcó un antes y un después' en el mundo de las bases de datos?",
+                options: [
+                    "Modelo Jerárquico",
+                    "Modelo en Red",
+                    "Modelo Relacional",
+                    "Modelo Orientado a Objetos"
                 ],
                 correct: 2,
-                explanation: "La relación entre Pedidos y Artículos es N:M (varios a varios) porque un pedido puede contener varios artículos y un artículo puede estar en varios pedidos diferentes. Esta relación se resuelve creando la tabla intermedia CUERPO_PEDIDOS."
+                explanation: "El modelo relacional marcó un antes y un después en el mundo de las bases de datos por su simplicidad conceptual, flexibilidad y robustez para manejar relaciones complejas entre datos."
             },
             {
-                question: "¿Cuál es la función de la tabla CUERPO_PEDIDOS en el modelo del Sistema de Empresa?",
+                question: "¿Cuál es la diferencia fundamental entre el modelo jerárquico y el modelo en red?",
                 options: [
-                    "Almacenar información de los clientes",
-                    "Resolver la relación N:M entre Pedidos y Artículos",
-                    "Guardar datos de las fábricas",
-                    "Controlar el inventario de productos"
+                    "El jerárquico es más rápido que el modelo en red",
+                    "En el jerárquico cada nodo puede tener únicamente un nodo padre, en el modelo en red puede tener más de un nodo padre",
+                    "El modelo en red no puede tener nodos padre",
+                    "No hay diferencias entre ambos modelos"
                 ],
                 correct: 1,
-                explanation: "CUERPO_PEDIDOS es una tabla intermedia que resuelve la relación N:M entre Pedidos y Artículos. Contiene las claves primarias de ambas entidades como clave primaria compuesta, además del atributo Cantidad."
+                explanation: "La diferencia fundamental es que en el modelo jerárquico cada nodo puede tener únicamente un nodo padre, mientras que en el modelo en red cada nodo puede tener más de un nodo padre."
             },
             {
-                question: "En el Sistema de Ventas (Ejercicio 2), ¿por qué se crea una entidad separada para TELÉFONOS?",
+                question: "¿Qué representan las entidades en el modelo relacional?",
                 options: [
-                    "Para normalizar la base de datos y evitar redundancia",
-                    "Porque un cliente puede tener varios números de teléfono",
-                    "Para mejorar el rendimiento de las consultas",
-                    "Porque es un requisito técnico de SAP HANA"
+                    "Los usuarios del sistema",
+                    "La representación de un objeto existente en el mundo real",
+                    "Los procesos del sistema",
+                    "Las consultas más frecuentes"
                 ],
                 correct: 1,
-                explanation: "Se crea la entidad TELÉFONOS porque un cliente puede tener varios números de contacto. Esta es una entidad débil que depende de CLIENTES y permite manejar múltiples teléfonos por cliente sin duplicar información."
+                explanation: "Las entidades son la representación de un objeto existente en el mundo real y se convertirán en las tablas de nuestro sistema de almacenaje."
             },
             {
-                question: "¿Cuál es el criterio principal para identificar entidades en el análisis textual?",
+                question: "¿Qué son los atributos en el contexto del modelado de datos?",
                 options: [
-                    "Buscar todos los verbos del texto",
-                    "Identificar sustantivos que representen objetos sobre los que necesitamos guardar información",
-                    "Encontrar todos los adjetivos descriptivos",
-                    "Localizar números y fechas en el texto"
+                    "Las relaciones entre tablas",
+                    "Las características que definen o identifican a una entidad",
+                    "Los usuarios que acceden al sistema",
+                    "Los procesos de validación de datos"
                 ],
                 correct: 1,
-                explanation: "El criterio principal es identificar sustantivos que representen objetos de la realidad sobre los que necesitamos almacenar información. Estos sustantivos se convertirán en las entidades del modelo."
+                explanation: "Los atributos son características que definen o identifican a una entidad y se convertirán en las columnas que almacenarán los datos en las tablas."
             },
             {
-                question: "¿Qué se debe evitar al definir atributos según las buenas prácticas de modelado?",
+                question: "¿Qué especifica la cardinalidad en las relaciones?",
                 options: [
-                    "Usar tipos de datos específicos",
-                    "Incluir claves primarias",
-                    "Almacenar campos calculados que se pueden derivar de otros datos",
-                    "Definir atributos obligatorios"
+                    "El tamaño de las tablas",
+                    "La velocidad de acceso a los datos",
+                    "El funcionamiento de la relación entre entidades",
+                    "El tipo de datos a almacenar"
                 ],
                 correct: 2,
-                explanation: "Se debe evitar almacenar campos calculados que se pueden derivar a partir de otros datos existentes. Esto va contra los principios de normalización y puede crear inconsistencias en la base de datos."
+                explanation: "La cardinalidad especifica el funcionamiento de la relación, indicando si un registro de una tabla puede relacionarse con uno solo de otra tabla o con múltiples registros."
             },
             {
-                question: "En una relación 1:N, ¿cómo se implementa en el modelo relacional?",
+                question: "¿Cuál es el objetivo principal del proceso de diseño de base de datos?",
                 options: [
-                    "Se crea una tabla intermedia",
-                    "El lado '1' transfiere su clave primaria al lado 'N' como clave foránea",
-                    "Se duplican los datos en ambas tablas",
-                    "Se usa una clave primaria compuesta"
+                    "Crear la mayor cantidad de tablas posible",
+                    "Tener la información almacenada de manera organizada, ocupando el menor espacio posible y con acceso sencillo",
+                    "Usar únicamente tecnología SAP HANA",
+                    "Maximizar el número de relaciones entre tablas"
                 ],
                 correct: 1,
-                explanation: "En una relación 1:N, el lado '1' transfiere su clave primaria al lado 'N' como clave foránea. Por ejemplo, en Clientes-Pedidos (1:N), ID_Cliente aparece como clave foránea en la tabla Pedidos."
+                explanation: "El objetivo principal es tener la información almacenada de manera organizada, ocupando el menor espacio posible y con acceso sencillo."
             },
             {
-                question: "¿Cuál es el beneficio principal de seguir la metodología de 5 pasos para modelado de bases de datos?",
+                question: "¿Por qué no se deben incluir datos calculados como columnas separadas?",
                 options: [
-                    "Acelerar el proceso de desarrollo",
-                    "Garantizar que todos los requisitos sean capturados de forma sistemática y completa",
-                    "Reducir el tamaño de la base de datos",
-                    "Mejorar automáticamente el rendimiento"
+                    "Porque ocupan mucho espacio en disco",
+                    "Para evitar redundancia de datos que pueden obtenerse mediante cálculos de columnas existentes",
+                    "Porque SAP HANA no los soporta",
+                    "Porque son más lentos de consultar"
                 ],
                 correct: 1,
-                explanation: "El beneficio principal es garantizar que todos los requisitos del enunciado sean capturados de forma sistemática y completa. La metodología estructurada asegura que no se omita información importante y que el diseño sea consistente."
+                explanation: "No se deben incluir datos calculados para evitar redundancia de datos que pueden obtenerse mediante cálculos de columnas existentes, manteniendo así la integridad y consistencia."
+            },
+            {
+                question: "En el proceso de diseño, ¿por qué es importante almacenar la información en sus partes lógicas más pequeñas?",
+                options: [
+                    "Para ocupar más espacio en disco",
+                    "Para mayor flexibilidad en el uso de los datos",
+                    "Para complicar las consultas",
+                    "Para usar más tablas"
+                ],
+                correct: 1,
+                explanation: "Almacenar la información en sus partes lógicas más pequeñas (como separar nombre, primer apellido y segundo apellido) proporciona mayor flexibilidad en el uso de los datos."
+            },
+            {
+                question: "¿Qué es una clave en el contexto de bases de datos relacionales?",
+                options: [
+                    "Una contraseña de acceso",
+                    "Un atributo que distingue cada registro del conjunto de forma unívoca",
+                    "Un tipo especial de relación",
+                    "Una herramienta de encriptación"
+                ],
+                correct: 1,
+                explanation: "Una clave es un atributo de una entidad que distingue cada registro del conjunto de forma unívoca, principalmente refiriéndose a la clave primaria."
+            },
+            {
+                question: "¿Cuál es la regla básica de las bases de datos relacionales respecto a la información?",
+                options: [
+                    "La información debe almacenarse en archivos de texto",
+                    "La información debe poder representarse siempre en forma de tabla",
+                    "La información debe estar encriptada",
+                    "La información debe duplicarse en múltiples lugares"
+                ],
+                correct: 1,
+                explanation: "La regla básica de las bases de datos relacionales es que la información debe poder representarse siempre en forma de tabla."
+            },
+            {
+                question: "En el ejemplo de la facturación (Tijeras: 5€ × 3 unidades = 15€), ¿por qué el total no debe almacenarse como columna?",
+                options: [
+                    "Porque es un dato calculado que se obtiene multiplicando precio por cantidad",
+                    "Porque ocupa mucho espacio",
+                    "Porque es difícil de consultar",
+                    "Porque SAP HANA no permite decimales"
+                ],
+                correct: 0,
+                explanation: "El total no debe almacenarse porque es un dato calculado que se obtiene multiplicando precio por cantidad. Esto evita inconsistencias si cambia el precio o la cantidad."
+            },
+            {
+                question: "¿Cuáles son los próximos temas que se abordarán después del modelado básico?",
+                options: [
+                    "Solo programación en SAP HANA",
+                    "Modelo Entidad-Relación, Modelo Relacional y Reglas de Normalización",
+                    "Únicamente instalación de software",
+                    "Solo consultas SQL básicas"
+                ],
+                correct: 1,
+                explanation: "Los próximos temas incluyen el Modelo Entidad-Relación (con diagramación), el Modelo Relacional (conversión a estructura física) y las Reglas de Normalización con ejemplos prácticos."
             }
         ];
 
@@ -621,28 +644,25 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas la metodología de modelado completo.';
+                message = '🎉 ¡Excelente! Dominas los fundamentos del modelado de datos.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Practica más con ejercicios similares.';
+                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar tu comprensión.';
             } else {
-                message = '📚 Necesitas repasar la metodología de modelado de bases de datos.';
+                message = '📚 Necesitas reforzar los conceptos básicos del modelado de datos.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave para dominar el modelado:</h4>
+                    <h4>📋 Conceptos clave del modelado de datos:</h4>
                     <ul>
-                        <li>Metodología sistemática de 5 pasos</li>
-                        <li>Análisis textual para identificar entidades</li>
-                        <li>Definición correcta de atributos</li>
-                        <li>Establecimiento de relaciones y cardinalidad</li>
-                        <li>Conversión a modelo relacional</li>
-                        <li>Manejo de relaciones N:M con tablas intermedias</li>
-                        <li>Identificación de entidades débiles</li>
-                        <li>Normalización y evitar redundancia</li>
-                        <li>Buenas prácticas de diseño de bases de datos</li>
-                        <li>Validación completa contra requisitos</li>
+                        <li>La importancia del modelado como base de toda aplicación</li>
+                        <li>Diferencias entre los modelos históricos (jerárquico, red, relacional, etc.)</li>
+                        <li>Componentes del modelo relacional: entidades, atributos, relaciones, cardinalidad y claves</li>
+                        <li>Proceso de diseño en 10 pasos fundamentales</li>
+                        <li>Principio de no incluir datos calculados</li>
+                        <li>Almacenamiento en partes lógicas más pequeñas</li>
+                        <li>Objetivos: organización, menor espacio, acceso sencillo</li>
                     </ul>
                 </div>
             `;

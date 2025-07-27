@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 017 - Introducción al Lenguaje HANA SQL</title>
+    <title>Quiz 017 - 10 Ejercicios de Modelado SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💻 Quiz 017</h1>
-            <p>Introducción al Lenguaje HANA SQL</p>
+            <h1>🎯 Quiz 017 | SAP HANA</h1>
+            <p>10 Ejercicios Completos de Modelado - SAP HANA</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿En qué estándar está basado HANA SQL?",
+                question: "¿Cuál es el primer paso en la metodología sistemática de 5 pasos para crear un modelo de base de datos?",
                 options: [
-                    "SQL-99 con extensiones propietarias de SAP",
-                    "SQL-92 (SQL estándar) con modificaciones específicas para SAP HANA",
-                    "Un lenguaje completamente nuevo creado por SAP",
-                    "SQL-2003 con compatibilidad Oracle"
+                    "Definir los atributos de cada entidad",
+                    "Análisis del texto para identificar sustantivos que representen entidades",
+                    "Establecer las relaciones entre entidades",
+                    "Convertir el diagrama a modelo relacional"
                 ],
                 correct: 1,
-                explanation: "SAP no ha inventado un lenguaje nuevo. Ha tomado el lenguaje SQL estándar (SQL-92) y lo ha implementado sobre su producto, realizando algunas modificaciones específicas para adaptarlo a las características particulares de SAP HANA."
+                explanation: "El primer paso en la metodología es el análisis del texto para identificar sustantivos que representen entidades y sus atributos correspondientes. Este análisis textual es fundamental para extraer todos los elementos del sistema."
             },
             {
-                question: "¿Cuáles son los tres tipos principales de lenguaje SQL?",
+                question: "En el Sistema de Empresa (Ejercicio 1), ¿qué tipo de relación existe entre Pedidos y Artículos?",
                 options: [
-                    "SELECT, INSERT, UPDATE",
-                    "CREATE, READ, UPDATE",
-                    "DDL, DML, DCL",
-                    "QUERY, MODIFY, CONTROL"
+                    "1:1 (uno a uno)",
+                    "1:N (uno a varios)",
+                    "N:M (varios a varios)",
+                    "No existe relación directa"
                 ],
                 correct: 2,
-                explanation: "Los tres tipos principales de lenguaje SQL son: DDL (Data Definition Language) para definir objetos, DML (Data Manipulation Language) para manipular datos, y DCL (Data Control Language) para controlar accesos y permisos."
+                explanation: "La relación entre Pedidos y Artículos es N:M (varios a varios) porque un pedido puede contener varios artículos y un artículo puede estar en varios pedidos diferentes. Esta relación se resuelve creando la tabla intermedia CUERPO_PEDIDOS."
             },
             {
-                question: "¿Cuáles son los comandos principales de DDL (Data Definition Language)?",
+                question: "¿Cuál es la función de la tabla CUERPO_PEDIDOS en el modelo del Sistema de Empresa?",
                 options: [
-                    "SELECT, INSERT, UPDATE, DELETE",
-                    "CREATE, ALTER, DROP",
-                    "GRANT, REVOKE",
-                    "BEGIN, COMMIT, ROLLBACK"
+                    "Almacenar información de los clientes",
+                    "Resolver la relación N:M entre Pedidos y Artículos",
+                    "Guardar datos de las fábricas",
+                    "Controlar el inventario de productos"
                 ],
                 correct: 1,
-                explanation: "Los comandos principales de DDL son: CREATE (crear nuevos objetos), ALTER (modificar objetos existentes) y DROP (eliminar objetos de la base de datos)."
+                explanation: "CUERPO_PEDIDOS es una tabla intermedia que resuelve la relación N:M entre Pedidos y Artículos. Contiene las claves primarias de ambas entidades como clave primaria compuesta, además del atributo Cantidad."
             },
             {
-                question: "¿Cuál es el comando DML más potente y extenso según el contenido del video?",
+                question: "En el Sistema de Ventas (Ejercicio 2), ¿por qué se crea una entidad separada para TELÉFONOS?",
                 options: [
-                    "INSERT - para introducir nuevos datos",
-                    "UPDATE - para modificar registros existentes",
-                    "DELETE - para eliminar datos",
-                    "SELECT - para consultar y recuperar datos"
-                ],
-                correct: 3,
-                explanation: "El comando SELECT es extremadamente extenso y flexible. Nos permite una flexibilidad casi absoluta para recuperar información, unir datos de diferentes tablas y convertir datos en información útil para la toma de decisiones."
-            },
-            {
-                question: "¿Cuáles son los dos comandos principales de DCL (Data Control Language)?",
-                options: [
-                    "LOGIN y LOGOUT",
-                    "GRANT y REVOKE",
-                    "CONNECT y DISCONNECT",
-                    "ALLOW y DENY"
+                    "Para normalizar la base de datos y evitar redundancia",
+                    "Porque un cliente puede tener varios números de teléfono",
+                    "Para mejorar el rendimiento de las consultas",
+                    "Porque es un requisito técnico de SAP HANA"
                 ],
                 correct: 1,
-                explanation: "Los comandos principales de DCL son: GRANT (otorgar permisos y privilegios a usuarios o roles) y REVOKE (quitar permisos, roles o privilegios previamente concedidos)."
+                explanation: "Se crea la entidad TELÉFONOS porque un cliente puede tener varios números de contacto. Esta es una entidad débil que depende de CLIENTES y permite manejar múltiples teléfonos por cliente sin duplicar información."
             },
             {
-                question: "¿Cuáles son los dos tipos de comentarios en SQL y sus sintaxis respectivas?",
+                question: "¿Cuál es el criterio principal para identificar entidades en el análisis textual?",
                 options: [
-                    "# para una línea y /* */ para múltiples líneas",
-                    "// para una línea y <!-- --> para múltiples líneas",
-                    "-- para una línea y /* */ para múltiples líneas",
-                    "' para una línea y \"\"\" \"\"\" para múltiples líneas"
+                    "Buscar todos los verbos del texto",
+                    "Identificar sustantivos que representen objetos sobre los que necesitamos guardar información",
+                    "Encontrar todos los adjetivos descriptivos",
+                    "Localizar números y fechas en el texto"
+                ],
+                correct: 1,
+                explanation: "El criterio principal es identificar sustantivos que representen objetos de la realidad sobre los que necesitamos almacenar información. Estos sustantivos se convertirán en las entidades del modelo."
+            },
+            {
+                question: "¿Qué se debe evitar al definir atributos según las buenas prácticas de modelado?",
+                options: [
+                    "Usar tipos de datos específicos",
+                    "Incluir claves primarias",
+                    "Almacenar campos calculados que se pueden derivar de otros datos",
+                    "Definir atributos obligatorios"
                 ],
                 correct: 2,
-                explanation: "Los dos tipos de comentarios en SQL son: -- (doble guión) para comentarios de una sola línea, y /* */ para comentarios multilínea que pueden abarcar múltiples líneas."
+                explanation: "Se debe evitar almacenar campos calculados que se pueden derivar a partir de otros datos existentes. Esto va contra los principios de normalización y puede crear inconsistencias en la base de datos."
             },
             {
-                question: "¿Cómo funcionan las interfaces HANA Studio y WebIDE en relación con SQL?",
+                question: "En una relación 1:N, ¿cómo se implementa en el modelo relacional?",
                 options: [
-                    "Son editores de texto que no generan código automáticamente",
-                    "Solo pueden trabajar con formularios gráficos",
-                    "Son esencialmente generadores de código SQL que traducen acciones a SQL",
-                    "Requieren conocimiento avanzado de SQL para funcionar"
-                ],
-                correct: 2,
-                explanation: "Tanto HANA Studio como WebIDE son esencialmente generadores de código SQL. Pueden comunicarse con la base de datos HANA tanto trabajando de forma textual (código directo) como con entornos gráficos que traducen nuestras acciones a SQL."
-            },
-            {
-                question: "¿Por qué considera el instructor que el conocimiento de DML es 'totalmente básico'?",
-                options: [
-                    "Porque es el más fácil de aprender",
-                    "Porque permite consultas no programadas, análisis iterativo y trabajo sin desarrolladores",
-                    "Porque solo se usa en tareas simples",
-                    "Porque tiene menos comandos que DDL y DCL"
+                    "Se crea una tabla intermedia",
+                    "El lado '1' transfiere su clave primaria al lado 'N' como clave foránea",
+                    "Se duplican los datos en ambas tablas",
+                    "Se usa una clave primaria compuesta"
                 ],
                 correct: 1,
-                explanation: "El DML es considerado básico porque permite realizar consultas no programadas (información específica sin formularios), análisis iterativo (refinar consultas según resultados), rapidez (no necesitar un desarrollador para cada consulta) y flexibilidad (adaptar la consulta en tiempo real)."
+                explanation: "En una relación 1:N, el lado '1' transfiere su clave primaria al lado 'N' como clave foránea. Por ejemplo, en Clientes-Pedidos (1:N), ID_Cliente aparece como clave foránea en la tabla Pedidos."
+            },
+            {
+                question: "¿Cuál es el beneficio principal de seguir la metodología de 5 pasos para modelado de bases de datos?",
+                options: [
+                    "Acelerar el proceso de desarrollo",
+                    "Garantizar que todos los requisitos sean capturados de forma sistemática y completa",
+                    "Reducir el tamaño de la base de datos",
+                    "Mejorar automáticamente el rendimiento"
+                ],
+                correct: 1,
+                explanation: "El beneficio principal es garantizar que todos los requisitos del enunciado sean capturados de forma sistemática y completa. La metodología estructurada asegura que no se omita información importante y que el diseño sea consistente."
             }
         ];
 
@@ -621,26 +621,28 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas los conceptos básicos de HANA SQL.';
+                message = '🎉 ¡Excelente! Dominas la metodología de modelado completo.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
+                message = '👍 Buen trabajo. Practica más con ejercicios similares.';
             } else {
-                message = '📚 Necesitas repasar el material sobre lenguaje HANA SQL.';
+                message = '📚 Necesitas repasar la metodología de modelado de bases de datos.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave para dominar:</h4>
+                    <h4>📋 Puntos clave para dominar el modelado:</h4>
                     <ul>
-                        <li>Diferencia entre DDL, DML y DCL y sus comandos específicos</li>
-                        <li>HANA SQL basado en estándar SQL-92 con modificaciones SAP</li>
-                        <li>SELECT como el comando más potente y versátil de DML</li>
-                        <li>Interfaces HANA como generadores automáticos de SQL</li>
-                        <li>Uso de comentarios: -- para línea única y /* */ para multilínea</li>
-                        <li>CREATE, ALTER, DROP para definición de objetos (DDL)</li>
-                        <li>GRANT y REVOKE para control de accesos (DCL)</li>
-                        <li>Importancia de DML para consultas diarias sin desarrolladores</li>
+                        <li>Metodología sistemática de 5 pasos</li>
+                        <li>Análisis textual para identificar entidades</li>
+                        <li>Definición correcta de atributos</li>
+                        <li>Establecimiento de relaciones y cardinalidad</li>
+                        <li>Conversión a modelo relacional</li>
+                        <li>Manejo de relaciones N:M con tablas intermedias</li>
+                        <li>Identificación de entidades débiles</li>
+                        <li>Normalización y evitar redundancia</li>
+                        <li>Buenas prácticas de diseño de bases de datos</li>
+                        <li>Validación completa contra requisitos</li>
                     </ul>
                 </div>
             `;

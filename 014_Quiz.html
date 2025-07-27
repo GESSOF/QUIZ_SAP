@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 019 - Interfaces de Desarrollo SAP HANA</title>
+    <title>Quiz 014 - Práctica Modelo Entidad-Relación SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <<h1>?? Quiz 019 | SAP HANA</h1>
-            <p>Interfaces de Desarrollo - SAP HANA</p>
+            <h1>🎯 Quiz 014 | SAP HANA</h1>
+            <p>Práctica Modelo Entidad-Relación - SAP HANA</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                question: "¿Cuál es el primer paso en la metodología de análisis de texto para crear un modelo E-R?",
                 options: [
-                    "Solo para hacer el trabajo más complicado",
-                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
-                    "Porque SAP lo requiere por licencia",
-                    "Para crear archivos de respaldo automáticamente"
+                    "Identificar las relaciones entre entidades",
+                    "Marcar sustantivos como candidatos a entidades o atributos",
+                    "Crear las claves primarias",
+                    "Definir la cardinalidad de las relaciones"
                 ],
                 correct: 1,
-                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+                explanation: "El primer paso es marcar los sustantivos del texto, ya que estos son candidatos a entidades o atributos. Después se procede con los verbos para identificar relaciones."
             },
             {
-                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                question: "¿Por qué es recomendable descomponer atributos complejos como 'Nombre Completo' en elementos más básicos?",
                 options: [
-                    "Eclipse y Visual Studio",
-                    "SAP HANA Studio y Web IDE",
-                    "SQL Server Management Studio y phpMyAdmin",
-                    "Cockpit y Database Explorer"
+                    "Para ocupar más espacio en la base de datos",
+                    "Para mayor versatilidad en consultas y mejor gestión de datos",
+                    "Es una regla obligatoria en SAP HANA",
+                    "Para hacer el diseño más complicado"
                 ],
                 correct: 1,
-                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
+                explanation: "Descomponer atributos como 'Nombre Completo' en 'Nombre', 'Apellido1', 'Apellido2' permite consultas más específicas, mejor gestión interna y evita procesamiento adicional de cadenas."
             },
             {
-                question: "¿En qué tecnología se basa SAP HANA Studio?",
+                question: "¿Cuándo un atributo debe ubicarse en la relación y no en una entidad?",
                 options: [
-                    "Visual Studio",
-                    "IntelliJ IDEA", 
-                    "Eclipse",
-                    "NetBeans"
+                    "Cuando es un campo numérico",
+                    "Cuando nace de la relación entre dos entidades y requiere información de ambas",
+                    "Cuando es un campo de texto largo",
+                    "Cuando es una fecha"
+                ],
+                correct: 1,
+                explanation: "Un atributo va en la relación cuando 'nace' de la conexión entre dos entidades, como la 'nota' de un alumno en una asignatura, que solo tiene sentido con ambas entidades."
+            },
+            {
+                question: "En el ejemplo del sistema escolar, ¿cuál es la cardinalidad de la relación IMPARTE entre PROFESORES y ALUMNOS?",
+                options: [
+                    "1:1 (uno a uno)",
+                    "1:N (uno a muchos)",
+                    "N:M (muchos a muchos)",
+                    "No existe relación directa"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Studio se basa en Eclipse, un entorno de desarrollo libre, extensible mediante plugins, que funciona para múltiples lenguajes de programación."
+                explanation: "Es una relación N:M porque un alumno puede tener varios profesores y un profesor puede tener varios alumnos. Esto requiere tratamiento especial en el modelo relacional."
             },
             {
-                question: "¿Cuál es el estado actual de SAP HANA Studio?",
+                question: "¿Qué es el sistema de mandantes en SAP?",
                 options: [
-                    "Es la interfaz recomendada para nuevos proyectos",
-                    "Está en activo pero condenado a desaparecer",
-                    "Ya no funciona con HANA 2.0",
-                    "Se ha convertido en una aplicación web"
+                    "Un tipo de relación entre entidades",
+                    "Una distribución por clientes que separa información en la misma base de datos física",
+                    "Un método de autenticación de usuarios",
+                    "Una herramienta de respaldo de datos"
                 ],
                 correct: 1,
-                explanation: "HANA Studio sigue en activo y se puede conectar, pero está condenado a desaparecer. SAP recomienda migrar completamente al entorno web (Web IDE)."
+                explanation: "El sistema de mandantes permite separar información de diferentes organizaciones en la misma base de datos física, donde cada usuario solo accede a datos de su mandante específico."
             },
             {
-                question: "¿Cuál es la principal ventaja del Web IDE sobre HANA Studio?",
+                question: "En el ejercicio completo del sistema comercial, ¿cuál es la cardinalidad entre PROVEEDORES y PRODUCTOS?",
                 options: [
-                    "Es más rápido en procesamiento",
-                    "Tiene más funcionalidades de desarrollo",
-                    "No requiere instalación, acceso desde cualquier navegador",
-                    "Solo funciona con HANA 1.0"
+                    "N:M (muchos a muchos)",
+                    "1:1 (uno a uno)",
+                    "1:N (uno a muchos)",
+                    "No pueden relacionarse"
                 ],
                 correct: 2,
-                explanation: "El Web IDE es accesible desde cualquier navegador sin necesidad de instalación, ofrece actualizaciones automáticas y es la interfaz moderna recomendada por SAP para todo desarrollo."
+                explanation: "Es 1:N porque según el enunciado 'un producto solo puede ser suministrado por un proveedor' pero 'un proveedor puede suministrar diferentes productos'."
             },
             {
-                question: "¿Cuál es el propósito principal del Cockpit en el ecosistema HANA?",
+                question: "¿Cuándo es preferible usar una clave primaria artificial (como ID) en lugar de una natural (como DNI)?",
                 options: [
-                    "Desarrollo de aplicaciones y consultas SQL",
-                    "Administración del sistema, usuarios y monitoreo",
-                    "Crear diagramas entidad-relación",
-                    "Backup automático de datos"
+                    "Siempre, en todos los casos",
+                    "Nunca, las claves naturales son siempre mejores",
+                    "Cuando no existe un campo natural único o para simplificar el diseño",
+                    "Solo en tablas con menos de 100 registros"
                 ],
-                correct: 1,
-                explanation: "El Cockpit es la interfaz de administración web enfocada en tareas administrativas: gestión de usuarios, permisos, monitoreo del sistema, configuración del servidor y backup."
+                correct: 2,
+                explanation: "Se usa clave artificial cuando no hay un campo natural único disponible o cuando se quiere simplificar el diseño. En el ejemplo de CLIENTES se agregó un ID porque no había un identificador único claro."
             },
             {
-                question: "¿Con qué versión de HANA se introdujo el Web IDE?",
+                question: "Al analizar el texto de requisitos del cliente, ¿qué elementos generalmente se descartan durante el análisis?",
                 options: [
-                    "HANA 1.0",
-                    "HANA 2.0",
-                    "HANA 3.0",
-                    "Desde el inicio de HANA"
+                    "Los sustantivos que representan entidades principales",
+                    "Los verbos que indican relaciones importantes",
+                    "Palabras como 'base de datos', 'queremos', 'guardar' que se refieren al proceso",
+                    "Los atributos específicos de las entidades"
                 ],
-                correct: 1,
-                explanation: "El Web IDE se inició con HANA 2.0 como la nueva interfaz principal, mientras que en HANA 1.0 el método principal era SAP HANA Studio basado en Eclipse."
-            },
-            {
-                question: "¿Cuál es la estrategia actual de SAP para las interfaces de HANA?",
-                options: [
-                    "Mantener solo HANA Studio para compatibilidad",
-                    "Trabajar 100% con entorno web (Web IDE + Cockpit)",
-                    "Crear una nueva aplicación de escritorio",
-                    "Integrar todo en SAP GUI"
-                ],
-                correct: 1,
-                explanation: "La estrategia actual de SAP es trabajar 100% con el entorno web: Web IDE para desarrollo y consultas, Cockpit para administración, eliminando gradualmente HANA Studio."
+                correct: 2,
+                explanation: "Se descartan palabras que se refieren al proceso de desarrollo o aspectos técnicos, no al dominio del problema. Por ejemplo, 'base de datos', 'queremos', 'guardar' no son parte del modelo conceptual."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            �?Anterior
+                            ← Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
                         </button>
                     </div>
                 </div>
@@ -621,11 +621,11 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas las interfaces de desarrollo SAP HANA.';
+                message = '🎉 ¡Excelente! Dominas la metodología práctica del modelo E-R.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
+                message = '👍 Buen trabajo. Repasa algunos aspectos de la metodología práctica.';
             } else {
-                message = '📚 Necesitas repasar el material sobre interfaces HANA.';
+                message = '📚 Necesitas practicar más el análisis de texto y modelado E-R.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
@@ -633,16 +633,14 @@
                 <div class="study-tips">
                     <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Diferencia entre HANA SQL y otros lenguajes de programación</li>
-                        <li>Necesidad de interfaces especializadas para conectar con la BD</li>
-                        <li>SAP HANA Studio: basado en Eclipse, legacy, en declive</li>
-                        <li>Web IDE: interfaz web moderna, recomendada para desarrollo</li>
-                        <li>Cockpit: herramienta de administración web</li>
-                        <li>Evolución de HANA 1.0 (Studio) a HANA 2.0 (Web IDE)</li>
-                        <li>Estrategia actual: 100% entorno web</li>
-                        <li>Cuándo usar cada interfaz según el propósito</li>
-                        <li>Ventajas del entorno web vs aplicaciones de escritorio</li>
-                        <li>Importancia para certificaciones SAP HANA</li>
+                        <li>Metodología de análisis de texto: sustantivos y verbos</li>
+                        <li>Descomposición de atributos complejos para mayor eficiencia</li>
+                        <li>Identificación de atributos que pertenecen a las relaciones</li>
+                        <li>Análisis de cardinalidad en relaciones (1:1, 1:N, N:M)</li>
+                        <li>Sistema de mandantes en SAP para separación de datos</li>
+                        <li>Definición apropiada de claves primarias naturales vs artificiales</li>
+                        <li>Filtrado de elementos irrelevantes en el análisis</li>
+                        <li>Transformación sistemática de requisitos a modelo conceptual</li>
                     </ul>
                 </div>
             `;

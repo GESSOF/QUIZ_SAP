@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 002 - SAP HANA - Arquitectura y Componentes</title>
+    <title>No Disponible - Portal Educativo</title>
     <style>
         * {
             margin: 0;
@@ -12,854 +12,99 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            text-align: center;
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
+            padding: 60px 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 5px solid #667eea;
-            display: none;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .question-card.active {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .question-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .question-number {
-            color: #667eea;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .category-tag {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .difficulty-indicator {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        .difficulty-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .difficulty-dot.active {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-        }
-
-        .question-text {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            color: #333;
-        }
-
-        .options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .option.correct {
-            border-color: #4CAF50;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-        }
-
-        .option.incorrect {
-            border-color: #f44336;
-            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
-            color: white;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .explanation {
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
-            border-left: 4px solid #4CAF50;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .explanation.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .explanation h4 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .final-score {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            display: none;
-            margin-top: 30px;
-        }
-
-        .final-score.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5em;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-        }
-
-        .progress-bar {
+            max-width: 600px;
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #2d3748;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -1px;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            border-radius: 4px;
-            transition: width 0.8s ease;
+        .subtitle {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
-        .study-tips {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-left: 4px solid #ff9800;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
 
-        .study-tips h4 {
-            color: #e65100;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .study-tips ul {
-            margin-left: 20px;
-        }
-
-        .study-tips li {
-            margin-bottom: 8px;
-            color: #bf360c;
-        }
-
-        .exam-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        .exam-note strong {
-            color: #e65100;
-        }
 
         @media (max-width: 768px) {
             .container {
-                margin: 10px;
+                padding: 40px 20px;
             }
             
-            .content {
-                padding: 20px;
+            .main-title {
+                font-size: 2.5rem;
             }
             
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-
-            .question-meta {
-                flex-direction: column;
-                align-items: flex-start;
+            .subtitle {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🧠 Quiz 002 - SAP HANA</h1>
-            <p>Arquitectura y Componentes - Preparación para Certificación</p>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="currentQuestion">1</span>
-                    <span>Pregunta</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">20</span>
-                    <span>Total</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="score">0</span>
-                    <span>Puntaje</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
+        <div class="icon">📚</div>
+        
+		<h1 class="main-title">QUIZ 002</h1>
+        <h1 class="main-title">NO DISPONIBLE</h1>
+        
+        <p class="subtitle">Contenido temporalmente inaccesible</p>
+        
 
-        <div class="content">
-            <div id="questionContainer"></div>
-            
-            <div class="final-score" id="finalScore">
-                <div class="score-circle" id="finalScoreCircle">0%</div>
-                <h2>¡Quiz Completado!</h2>
-                <p id="scoreMessage"></p>
-                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
-            </div>
-        </div>
     </div>
-
-    <script>
-        const questions = [
-            {
-                id: 1,
-                category: "Ediciones de SAP HANA",
-                difficulty: 1,
-                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
-                options: [
-                    "Standard, Professional, Enterprise",
-                    "Standard, Enterprise, Express",
-                    "Basic, Advanced, Premium",
-                    "Starter, Business, Enterprise"
-                ],
-                correct: 1,
-                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
-            },
-            {
-                id: 2,
-                category: "SAP HANA Express Edition",
-                difficulty: 1,
-                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
-                options: [
-                    "Es la más potente",
-                    "Es totalmente gratuita",
-                    "Solo funciona en la nube",
-                    "Requiere más memoria"
-                ],
-                correct: 1,
-                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
-            },
-            {
-                id: 3,
-                category: "SAP HANA Express Edition",
-                difficulty: 2,
-                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
-                options: [
-                    "16 GB",
-                    "32 GB",
-                    "64 GB",
-                    "128 GB"
-                ],
-                correct: 1,
-                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
-            },
-            {
-                id: 4,
-                category: "Motor XSA",
-                difficulty: 3,
-                question: "¿En qué estándar abierto se basa el motor XSA?",
-                options: [
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Foundry",
-                    "OpenStack"
-                ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
-                examNote: true
-            },
-            {
-                id: 5,
-                category: "Herramientas ETL",
-                difficulty: 2,
-                question: "¿Qué significa SDI en el contexto de SAP HANA?",
-                options: [
-                    "System Data Integration",
-                    "Smart Data Integration",
-                    "Secure Data Interface",
-                    "Standard Data Import"
-                ],
-                correct: 1,
-                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
-            },
-            {
-                id: 6,
-                category: "Calidad de Datos",
-                difficulty: 2,
-                question: "¿Qué significa SDQ en SAP HANA?",
-                options: [
-                    "Smart Data Quality",
-                    "System Data Query",
-                    "Secure Data Queue",
-                    "Standard Data Quantity"
-                ],
-                correct: 0,
-                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
-            },
-            {
-                id: 7,
-                category: "Herramientas de Desarrollo",
-                difficulty: 3,
-                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
-                options: [
-                    "Web IDE es más antiguo",
-                    "No hay diferencia",
-                    "Web IDE es para XSA, Studio es para XS",
-                    "Studio es solo para administración"
-                ],
-                correct: 2,
-                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
-                examNote: true
-            },
-            {
-                id: 8,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
-                options: [
-                    "Mover datos al disco",
-                    "Realizar procesamientos en la capa de base de datos",
-                    "Comprimir información",
-                    "Reducir el uso de memoria"
-                ],
-                correct: 1,
-                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
-                examNote: true
-            },
-            {
-                id: 9,
-                category: "Arquitectura SAP",
-                difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
-                options: [
-                    "2 capas: Cliente y Servidor",
-                    "3 capas: Cliente, Aplicación y Base de datos",
-                    "4 capas: Cliente, Web, Aplicación y Base de datos",
-                    "1 capa: Todo integrado"
-                ],
-                correct: 1,
-                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
-            },
-            {
-                id: 10,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Qué es Dynamic Tiering en SAP HANA?",
-                options: [
-                    "Un sistema de copias de seguridad",
-                    "Una capa basada en disco para datos menos críticos",
-                    "Un método de compresión",
-                    "Una técnica de indexación"
-                ],
-                correct: 1,
-                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
-            },
-            {
-                id: 11,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
-                options: [
-                    "Motor OLAP",
-                    "Motor JOIN",
-                    "Motor de Cálculo",
-                    "Motor SQL"
-                ],
-                correct: 2,
-                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
-            },
-            {
-                id: 12,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
-                options: [
-                    "Crear documentos",
-                    "Búsquedas difusas y minería de texto",
-                    "Traducir idiomas",
-                    "Formatear texto"
-                ],
-                correct: 1,
-                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
-            },
-            {
-                id: 13,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
-                options: [
-                    "Gestión de memoria",
-                    "Análisis de datos espaciales y geográficos",
-                    "Optimización de consultas",
-                    "Backup de datos"
-                ],
-                correct: 1,
-                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
-            },
-            {
-                id: 14,
-                category: "Motores de SAP HANA",
-                difficulty: 2,
-                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
-                options: [
-                    "Datos financieros",
-                    "Datos altamente conectados en red",
-                    "Datos de texto",
-                    "Datos multimedia"
-                ],
-                correct: 1,
-                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
-            },
-            {
-                id: 15,
-                category: "Herramientas ETL",
-                difficulty: 1,
-                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
-                options: [
-                    "Error, Test, Load",
-                    "Extract, Transform, Load",
-                    "Execute, Transfer, Link",
-                    "Export, Transfer, List"
-                ],
-                correct: 1,
-                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
-            },
-            {
-                id: 16,
-                category: "Tecnología In-Memory",
-                difficulty: 2,
-                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
-                options: [
-                    "Menor costo de hardware",
-                    "Eliminar el cuello de botella entre disco duro y RAM",
-                    "Mayor capacidad de almacenamiento",
-                    "Mejor interfaz de usuario"
-                ],
-                correct: 1,
-                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
-            },
-            {
-                id: 17,
-                category: "Herramientas de Administración",
-                difficulty: 2,
-                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
-                options: [
-                    "Web IDE for SAP HANA",
-                    "SAP HANA Studio",
-                    "SAP HANA Cockpit",
-                    "SAP HANA Express"
-                ],
-                correct: 2,
-                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
-            },
-            {
-                id: 18,
-                category: "Herramientas ETL",
-                difficulty: 2,
-                question: "¿Qué es SLT en el ecosistema SAP HANA?",
-                options: [
-                    "Sistema de respaldo",
-                    "SAP Landscape Transformation Replication Server",
-                    "Herramienta de desarrollo",
-                    "Sistema de monitoreo"
-                ],
-                correct: 1,
-                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
-            },
-            {
-                id: 19,
-                category: "Gestión de Datos",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
-                options: [
-                    "Temperatura física del hardware",
-                    "Frecuencia de acceso a los datos",
-                    "Tipo de encriptación",
-                    "Formato de almacenamiento"
-                ],
-                correct: 1,
-                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
-            },
-            {
-                id: 20,
-                category: "Motor XS vs XSA",
-                difficulty: 3,
-                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
-                options: [
-                    "Menor velocidad",
-                    "No fue diseñado para aplicaciones empresariales escalables",
-                    "Mayor consumo de memoria",
-                    "Incompatibilidad con Windows"
-                ],
-                correct: 1,
-                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let score = 0;
-
-        function initQuiz() {
-            displayQuestion();
-            updateProgress();
-        }
-
-        function displayQuestion() {
-            const container = document.getElementById('questionContainer');
-            const question = questions[currentQuestionIndex];
-            
-            container.innerHTML = `
-                <div class="question-card active">
-                    <div class="question-meta">
-                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
-                        <div class="category-tag">${question.category}</div>
-                        <div class="difficulty-indicator">
-                            ${Array.from({length: 3}, (_, i) => 
-                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
-                            ).join('')}
-                        </div>
-                    </div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options" id="options">
-                        ${question.options.map((option, index) => `
-                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
-                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="explanation" id="explanation">
-                        <h4>💡 Explicación:</h4>
-                        <p>${question.explanation}</p>
-                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
-                    </div>
-                    <div class="buttons">
-                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            ← Anterior
-                        </button>
-                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
-                            Confirmar Respuesta
-                        </button>
-                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Restore previous answer if exists
-            if (userAnswers[currentQuestionIndex] !== undefined) {
-                selectOption(userAnswers[currentQuestionIndex]);
-                submitAnswer();
-            }
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll('.option');
-            options.forEach(option => option.classList.remove('selected'));
-            options[index].classList.add('selected');
-            
-            document.getElementById('submitBtn').disabled = false;
-        }
-
-        function submitAnswer() {
-            const selectedOption = document.querySelector('.option.selected');
-            if (!selectedOption) return;
-            
-            const selectedIndex = parseInt(selectedOption.dataset.index);
-            const question = questions[currentQuestionIndex];
-            
-            userAnswers[currentQuestionIndex] = selectedIndex;
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.onclick = null;
-                if (index === question.correct) {
-                    option.classList.add('correct');
-                } else if (index === selectedIndex && index !== question.correct) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            document.getElementById('explanation').classList.add('show');
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'block';
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-                updateProgress();
-            } else {
-                showFinalScore();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-                updateProgress();
-            }
-        }
-
-        function updateProgress() {
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            // Update score
-            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
-            document.getElementById('score').textContent = score;
-        }
-
-        function showFinalScore() {
-            const finalScore = Math.round((score / questions.length) * 100);
-            
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('finalScore').classList.add('show');
-            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
-            
-            let message = '';
-            if (finalScore >= 90) {
-                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
-            } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
-            } else {
-                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
-            }
-            
-            document.getElementById('scoreMessage').innerHTML = `
-                <p>${message}</p>
-                <div class="study-tips">
-                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
-                    <ul>
-                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
-                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
-                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
-                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
-                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
-                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
-                        <li>Tecnología In-Memory y sus ventajas</li>
-                    </ul>
-                </div>
-            `;
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            score = 0;
-            
-            document.getElementById('questionContainer').style.display = 'block';
-            document.getElementById('finalScore').classList.remove('show');
-            
-            initQuiz();
-        }
-
-        // Initialize quiz when page loads
-        window.onload = initQuiz;
-    </script>
 </body>
 </html>

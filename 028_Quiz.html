@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 019 - Interfaces de Desarrollo SAP HANA</title>
+    <title>Quiz 028 - Comando DELETE SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <<h1>?? Quiz 019 | SAP HANA</h1>
-            <p>Interfaces de Desarrollo - SAP HANA</p>
+            <h1>🎯 Quiz 028 | SAP HANA</h1>
+            <p>Comando DELETE - SAP HANA</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                question: "¿Por qué se considera DELETE el comando más peligroso de SQL?",
                 options: [
-                    "Solo para hacer el trabajo más complicado",
-                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
-                    "Porque SAP lo requiere por licencia",
-                    "Para crear archivos de respaldo automáticamente"
+                    "Porque es muy complejo de escribir",
+                    "Porque sin WHERE elimina TODA la tabla y es irreversible",
+                    "Porque solo funciona en SAP HANA",
+                    "Porque requiere permisos especiales"
                 ],
                 correct: 1,
-                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+                explanation: "DELETE sin WHERE elimina TODOS los registros de la tabla de forma permanente. A diferencia de UPDATE que modifica datos, DELETE los elimina completamente, siendo solo recuperables desde backups."
             },
             {
-                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                question: "¿Cuál es la sintaxis correcta básica del comando DELETE?",
                 options: [
-                    "Eclipse y Visual Studio",
-                    "SAP HANA Studio y Web IDE",
-                    "SQL Server Management Studio y phpMyAdmin",
-                    "Cockpit y Database Explorer"
+                    "DELETE tabla WHERE condición",
+                    "DELETE FROM tabla WHERE condición",
+                    "DELETE * FROM tabla WHERE condición",
+                    "DELETE ROWS FROM tabla WHERE condición"
                 ],
                 correct: 1,
-                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
+                explanation: "La sintaxis correcta es DELETE FROM tabla WHERE condición. Es extremadamente simple: solo dos palabras clave obligatorias (DELETE FROM) y opcionalmente WHERE, lo que la hace engañosamente peligrosa."
             },
             {
-                question: "¿En qué tecnología se basa SAP HANA Studio?",
+                question: "¿Cuál es la principal diferencia entre UPDATE y DELETE?",
                 options: [
-                    "Visual Studio",
-                    "IntelliJ IDEA", 
-                    "Eclipse",
-                    "NetBeans"
+                    "UPDATE es más rápido que DELETE",
+                    "UPDATE modifica valores existentes, DELETE elimina registros completos",
+                    "DELETE solo funciona con números",
+                    "No hay diferencias significativas"
+                ],
+                correct: 1,
+                explanation: "UPDATE modifica valores existentes manteniendo los registros en la tabla. DELETE elimina registros completos, haciendo que desaparezcan permanentemente de la tabla."
+            },
+            {
+                question: "¿Qué sucede si ejecutas 'DELETE FROM empleados;' (sin WHERE)?",
+                options: [
+                    "Se eliminan solo los empleados inactivos",
+                    "Se eliminan TODOS los empleados de la tabla",
+                    "El sistema pide confirmación",
+                    "Se produce un error de sintaxis"
+                ],
+                correct: 1,
+                explanation: "DELETE FROM tabla sin WHERE elimina TODOS los registros de la tabla. Es catastrófico: todos los empleados desaparecerían permanentemente, solo recuperables desde backup con pérdida de datos posteriores."
+            },
+            {
+                question: "¿Cuál es el protocolo de seguridad OBLIGATORIO antes de ejecutar DELETE?",
+                options: [
+                    "Hacer backup de toda la base de datos",
+                    "Usar SELECT con el mismo WHERE para verificar qué se eliminará",
+                    "Pedir autorización al supervisor",
+                    "Ejecutar en horario nocturno"
+                ],
+                correct: 1,
+                explanation: "SIEMPRE debes usar SELECT con exactamente el mismo WHERE que planeas usar en DELETE. Esto te permite verificar cuántos registros se eliminarán y confirmar que son los correctos antes de la eliminación irreversible."
+            },
+            {
+                question: "En la cláusula WHERE de DELETE, ¿qué funcionalidades puedes usar?",
+                options: [
+                    "Solo operadores de igualdad (=)",
+                    "Toda la funcionalidad disponible en SELECT: operadores, patrones, subconsultas",
+                    "Solo campos numéricos",
+                    "Máximo dos condiciones"
+                ],
+                correct: 1,
+                explanation: "WHERE en DELETE acepta toda la potencia que has aprendido en SELECT: operadores de comparación, LIKE, BETWEEN, IN, subconsultas, AND, OR, etc. Si puedes escribirlo en SELECT, puedes usarlo en DELETE."
+            },
+            {
+                question: "¿Cómo puedes recuperar datos eliminados accidentalmente con DELETE?",
+                options: [
+                    "Usando el comando UNDELETE",
+                    "Solo desde copias de seguridad (backups)",
+                    "Con ROLLBACK siempre funciona",
+                    "Los datos se recuperan automáticamente"
+                ],
+                correct: 1,
+                explanation: "DELETE es permanente. Los datos eliminados solo se pueden recuperar desde copias de seguridad, perdiendo cualquier cambio posterior al backup. Por eso el protocolo de verificación previa es VITAL."
+            },
+            {
+                question: "¿Cuál es la secuencia correcta del protocolo de seguridad para DELETE?",
+                options: [
+                    "DELETE → verificar → backup",
+                    "Backup → DELETE → verificar",
+                    "SELECT verificar → COUNT registros → DELETE → verificar resultado",
+                    "DELETE → SELECT → corregir errores"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Studio se basa en Eclipse, un entorno de desarrollo libre, extensible mediante plugins, que funciona para múltiples lenguajes de programación."
-            },
-            {
-                question: "¿Cuál es el estado actual de SAP HANA Studio?",
-                options: [
-                    "Es la interfaz recomendada para nuevos proyectos",
-                    "Está en activo pero condenado a desaparecer",
-                    "Ya no funciona con HANA 2.0",
-                    "Se ha convertido en una aplicación web"
-                ],
-                correct: 1,
-                explanation: "HANA Studio sigue en activo y se puede conectar, pero está condenado a desaparecer. SAP recomienda migrar completamente al entorno web (Web IDE)."
-            },
-            {
-                question: "¿Cuál es la principal ventaja del Web IDE sobre HANA Studio?",
-                options: [
-                    "Es más rápido en procesamiento",
-                    "Tiene más funcionalidades de desarrollo",
-                    "No requiere instalación, acceso desde cualquier navegador",
-                    "Solo funciona con HANA 1.0"
-                ],
-                correct: 2,
-                explanation: "El Web IDE es accesible desde cualquier navegador sin necesidad de instalación, ofrece actualizaciones automáticas y es la interfaz moderna recomendada por SAP para todo desarrollo."
-            },
-            {
-                question: "¿Cuál es el propósito principal del Cockpit en el ecosistema HANA?",
-                options: [
-                    "Desarrollo de aplicaciones y consultas SQL",
-                    "Administración del sistema, usuarios y monitoreo",
-                    "Crear diagramas entidad-relación",
-                    "Backup automático de datos"
-                ],
-                correct: 1,
-                explanation: "El Cockpit es la interfaz de administración web enfocada en tareas administrativas: gestión de usuarios, permisos, monitoreo del sistema, configuración del servidor y backup."
-            },
-            {
-                question: "¿Con qué versión de HANA se introdujo el Web IDE?",
-                options: [
-                    "HANA 1.0",
-                    "HANA 2.0",
-                    "HANA 3.0",
-                    "Desde el inicio de HANA"
-                ],
-                correct: 1,
-                explanation: "El Web IDE se inició con HANA 2.0 como la nueva interfaz principal, mientras que en HANA 1.0 el método principal era SAP HANA Studio basado en Eclipse."
-            },
-            {
-                question: "¿Cuál es la estrategia actual de SAP para las interfaces de HANA?",
-                options: [
-                    "Mantener solo HANA Studio para compatibilidad",
-                    "Trabajar 100% con entorno web (Web IDE + Cockpit)",
-                    "Crear una nueva aplicación de escritorio",
-                    "Integrar todo en SAP GUI"
-                ],
-                correct: 1,
-                explanation: "La estrategia actual de SAP es trabajar 100% con el entorno web: Web IDE para desarrollo y consultas, Cockpit para administración, eliminando gradualmente HANA Studio."
+                explanation: "Protocolo correcto: 1) SELECT con mismo WHERE (verificar QUÉ se eliminará), 2) COUNT registros (verificar CUÁNTOS), 3) DELETE con confianza, 4) Verificar resultado. El backup es recomendable en datos críticos antes del DELETE."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            �?Anterior
+                            ← Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
                         </button>
                     </div>
                 </div>
@@ -621,28 +621,26 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas las interfaces de desarrollo SAP HANA.';
+                message = '🎉 ¡Excelente! Dominas el comando DELETE y su protocolo de seguridad.';
             } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
+                message = '👍 Buen trabajo. Repasa el protocolo de seguridad para perfeccionar.';
             } else {
-                message = '📚 Necesitas repasar el material sobre interfaces HANA.';
+                message = '⚠️ CRÍTICO: Debes dominar DELETE antes de usarlo en producción.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave para dominar:</h4>
+                    <h4>🛡️ Puntos críticos para dominar DELETE:</h4>
                     <ul>
-                        <li>Diferencia entre HANA SQL y otros lenguajes de programación</li>
-                        <li>Necesidad de interfaces especializadas para conectar con la BD</li>
-                        <li>SAP HANA Studio: basado en Eclipse, legacy, en declive</li>
-                        <li>Web IDE: interfaz web moderna, recomendada para desarrollo</li>
-                        <li>Cockpit: herramienta de administración web</li>
-                        <li>Evolución de HANA 1.0 (Studio) a HANA 2.0 (Web IDE)</li>
-                        <li>Estrategia actual: 100% entorno web</li>
-                        <li>Cuándo usar cada interfaz según el propósito</li>
-                        <li>Ventajas del entorno web vs aplicaciones de escritorio</li>
-                        <li>Importancia para certificaciones SAP HANA</li>
+                        <li><strong>Peligro extremo:</strong> DELETE sin WHERE = tabla vacía</li>
+                        <li><strong>Protocolo obligatorio:</strong> SELECT primero, DELETE después</li>
+                        <li><strong>Diferencia vital:</strong> UPDATE modifica, DELETE elimina</li>
+                        <li><strong>WHERE completo:</strong> Toda funcionalidad de SELECT disponible</li>
+                        <li><strong>Irreversibilidad:</strong> Solo backup puede salvar datos perdidos</li>
+                        <li><strong>Verificación triple:</strong> SELECT → COUNT → DELETE → verificar</li>
+                        <li><strong>Entornos seguros:</strong> Nunca practicar en producción</li>
+                        <li><strong>Mantra vital:</strong> "SELECT primero, DELETE después, verificar siempre"</li>
                     </ul>
                 </div>
             `;

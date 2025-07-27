@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz SAP HANA - Escenarios de Implementación</title>
+    <title>No Disponible - Portal Educativo</title>
     <style>
         * {
             margin: 0;
@@ -12,766 +12,99 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            text-align: center;
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
+            padding: 60px 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 5px solid #667eea;
-            display: none;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .question-card.active {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .question-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .question-number {
-            color: #667eea;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .category-tag {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .difficulty-indicator {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        .difficulty-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .difficulty-dot.active {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-        }
-
-        .question-text {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            color: #333;
-        }
-
-        .options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .option.correct {
-            border-color: #4CAF50;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-        }
-
-        .option.incorrect {
-            border-color: #f44336;
-            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
-            color: white;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .explanation {
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
-            border-left: 4px solid #4CAF50;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .explanation.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .explanation h4 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .final-score {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            display: none;
-            margin-top: 30px;
-        }
-
-        .final-score.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5em;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-        }
-
-        .progress-bar {
+            max-width: 600px;
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #2d3748;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -1px;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            border-radius: 4px;
-            transition: width 0.8s ease;
+        .subtitle {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
-        .study-tips {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-left: 4px solid #ff9800;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
 
-        .study-tips h4 {
-            color: #e65100;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .study-tips ul {
-            margin-left: 20px;
-        }
-
-        .study-tips li {
-            margin-bottom: 8px;
-            color: #bf360c;
-        }
 
         @media (max-width: 768px) {
             .container {
-                margin: 10px;
+                padding: 40px 20px;
             }
             
-            .content {
-                padding: 20px;
+            .main-title {
+                font-size: 2.5rem;
             }
             
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-
-            .question-meta {
-                flex-direction: column;
-                align-items: flex-start;
+            .subtitle {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎯 Quiz SAP HANA</h1>
-            <p>Escenarios de Implementación - Preparación para Certificación</p>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="currentQuestion">1</span>
-                    <span>Pregunta</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">15</span>
-                    <span>Total</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="score">0</span>
-                    <span>Puntaje</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
+        <div class="icon">📚</div>
+        
+		<h1 class="main-title">QUIZ 001</h1>
+        <h1 class="main-title">NO DISPONIBLE</h1>
+        
+        <p class="subtitle">Contenido temporalmente inaccesible</p>
+        
 
-        <div class="content">
-            <div id="questionContainer"></div>
-            
-            <div class="final-score" id="finalScore">
-                <div class="score-circle" id="finalScoreCircle">0%</div>
-                <h2>¡Quiz Completado!</h2>
-                <p id="scoreMessage"></p>
-                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
-            </div>
-        </div>
     </div>
-
-    <script>
-        const questions = [
-            {
-                id: 1,
-                category: "Escenarios de Implementación",
-                difficulty: 2,
-                question: "¿Cuál es el propósito principal de SAP HANA como acelerador?",
-                options: [
-                    "Reemplazar completamente el sistema SAP existente",
-                    "Replicar en tiempo real la base de datos existente para acelerar la obtención de datos",
-                    "Crear una nueva arquitectura de tres capas",
-                    "Eliminar la necesidad de herramientas ETL"
-                ],
-                correct: 1,
-                explanation: "SAP HANA como acelerador replica en tiempo real la base de datos ya existente en el sistema SAP, logrando una gran aceleración en la obtención de datos sin necesidad de mover todo el sistema existente."
-            },
-            {
-                id: 2,
-                category: "Arquitectura y Componentes",
-                difficulty: 3,
-                question: "¿Qué significa XSA en el contexto de SAP HANA 2.0?",
-                options: [
-                    "eXtended Services Advanced",
-                    "eXtended Server Application",
-                    "eXtended SAP Architecture",
-                    "eXtended System Administration"
-                ],
-                correct: 0,
-                explanation: "XSA significa eXtended Services Advanced Model, que es el servidor de aplicaciones presentado en HANA 2.0, sustituyendo al XS (eXtended Services) de HANA 1.0."
-            },
-            {
-                id: 3,
-                category: "Conceptos Técnicos",
-                difficulty: 3,
-                question: "¿Qué es el 'push down' en SAP HANA?",
-                options: [
-                    "Mover datos desde la memoria al disco",
-                    "Transferir el procesamiento desde el servidor de aplicaciones a la base de datos",
-                    "Comprimir datos para optimizar el almacenamiento",
-                    "Replicar datos entre diferentes sistemas"
-                ],
-                correct: 1,
-                explanation: "El 'push down' consiste en forzar todas las operaciones de procesamiento a nivel de la base de datos en lugar del servidor de aplicaciones, aprovechando la velocidad y capacidades de HANA."
-            },
-            {
-                id: 4,
-                category: "Herramientas de Desarrollo",
-                difficulty: 2,
-                question: "¿Cuál es la herramienta principal para desarrollar aplicaciones en SAP HANA 2.0?",
-                options: [
-                    "SAP HANA Studio",
-                    "SAP Web IDE",
-                    "Eclipse con plugins SAP",
-                    "Visual Studio Code"
-                ],
-                correct: 1,
-                explanation: "SAP Web IDE es la herramienta principal para desarrollar aplicaciones en HANA 2.0 (XSA), mientras que HANA Studio se usaba para HANA 1.0 (XS) y está destinado a desaparecer."
-            },
-            {
-                id: 5,
-                category: "Plataformas y Servicios",
-                difficulty: 2,
-                question: "¿Qué tipo de plataforma es el motor XSA según la documentación SAP?",
-                options: [
-                    "Infrastructure as a Service (IaaS)",
-                    "Software as a Service (SaaS)",
-                    "Platform as a Service (PaaS) de código abierto de Cloud Foundry",
-                    "Database as a Service (DBaaS)"
-                ],
-                correct: 2,
-                explanation: "El motor XSA es un Platform as a Service (PaaS) de código abierto de Cloud Foundry. Esta es una respuesta exacta que aparece en exámenes de certificación."
-            },
-            {
-                id: 6,
-                category: "Virtualización de Datos",
-                difficulty: 3,
-                question: "¿Qué significa 'virtualización de datos' en SAP HANA Analytics?",
-                options: [
-                    "Crear copias físicas de los datos en diferentes servidores",
-                    "Reorganizar datos al vuelo sin almacenarlos físicamente en disco",
-                    "Comprimir datos para ahorrar espacio",
-                    "Encriptar datos para mayor seguridad"
-                ],
-                correct: 1,
-                explanation: "La virtualización de datos significa que los datos se reorganizan al vuelo (en memoria volátil) sin estar grabados en disco, permitiendo diferentes estructuras de datos sin ocupar espacio adicional."
-            },
-            {
-                id: 7,
-                category: "Modelos de Datos",
-                difficulty: 2,
-                question: "¿Qué modelo de organización de datos se utiliza tradicionalmente en Business Warehouse?",
-                options: [
-                    "Modelo relacional",
-                    "Modelo en estrella",
-                    "Modelo jerárquico",
-                    "Modelo de red"
-                ],
-                correct: 1,
-                explanation: "En Business Warehouse se utiliza el modelo en estrella para organizar la información de manera más eficiente para análisis, diferente del modelo relacional tradicional."
-            },
-            {
-                id: 8,
-                category: "Arquitectura de Aplicaciones",
-                difficulty: 2,
-                question: "¿Cuántas capas tiene la arquitectura tradicional de un sistema SAP Business Suite?",
-                options: [
-                    "2 capas",
-                    "3 capas",
-                    "4 capas",
-                    "5 capas"
-                ],
-                correct: 1,
-                explanation: "La arquitectura tradicional de SAP Business Suite tiene 3 capas: capa de presentación (cliente), servidor de aplicaciones, y capa de base de datos."
-            },
-            {
-                id: 9,
-                category: "Formatos de Datos",
-                difficulty: 2,
-                question: "¿Por qué se prefiere JSON sobre XML para transferencias de datos en aplicaciones modernas?",
-                options: [
-                    "JSON es más seguro que XML",
-                    "JSON requiere menos caracteres para la misma información",
-                    "JSON es más fácil de leer",
-                    "JSON es compatible con más navegadores"
-                ],
-                correct: 1,
-                explanation: "JSON requiere menos caracteres que XML para transmitir la misma información, lo que hace las transferencias más rápidas y eficientes, especialmente importante en aplicaciones empresariales con grandes volúmenes de datos."
-            },
-            {
-                id: 10,
-                category: "Despliegue y Infraestructura",
-                difficulty: 2,
-                question: "¿Cuál es la principal ventaja de una implementación on-premise de SAP HANA?",
-                options: [
-                    "Menor costo inicial",
-                    "Control completo sobre mantenimiento y actualizaciones",
-                    "Acceso automático a las últimas funcionalidades",
-                    "No requiere personal técnico especializado"
-                ],
-                correct: 1,
-                explanation: "La principal ventaja de una implementación on-premise es que el cliente tiene control completo sobre el mantenimiento y las actualizaciones del sistema, pudiendo decidir cuándo y cómo aplicar cambios."
-            },
-            {
-                id: 11,
-                category: "Despliegue y Infraestructura",
-                difficulty: 2,
-                question: "¿Con qué frecuencia recibe actualizaciones una solución SAP HANA en cloud?",
-                options: [
-                    "Cada mes",
-                    "Cada dos semanas aproximadamente",
-                    "Cada trimestre",
-                    "Una vez al año"
-                ],
-                correct: 1,
-                explanation: "Las soluciones SAP HANA en cloud reciben actualizaciones regulares aproximadamente cada dos semanas, lo que puede ser ventajoso para obtener las últimas innovaciones pero desventajoso para aplicaciones que requieren estabilidad."
-            },
-            {
-                id: 12,
-                category: "Herramientas ETL",
-                difficulty: 2,
-                question: "¿Cuál es la herramienta ETL recomendada por SAP para replicación de datos hacia HANA?",
-                options: [
-                    "SAP Data Services",
-                    "SAP SLT (SAP Landscape Transformation)",
-                    "SAP BW",
-                    "SAP PI/PO"
-                ],
-                correct: 1,
-                explanation: "SAP recomienda SLT (SAP Landscape Transformation) como la herramienta ETL para replicar datos hacia HANA, especialmente en escenarios de acelerador."
-            },
-            {
-                id: 13,
-                category: "Ventajas Competitivas",
-                difficulty: 3,
-                question: "¿Por qué los nuevos sistemas SAP (como S/4HANA) tienen mayor eficiencia que sistemas genéricos sobre HANA?",
-                options: [
-                    "Tienen mejor interfaz de usuario",
-                    "Están diseñados específicamente para trabajar con HANA",
-                    "Incluyen más funcionalidades",
-                    "Son más económicos"
-                ],
-                correct: 1,
-                explanation: "Los nuevos sistemas SAP como S/4HANA están diseñados específicamente para trabajar con HANA desde el principio, a diferencia de sistemas genéricos que deben funcionar con cualquier base de datos, lo que les permite mayor eficiencia."
-            },
-            {
-                id: 14,
-                category: "Escenarios de Implementación",
-                difficulty: 2,
-                question: "¿Cuál es la diferencia principal entre HANA como acelerador y HANA como Business Suite?",
-                options: [
-                    "El acelerador es más rápido",
-                    "El Business Suite requiere cambio en la filosofía de programación",
-                    "El acelerador es más económico",
-                    "El Business Suite no necesita servidor de aplicaciones"
-                ],
-                correct: 1,
-                explanation: "HANA como Business Suite requiere un cambio en la filosofía de programación para aprovechar todo el potencial de HANA, mientras que como acelerador simplemente mejora la velocidad sin cambios significativos en la programación."
-            },
-            {
-                id: 15,
-                category: "Casos de Uso",
-                difficulty: 3,
-                question: "¿En qué escenario sería más recomendable una solución híbrida (on-premise + cloud)?",
-                options: [
-                    "Cuando se tienen aplicaciones críticas que requieren control total y otras que se benefician de las últimas innovaciones",
-                    "Cuando se quiere ahorrar dinero",
-                    "Cuando se tiene poco personal técnico",
-                    "Cuando se necesita alta velocidad de procesamiento"
-                ],
-                correct: 0,
-                explanation: "Una solución híbrida es ideal cuando se tienen operaciones críticas que requieren control total (on-premise) y otras aplicaciones que se benefician de las últimas innovaciones del software (cloud)."
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let score = 0;
-
-        function initQuiz() {
-            displayQuestion();
-            updateProgress();
-        }
-
-        function displayQuestion() {
-            const container = document.getElementById('questionContainer');
-            const question = questions[currentQuestionIndex];
-            
-            container.innerHTML = `
-                <div class="question-card active">
-                    <div class="question-meta">
-                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
-                        <div class="category-tag">${question.category}</div>
-                        <div class="difficulty-indicator">
-                            ${Array.from({length: 3}, (_, i) => 
-                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
-                            ).join('')}
-                        </div>
-                    </div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options" id="options">
-                        ${question.options.map((option, index) => `
-                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
-                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="explanation" id="explanation">
-                        <h4>💡 Explicación:</h4>
-                        <p>${question.explanation}</p>
-                    </div>
-                    <div class="buttons">
-                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            ← Anterior
-                        </button>
-                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
-                            Confirmar Respuesta
-                        </button>
-                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Restore previous answer if exists
-            if (userAnswers[currentQuestionIndex] !== undefined) {
-                selectOption(userAnswers[currentQuestionIndex]);
-                submitAnswer();
-            }
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll('.option');
-            options.forEach(option => option.classList.remove('selected'));
-            options[index].classList.add('selected');
-            
-            document.getElementById('submitBtn').disabled = false;
-        }
-
-        function submitAnswer() {
-            const selectedOption = document.querySelector('.option.selected');
-            if (!selectedOption) return;
-            
-            const selectedIndex = parseInt(selectedOption.dataset.index);
-            const question = questions[currentQuestionIndex];
-            
-            userAnswers[currentQuestionIndex] = selectedIndex;
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.onclick = null;
-                if (index === question.correct) {
-                    option.classList.add('correct');
-                } else if (index === selectedIndex && index !== question.correct) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            document.getElementById('explanation').classList.add('show');
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'block';
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-                updateProgress();
-            } else {
-                showFinalScore();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-                updateProgress();
-            }
-        }
-
-        function updateProgress() {
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            // Update score
-            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
-            document.getElementById('score').textContent = score;
-        }
-
-        function showFinalScore() {
-            const finalScore = Math.round((score / questions.length) * 100);
-            
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('finalScore').classList.add('show');
-            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
-            
-            let message = '';
-            if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas los escenarios de implementación de SAP HANA.';
-            } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos de implementación.';
-            } else {
-                message = '📚 Necesitas estudiar más sobre escenarios de implementación. ¡Sigue practicando!';
-            }
-            
-            document.getElementById('scoreMessage').innerHTML = `
-                <p>${message}</p>
-                <div class="study-tips">
-                    <h4>📋 Puntos clave sobre escenarios de implementación:</h4>
-                    <ul>
-                        <li>Diferencias entre HANA como acelerador vs. Business Suite</li>
-                        <li>Entender la arquitectura XSA y Cloud Foundry</li>
-                        <li>Conocer las herramientas de desarrollo (Web IDE vs HANA Studio)</li>
-                        <li>Comprender los conceptos de push down y virtualización</li>
-                        <li>Dominar las opciones de despliegue (on-premise vs cloud)</li>
-                        <li>Saber sobre herramientas ETL como SLT</li>
-                    </ul>
-                </div>
-            `;
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            score = 0;
-            
-            document.getElementById('questionContainer').style.display = 'block';
-            document.getElementById('finalScore').classList.remove('show');
-            
-            initQuiz();
-        }
-
-        // Initialize quiz when page loads
-        window.onload = initQuiz;
-    </script>
 </body>
 </html>

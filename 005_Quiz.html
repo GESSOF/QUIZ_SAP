@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 005 - SAP HANA - Introducción al Modelado de Datos</title>
+    <title>Quiz 005 - SAP HANA - Arquitectura y Componentes</title>
     <style>
         * {
             margin: 0;
@@ -334,6 +334,19 @@
             color: #bf360c;
         }
 
+        .exam-note {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 4px solid #ffa000;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .exam-note strong {
+            color: #e65100;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -362,15 +375,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Quiz 005 - SAP HANA</h1>
-            <p>Introducción al Modelado de Datos</p>
+            <h1>🧠 Quiz 005 - SAP HANA</h1>
+            <p>Arquitectura y Componentes - Preparación para Certificación</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">16</span>
+                    <span class="stat-number" id="totalQuestions">20</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -399,227 +412,286 @@
         const questions = [
             {
                 id: 1,
-                category: "Transición de Teoría a Práctica",
+                category: "Ediciones de SAP HANA",
                 difficulty: 1,
-                question: "Según el video, ¿por qué es importante el modelado de datos en el curso de SAP HANA?",
+                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
                 options: [
-                    "Es la parte más teórica del curso",
-                    "Representa lo que realmente nos interesa porque proporciona herramientas prácticas para el desarrollo profesional",
-                    "Es opcional para la certificación",
-                    "Solo se necesita para proyectos grandes"
+                    "Standard, Professional, Enterprise",
+                    "Standard, Enterprise, Express",
+                    "Basic, Advanced, Premium",
+                    "Starter, Business, Enterprise"
                 ],
                 correct: 1,
-                explanation: "El modelado de datos representa 'lo que realmente nos interesa del curso' porque proporciona herramientas prácticas aplicables en el trabajo diario, yendo más allá de la teoría."
+                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes)."
             },
             {
                 id: 2,
-                category: "Metodología de Desarrollo",
-                difficulty: 2,
-                question: "¿En qué se basa el desarrollo intuitivo según se describe en el video?",
+                category: "SAP HANA Express Edition",
+                difficulty: 1,
+                question: "¿Qué característica principal tiene SAP HANA Express Edition?",
                 options: [
-                    "Solo en documentación oficial",
-                    "Experiencia previa, intuición y conocimiento empírico",
-                    "Únicamente en herramientas automáticas",
-                    "Solo en patrones predefinidos"
+                    "Es la más potente",
+                    "Es totalmente gratuita",
+                    "Solo funciona en la nube",
+                    "Requiere más memoria"
                 ],
                 correct: 1,
-                explanation: "El desarrollo intuitivo se basa en experiencia previa ('ya sé cómo van colocados estos datos'), intuición (identificación de patrones recursivos) y conocimiento empírico."
+                explanation: "SAP HANA Express Edition es totalmente gratuita y está diseñada para estudiantes y aprendizaje, con requisitos de hardware reducidos."
             },
             {
                 id: 3,
-                category: "Limitaciones del Enfoque Intuitivo",
+                category: "SAP HANA Express Edition",
                 difficulty: 2,
-                question: "¿Cuál NO es una limitación del enfoque intuitivo mencionada en el video?",
+                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
                 options: [
-                    "Casos complejos no siempre son sencillos de visualizar",
-                    "Proyectos grandes necesitan metodología para evitar omisiones",
-                    "Riesgo de errores por falta de sistematización",
-                    "Es más lento que el enfoque metodológico"
+                    "16 GB",
+                    "32 GB",
+                    "64 GB",
+                    "128 GB"
                 ],
-                correct: 3,
-                explanation: "El video no menciona que el enfoque intuitivo sea más lento. Las limitaciones son: casos complejos, necesidad de metodología en proyectos grandes y riesgo de errores por descuidos."
+                correct: 1,
+                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia."
             },
             {
                 id: 4,
-                category: "Modelo Entidad-Relación",
-                difficulty: 1,
-                question: "¿Qué es el Modelo Entidad-Relación según la definición del video?",
+                category: "Motor XSA",
+                difficulty: 3,
+                question: "¿En qué estándar abierto se basa el motor XSA?",
                 options: [
-                    "Un lenguaje de programación específico",
-                    "Representación esquemática y gráfica de la información necesaria para crear una base de datos",
-                    "Una herramienta de administración de HANA",
-                    "Un método de cifrado de datos"
+                    "Docker",
+                    "Kubernetes",
+                    "Cloud Foundry",
+                    "OpenStack"
                 ],
-                correct: 1,
-                explanation: "El Modelo Entidad-Relación es una representación esquemática y gráfica de la información necesaria para crear una base de datos, a partir de los requerimientos del sistema."
+                correct: 2,
+                explanation: "PREGUNTA DE EXAMEN: El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
+                examNote: true
             },
             {
                 id: 5,
-                category: "Limitaciones del Modelo E-R",
+                category: "Herramientas ETL",
                 difficulty: 2,
-                question: "¿Cuál es la limitación importante del modelo entidad-relación mencionada en el video?",
+                question: "¿Qué significa SDI en el contexto de SAP HANA?",
                 options: [
-                    "Es muy complicado de entender",
-                    "Solo funciona con SAP HANA",
-                    "NO se puede implementar directamente sobre una base de datos",
-                    "Requiere software especializado"
+                    "System Data Integration",
+                    "Smart Data Integration",
+                    "Secure Data Interface",
+                    "Standard Data Import"
                 ],
-                correct: 2,
-                explanation: "Una característica importante es que el modelo entidad-relación NO se puede implementar directamente sobre una base de datos, es solo el primer paso que debe evolucionar hacia un modelo relacional."
+                correct: 1,
+                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos."
             },
             {
                 id: 6,
-                category: "Metodología Divide y Vencerás",
-                difficulty: 1,
-                question: "Según el video, ¿por qué es efectiva la metodología 'Divide y Vencerás'?",
+                category: "Calidad de Datos",
+                difficulty: 2,
+                question: "¿Qué significa SDQ en SAP HANA?",
                 options: [
-                    "Porque es más rápida",
-                    "Porque convierte problemas grandes en problemas específicos más concretos y manejables",
-                    "Porque requiere menos conocimiento técnico",
-                    "Porque es automática"
+                    "Smart Data Quality",
+                    "System Data Query",
+                    "Secure Data Queue",
+                    "Standard Data Quantity"
                 ],
-                correct: 1,
-                explanation: "La metodología 'Divide y Vencerás' es efectiva porque convierte problemas grandes en problemas específicos más concretos y manejables, permitiendo control gradual."
+                correct: 0,
+                explanation: "SDQ significa Smart Data Quality y se utiliza para limpiar los datos durante el aprovisionamiento, trabajando junto con SDI."
             },
             {
                 id: 7,
-                category: "Etapas del Modelado",
-                difficulty: 2,
-                question: "¿Cuáles son las 3 etapas del proceso de modelado mencionadas en el video?",
+                category: "Herramientas de Desarrollo",
+                difficulty: 3,
+                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
                 options: [
-                    "Análisis, Diseño, Implementación",
-                    "Modelado Conceptual, Modelado Lógico, Implementación Física",
-                    "Planificación, Desarrollo, Pruebas",
-                    "Requerimientos, Codificación, Despliegue"
+                    "Web IDE es más antiguo",
+                    "No hay diferencia",
+                    "Web IDE es para XSA, Studio es para XS",
+                    "Studio es solo para administración"
                 ],
-                correct: 1,
-                explanation: "Las 3 etapas del modelado son: 1) Modelado Conceptual (esquema de alto nivel), 2) Modelado Lógico (refinamiento), y 3) Implementación Física (creación real en BD)."
+                correct: 2,
+                explanation: "PREGUNTA DE EXAMEN: Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
+                examNote: true
             },
             {
                 id: 8,
-                category: "Modelado Conceptual",
-                difficulty: 2,
-                question: "¿Cuál es el objetivo del Modelado Conceptual según el video?",
+                category: "Conceptos Técnicos",
+                difficulty: 3,
+                question: "¿Qué es el concepto de 'Push Down' en SAP HANA?",
                 options: [
-                    "Crear la base de datos final",
-                    "Esquema de alto nivel con análisis de requerimientos y vista muy genérica",
-                    "Escribir el código SQL",
-                    "Hacer pruebas de rendimiento"
+                    "Mover datos al disco",
+                    "Realizar procesamientos en la capa de base de datos",
+                    "Comprimir información",
+                    "Reducir el uso de memoria"
                 ],
                 correct: 1,
-                explanation: "El Modelado Conceptual tiene como objetivo crear un esquema de alto nivel mediante análisis de requerimientos, esquema gráfico sencillo y relaciones básicas, resultando en una vista muy genérica."
+                explanation: "PREGUNTA DE EXAMEN: Push Down significa realizar los procesamientos en la capa de base de datos para aprovechar la aceleración de HANA.",
+                examNote: true
             },
             {
                 id: 9,
-                category: "Modelado Lógico",
+                category: "Arquitectura SAP",
                 difficulty: 2,
-                question: "¿Qué se logra en la etapa de Modelado Lógico?",
+                question: "¿Cuántas capas tiene la arquitectura tradicional de SAP?",
                 options: [
-                    "Se implementa la base de datos",
-                    "Se refinan el modelo conceptual, corrigiendo imperfecciones y completando huecos",
-                    "Se definen solo los requerimientos",
-                    "Se hacen las pruebas finales"
+                    "2 capas: Cliente y Servidor",
+                    "3 capas: Cliente, Aplicación y Base de datos",
+                    "4 capas: Cliente, Web, Aplicación y Base de datos",
+                    "1 capa: Todo integrado"
                 ],
                 correct: 1,
-                explanation: "En el Modelado Lógico se transforma el modelo conceptual, corrigiendo imperfecciones y completando huecos para obtener un esquema implementable."
+                explanation: "La arquitectura tradicional de SAP tiene 3 capas: Cliente (interfaces), Servidor de Aplicaciones (lógica de negocio) y Base de Datos (persistencia)."
             },
             {
                 id: 10,
-                category: "Elementos del Diagrama",
-                difficulty: 1,
-                question: "¿Cómo se representan las entidades en el diagrama entidad-relación?",
+                category: "Gestión de Datos",
+                difficulty: 2,
+                question: "¿Qué es Dynamic Tiering en SAP HANA?",
                 options: [
-                    "Óvalos",
-                    "Cuadrados o rectángulos",
-                    "Rombos",
-                    "Círculos"
+                    "Un sistema de copias de seguridad",
+                    "Una capa basada en disco para datos menos críticos",
+                    "Un método de compresión",
+                    "Una técnica de indexación"
                 ],
                 correct: 1,
-                explanation: "Las entidades se representan con cuadrados o rectángulos y equivalen aproximadamente a las tablas que se crearán en la base de datos."
+                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos."
             },
             {
                 id: 11,
-                category: "Elementos del Diagrama",
-                difficulty: 1,
-                question: "¿Qué representan los óvalos en un diagrama entidad-relación?",
+                category: "Motores de SAP HANA",
+                difficulty: 2,
+                question: "¿Qué motor de SAP HANA se utiliza para ejecutar las vistas calculadas?",
                 options: [
-                    "Entidades",
-                    "Atributos (campos/columnas de las tablas)",
-                    "Relaciones",
-                    "Claves primarias únicamente"
+                    "Motor OLAP",
+                    "Motor JOIN",
+                    "Motor de Cálculo",
+                    "Motor SQL"
                 ],
-                correct: 1,
-                explanation: "Los óvalos representan los atributos, que son las características importantes de cada entidad y equivalen a los campos/columnas de las tablas."
+                correct: 2,
+                explanation: "Las vistas calculadas se ejecutan sobre el motor de cálculo, que se ocupa de operaciones más complejas."
             },
             {
                 id: 12,
-                category: "Elementos del Diagrama",
-                difficulty: 1,
-                question: "¿Qué forma geométrica se usa para representar las relaciones?",
+                category: "Motores de SAP HANA",
+                difficulty: 2,
+                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
                 options: [
-                    "Cuadrados",
-                    "Óvalos",
-                    "Rombos",
-                    "Triángulos"
+                    "Crear documentos",
+                    "Búsquedas difusas y minería de texto",
+                    "Traducir idiomas",
+                    "Formatear texto"
                 ],
-                correct: 2,
-                explanation: "Las relaciones se representan con rombos que conectan entidades y expresan las conexiones entre ellas (como 'Enviar', 'Solicita', 'Realiza')."
+                correct: 1,
+                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos."
             },
             {
                 id: 13,
-                category: "Elementos Especiales",
-                difficulty: 3,
-                question: "¿Qué son los elementos de cardinalidad en un diagrama entidad-relación?",
+                category: "Motores de SAP HANA",
+                difficulty: 2,
+                question: "¿Para qué se utiliza el motor espacial en SAP HANA?",
                 options: [
-                    "Tipos especiales de entidades",
-                    "Números y letras en las conexiones que definen la naturaleza cuantitativa",
-                    "Atributos obligatorios",
-                    "Claves foráneas"
+                    "Gestión de memoria",
+                    "Análisis de datos espaciales y geográficos",
+                    "Optimización de consultas",
+                    "Backup de datos"
                 ],
                 correct: 1,
-                explanation: "La cardinalidad son números y letras en las conexiones que definen la naturaleza cuantitativa de las relaciones entre entidades."
+                explanation: "El motor espacial se usa para análisis basados en datos espaciales como consultas de localidad, distancia, mapeo y cálculo de rutas."
             },
             {
                 id: 14,
-                category: "Proceso de Transformación",
+                category: "Motores de SAP HANA",
                 difficulty: 2,
-                question: "¿Cuál es el flujo correcto de trabajo según el video?",
+                question: "¿Qué tipo de datos maneja principalmente el motor de grafos?",
                 options: [
-                    "Implementación → Requerimientos → Diagrama → Normalización",
-                    "Requerimientos → Diagrama E-R → Reglas de normalización → Implementación física",
-                    "Diagrama → Requerimientos → Implementación → Normalización",
-                    "Normalización → Diagrama → Requerimientos → Implementación"
+                    "Datos financieros",
+                    "Datos altamente conectados en red",
+                    "Datos de texto",
+                    "Datos multimedia"
                 ],
                 correct: 1,
-                explanation: "El flujo correcto es: Requerimientos del cliente → Diagrama Entidad-Relación → Reglas de normalización → Implementación física (base de datos operativa)."
+                explanation: "El motor de grafos maneja datos altamente conectados en red, como grupos de amigos en redes sociales o cadenas de producción complejas."
             },
             {
                 id: 15,
-                category: "Filosofía del Curso",
-                difficulty: 2,
-                question: "¿Cuál es la filosofía de aprendizaje mencionada en el video?",
+                category: "Herramientas ETL",
+                difficulty: 1,
+                question: "¿Qué significa ETL en el contexto de herramientas como SDI?",
                 options: [
-                    "Memorización completa de todas las opciones de HANA SQL",
-                    "'En programación es importante conocer el lenguaje, pero es casi tan importante saber buscarse la vida y localizar información'",
-                    "Solo teoría sin práctica",
-                    "Enfoque exclusivo en casos extremadamente específicos"
+                    "Error, Test, Load",
+                    "Extract, Transform, Load",
+                    "Execute, Transfer, Link",
+                    "Export, Transfer, List"
                 ],
                 correct: 1,
-                explanation: "La filosofía del curso reconoce que además de conocer el lenguaje, es casi tan importante o más saber buscarse la vida y localizar información que no se conoce."
+                explanation: "ETL significa Extract (extraer), Transform (transformar) y Load (cargar). Son las operaciones básicas para el aprovisionamiento de datos."
             },
             {
                 id: 16,
-                category: "Objetivos de la Unidad",
+                category: "Tecnología In-Memory",
                 difficulty: 2,
-                question: "¿Qué competencias se buscan desarrollar según los objetivos mencionados?",
+                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
                 options: [
-                    "Solo habilidades técnicas de programación",
-                    "Únicamente conocimiento teórico avanzado",
-                    "Habilidades técnicas (interpretación de requerimientos, diagramas) y metodológicas (pensamiento sistemático)",
-                    "Solo herramientas de administración"
+                    "Menor costo de hardware",
+                    "Eliminar el cuello de botella entre disco duro y RAM",
+                    "Mayor capacidad de almacenamiento",
+                    "Mejor interfaz de usuario"
+                ],
+                correct: 1,
+                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido."
+            },
+            {
+                id: 17,
+                category: "Herramientas de Administración",
+                difficulty: 2,
+                question: "¿Qué herramienta se usa exclusivamente para administración en SAP HANA?",
+                options: [
+                    "Web IDE for SAP HANA",
+                    "SAP HANA Studio",
+                    "SAP HANA Cockpit",
+                    "SAP HANA Express"
                 ],
                 correct: 2,
-                explanation: "Se buscan desarrollar tanto habilidades técnicas (interpretación de requerimientos, creación de diagramas, transformación) como metodológicas (pensamiento sistemático, progresión ordenada)."
+                explanation: "SAP HANA Cockpit es la interfaz web dedicada exclusivamente para administración y monitoreo del sistema, basada en SAP Fiori."
+            },
+            {
+                id: 18,
+                category: "Herramientas ETL",
+                difficulty: 2,
+                question: "¿Qué es SLT en el ecosistema SAP HANA?",
+                options: [
+                    "Sistema de respaldo",
+                    "SAP Landscape Transformation Replication Server",
+                    "Herramienta de desarrollo",
+                    "Sistema de monitoreo"
+                ],
+                correct: 1,
+                explanation: "SLT (SAP Landscape Transformation Replication Server) es un módulo ETL que se puede añadir a un sistema SAP, preferiblemente en un servidor dedicado."
+            },
+            {
+                id: 19,
+                category: "Gestión de Datos",
+                difficulty: 2,
+                question: "¿Cuál es la diferencia entre datos 'calientes' y 'fríos' en SAP HANA?",
+                options: [
+                    "Temperatura física del hardware",
+                    "Frecuencia de acceso a los datos",
+                    "Tipo de encriptación",
+                    "Formato de almacenamiento"
+                ],
+                correct: 1,
+                explanation: "Datos 'calientes' son los de alta frecuencia de acceso (se mantienen en RAM), mientras que datos 'fríos' tienen baja frecuencia de acceso (se pueden mover al disco)."
+            },
+            {
+                id: 20,
+                category: "Motor XS vs XSA",
+                difficulty: 3,
+                question: "¿Cuál es la principal limitación del motor XS comparado con XSA?",
+                options: [
+                    "Menor velocidad",
+                    "No fue diseñado para aplicaciones empresariales escalables",
+                    "Mayor consumo de memoria",
+                    "Incompatibilidad con Windows"
+                ],
+                correct: 1,
+                explanation: "El motor XS era un servidor de aplicaciones ligero que no fue diseñado para construir aplicaciones empresariales escalables y de gran peso, limitación que XSA resolvió."
             }
         ];
 
@@ -658,6 +730,7 @@
                     <div class="explanation" id="explanation">
                         <h4>💡 Explicación:</h4>
                         <p>${question.explanation}</p>
+                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
@@ -749,27 +822,26 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 85) {
-                message = '🎉 ¡Excelente! Tienes una base sólida en los fundamentos del modelado de datos.';
+            if (finalScore >= 90) {
+                message = '🎉 ¡Excelente! Dominas muy bien la arquitectura de SAP HANA. Estás listo para el examen de certificación.';
             } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Comprendes bien los conceptos básicos del modelado de datos.';
+                message = '👍 ¡Buen trabajo! Tienes un buen conocimiento de SAP HANA. Revisa los temas donde fallaste para mejorar.';
             } else {
-                message = '📚 Necesitas reforzar los conceptos de modelado de datos. ¡Sigue estudiando!';
+                message = '📚 Necesitas estudiar más. Revisa el material del curso y practica con este quiz nuevamente.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📊 Puntos clave sobre Modelado de Datos:</h4>
+                    <h4>📋 Puntos clave sobre arquitectura SAP HANA:</h4>
                     <ul>
-                        <li>Transición de teoría a práctica: herramientas aplicables al trabajo diario</li>
-                        <li>Metodología 'Divide y Vencerás': problemas grandes → problemas manejables</li>
-                        <li>3 Etapas: Conceptual → Lógico → Implementación Física</li>
-                        <li>Modelo E-R: entidades (cuadrados), atributos (óvalos), relaciones (rombos)</li>
-                        <li>Limitación importante: E-R NO se implementa directamente en BD</li>
-                        <li>Filosofía: conocer el lenguaje + saber buscar información</li>
-                        <li>Flujo: Requerimientos → Diagrama E-R → Normalización → Implementación</li>
-                        <li>Competencias: técnicas (diagramas) + metodológicas (sistematización)</li>
+                        <li>Diferencias entre ediciones: Standard, Enterprise y Express</li>
+                        <li>Motor XSA basado en Cloud Foundry (pregunta de examen)</li>
+                        <li>Herramientas: Web IDE (XSA) vs Studio (XS) vs Cockpit (admin)</li>
+                        <li>Conceptos clave: Push Down, Dynamic Tiering, datos calientes/fríos</li>
+                        <li>Motores especializados: cálculo, texto, espacial, grafos</li>
+                        <li>Herramientas ETL: SDI, SDQ, SLT</li>
+                        <li>Tecnología In-Memory y sus ventajas</li>
                     </ul>
                 </div>
             `;

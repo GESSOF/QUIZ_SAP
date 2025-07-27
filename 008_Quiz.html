@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 008 SAP HANA - Datos vs Información</title>
+    <title>Quiz 008 - SAP HANA - Introducción al Modelado de Datos</title>
     <style>
         * {
             margin: 0;
@@ -112,11 +112,45 @@
             opacity: 1;
         }
 
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .question-number {
             color: #667eea;
             font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
         }
 
         .question-text {
@@ -317,21 +351,26 @@
             .buttons {
                 flex-direction: column;
             }
+
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 Quiz 008 SAP HANA</h1>
-            <p>Datos vs Información - Modelado en Hana</p>
+            <h1>📊 Quiz 008 | SAP HANA</h1>
+            <p>Introducción al Modelado de Datos</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">12</span>
+                    <span class="stat-number" id="totalQuestions">16</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -359,136 +398,228 @@
     <script>
         const questions = [
             {
-                question: "¿Cuál es la definición correcta de una base de datos según el video?",
+                id: 1,
+                category: "Transición de Teoría a Práctica",
+                difficulty: 1,
+                question: "Según el video, ¿por qué es importante el modelado de datos en el curso de SAP HANA?",
                 options: [
-                    "Un sistema complejo que procesa información automáticamente",
-                    "Un conjunto de datos que están almacenados para su uso en el futuro",
-                    "Una herramienta para crear informes y gráficos",
-                    "Un programa que convierte información en datos"
+                    "Es la parte más teórica del curso",
+                    "Representa lo que realmente nos interesa porque proporciona herramientas prácticas para el desarrollo profesional",
+                    "Es opcional para la certificación",
+                    "Solo se necesita para proyectos grandes"
                 ],
                 correct: 1,
-                explanation: "Una base de datos no es más que un conjunto de datos que están almacenados para su uso en el futuro. El resultado del procesamiento de esos datos es la información."
+                explanation: "El modelado de datos representa 'lo que realmente nos interesa del curso' porque proporciona herramientas prácticas aplicables en el trabajo diario, yendo más allá de la teoría."
             },
             {
-                question: "¿Qué característica define principalmente a los datos?",
+                id: 2,
+                category: "Metodología de Desarrollo",
+                difficulty: 2,
+                question: "¿En qué se basa el desarrollo intuitivo según se describe en el video?",
                 options: [
-                    "Son elementos que por sí solos constituyen información útil",
-                    "Permiten tomar decisiones directamente sin procesamiento",
-                    "Son elementos individuales que por sí solos no constituyen información útil",
-                    "Siempre tienen contexto y significado completo"
-                ],
-                correct: 2,
-                explanation: "Los datos son elementos individuales que por sí solos no constituyen información en el sentido útil de la palabra. No permiten la adopción de decisiones porque no aportan los conocimientos necesarios para ello."
-            },
-            {
-                question: "Según el ejemplo del video, ¿cuándo se convierte un conjunto de datos en información?",
-                options: [
-                    "Cuando se almacenan en una base de datos",
-                    "Cuando se presentan de forma que permiten conocer que 'una persona de X edad que vive en tal sitio tiene un sueldo de tal cantidad'",
-                    "Cuando se procesan con cualquier algoritmo matemático",
-                    "Cuando se imprimen en un reporte"
+                    "Solo en documentación oficial",
+                    "Experiencia previa, intuición y conocimiento empírico",
+                    "Únicamente en herramientas automáticas",
+                    "Solo en patrones predefinidos"
                 ],
                 correct: 1,
-                explanation: "Los datos se convierten en información cuando se presentan de forma que nos permitan obtener conocimiento útil, como conocer las características completas de una persona que nos ayuden a tomar decisiones."
+                explanation: "El desarrollo intuitivo se basa en experiencia previa ('ya sé cómo van colocados estos datos'), intuición (identificación de patrones recursivos) y conocimiento empírico."
             },
             {
-                question: "¿Qué tipo de dato se usa para almacenar números de teléfono o DNI?",
+                id: 3,
+                category: "Limitaciones del Enfoque Intuitivo",
+                difficulty: 2,
+                question: "¿Cuál NO es una limitación del enfoque intuitivo mencionada en el video?",
                 options: [
-                    "Numérico, porque contienen números",
-                    "Carácter, porque los números no sirven para operaciones matemáticas",
-                    "Booleano, porque son únicos",
-                    "Binario, por seguridad"
-                ],
-                correct: 1,
-                explanation: "Los números de teléfono y DNI se almacenan como tipo carácter porque aunque contengan números, no necesitamos realizar operaciones matemáticas con ellos."
-            },
-            {
-                question: "¿Cuál es la diferencia principal entre datos procesados e información?",
-                options: [
-                    "No existe diferencia, son sinónimos",
-                    "Los datos procesados siempre son información",
-                    "Podemos procesar datos de mil maneras y que aún así no sea información si no aporta nada útil para la toma de decisiones",
-                    "La información es más rápida de procesar"
-                ],
-                correct: 2,
-                explanation: "La información no es simplemente datos procesados. Podemos procesar los datos de mil maneras y que aún así no sea información, dado que no nos aporta nada útil para la toma de decisiones."
-            },
-            {
-                question: "¿Cuáles son las cinco cualidades que debe tener una buena información?",
-                options: [
-                    "Velocidad, precisión, exactitud, seguridad y disponibilidad",
-                    "Precisión, exactitud, oportunidad, integridad y significatividad",
-                    "Completitud, rapidez, exactitud, claridad y utilidad",
-                    "Precisión, velocidad, integridad, seguridad y accesibilidad"
-                ],
-                correct: 1,
-                explanation: "Las cinco cualidades de una buena información son: precisión (adaptada al objetivo), exactitud (verificable), oportunidad (en el momento correcto), integridad (completa) y significatividad (clara y relevante)."
-            },
-            {
-                question: "¿De qué depende la precisión de la información?",
-                options: [
-                    "Del tamaño de la base de datos",
-                    "Del objetivo de la aplicación",
-                    "De la velocidad de procesamiento",
-                    "Del tipo de hardware utilizado"
-                ],
-                correct: 1,
-                explanation: "La precisión depende del objetivo de la aplicación. Por ejemplo, un programa de almacenamiento necesita precisión útil con números enteros, mientras que una aplicación científica necesita precisión mayor con muchos decimales."
-            },
-            {
-                question: "En el ejemplo de la tienda de ropa, ¿qué representa el análisis que hace el dependiente?",
-                options: [
-                    "Procesamiento de datos para obtener información útil en el momento oportuno",
-                    "Una operación matemática compleja",
-                    "Un error de interpretación de datos",
-                    "Un proceso que no tiene relevancia tecnológica"
-                ],
-                correct: 0,
-                explanation: "El dependiente procesa datos visuales (melena, pendientes, vaqueros, etc.) y los convierte en información útil para orientar al cliente hacia la sección juvenil. Esto ejemplifica la conversión de datos en información con oportunidad."
-            },
-            {
-                question: "¿Qué problema puede causar la falta de exactitud en la información?",
-                options: [
-                    "Únicamente ralentiza el procesamiento",
-                    "Puede llevarnos a cometer errores en la toma de decisiones",
-                    "Solo afecta a la presentación visual",
-                    "No tiene consecuencias importantes"
-                ],
-                correct: 1,
-                explanation: "Si la información no es exacta, puede llevarnos a cometer errores. Es necesario cotejar y confirmar la información buscando fuentes que la verifiquen, como en el ejemplo del código postal en supermercados."
-            },
-            {
-                question: "¿Qué tipo de dato consume más recursos de almacenamiento?",
-                options: [
-                    "Numérico",
-                    "Carácter",
-                    "Booleano",
-                    "Binario"
+                    "Casos complejos no siempre son sencillos de visualizar",
+                    "Proyectos grandes necesitan metodología para evitar omisiones",
+                    "Riesgo de errores por falta de sistematización",
+                    "Es más lento que el enfoque metodológico"
                 ],
                 correct: 3,
-                explanation: "El tipo de dato binario (para vídeos, audios, documentos) es el que consume más recursos de almacenamiento, siendo importante considerar este factor en el diseño de bases de datos."
+                explanation: "El video no menciona que el enfoque intuitivo sea más lento. Las limitaciones son: casos complejos, necesidad de metodología en proyectos grandes y riesgo de errores por descuidos."
             },
             {
-                question: "¿Por qué es importante la optimización de tipos de datos en big data?",
+                id: 4,
+                category: "Modelo Entidad-Relación",
+                difficulty: 1,
+                question: "¿Qué es el Modelo Entidad-Relación según la definición del video?",
                 options: [
-                    "Solo por motivos estéticos",
-                    "Porque cada milésima de segundo de optimización puede convertirse en minutos de diferencia",
-                    "Para usar menos electricidad únicamente",
-                    "No es importante en absoluto"
+                    "Un lenguaje de programación específico",
+                    "Representación esquemática y gráfica de la información necesaria para crear una base de datos",
+                    "Una herramienta de administración de HANA",
+                    "Un método de cifrado de datos"
                 ],
                 correct: 1,
-                explanation: "En big data, cada milésima de segundo de optimización puede convertirse en minutos de diferencia en el procesamiento total. La elección correcta del tipo de dato y las estrategias de procesamiento pueden marcar diferencias significativas."
+                explanation: "El Modelo Entidad-Relación es una representación esquemática y gráfica de la información necesaria para crear una base de datos, a partir de los requerimientos del sistema."
             },
             {
-                question: "¿Cuál es el objetivo fundamental de cualquier sistema de gestión de bases de datos?",
+                id: 5,
+                category: "Limitaciones del Modelo E-R",
+                difficulty: 2,
+                question: "¿Cuál es la limitación importante del modelo entidad-relación mencionada en el video?",
                 options: [
-                    "Almacenar la mayor cantidad de datos posible",
-                    "Transformar datos brutos en información valiosa que facilite la toma de decisiones",
-                    "Procesar datos lo más rápido posible",
-                    "Crear reportes automáticamente"
+                    "Es muy complicado de entender",
+                    "Solo funciona con SAP HANA",
+                    "NO se puede implementar directamente sobre una base de datos",
+                    "Requiere software especializado"
+                ],
+                correct: 2,
+                explanation: "Una característica importante es que el modelo entidad-relación NO se puede implementar directamente sobre una base de datos, es solo el primer paso que debe evolucionar hacia un modelo relacional."
+            },
+            {
+                id: 6,
+                category: "Metodología Divide y Vencerás",
+                difficulty: 1,
+                question: "Según el video, ¿por qué es efectiva la metodología 'Divide y Vencerás'?",
+                options: [
+                    "Porque es más rápida",
+                    "Porque convierte problemas grandes en problemas específicos más concretos y manejables",
+                    "Porque requiere menos conocimiento técnico",
+                    "Porque es automática"
                 ],
                 correct: 1,
-                explanation: "El propósito fundamental de cualquier sistema de gestión de bases de datos es transformar datos brutos en información valiosa que facilite la toma de decisiones informadas y estratégicas."
+                explanation: "La metodología 'Divide y Vencerás' es efectiva porque convierte problemas grandes en problemas específicos más concretos y manejables, permitiendo control gradual."
+            },
+            {
+                id: 7,
+                category: "Etapas del Modelado",
+                difficulty: 2,
+                question: "¿Cuáles son las 3 etapas del proceso de modelado mencionadas en el video?",
+                options: [
+                    "Análisis, Diseño, Implementación",
+                    "Modelado Conceptual, Modelado Lógico, Implementación Física",
+                    "Planificación, Desarrollo, Pruebas",
+                    "Requerimientos, Codificación, Despliegue"
+                ],
+                correct: 1,
+                explanation: "Las 3 etapas del modelado son: 1) Modelado Conceptual (esquema de alto nivel), 2) Modelado Lógico (refinamiento), y 3) Implementación Física (creación real en BD)."
+            },
+            {
+                id: 8,
+                category: "Modelado Conceptual",
+                difficulty: 2,
+                question: "¿Cuál es el objetivo del Modelado Conceptual según el video?",
+                options: [
+                    "Crear la base de datos final",
+                    "Esquema de alto nivel con análisis de requerimientos y vista muy genérica",
+                    "Escribir el código SQL",
+                    "Hacer pruebas de rendimiento"
+                ],
+                correct: 1,
+                explanation: "El Modelado Conceptual tiene como objetivo crear un esquema de alto nivel mediante análisis de requerimientos, esquema gráfico sencillo y relaciones básicas, resultando en una vista muy genérica."
+            },
+            {
+                id: 9,
+                category: "Modelado Lógico",
+                difficulty: 2,
+                question: "¿Qué se logra en la etapa de Modelado Lógico?",
+                options: [
+                    "Se implementa la base de datos",
+                    "Se refinan el modelo conceptual, corrigiendo imperfecciones y completando huecos",
+                    "Se definen solo los requerimientos",
+                    "Se hacen las pruebas finales"
+                ],
+                correct: 1,
+                explanation: "En el Modelado Lógico se transforma el modelo conceptual, corrigiendo imperfecciones y completando huecos para obtener un esquema implementable."
+            },
+            {
+                id: 10,
+                category: "Elementos del Diagrama",
+                difficulty: 1,
+                question: "¿Cómo se representan las entidades en el diagrama entidad-relación?",
+                options: [
+                    "Óvalos",
+                    "Cuadrados o rectángulos",
+                    "Rombos",
+                    "Círculos"
+                ],
+                correct: 1,
+                explanation: "Las entidades se representan con cuadrados o rectángulos y equivalen aproximadamente a las tablas que se crearán en la base de datos."
+            },
+            {
+                id: 11,
+                category: "Elementos del Diagrama",
+                difficulty: 1,
+                question: "¿Qué representan los óvalos en un diagrama entidad-relación?",
+                options: [
+                    "Entidades",
+                    "Atributos (campos/columnas de las tablas)",
+                    "Relaciones",
+                    "Claves primarias únicamente"
+                ],
+                correct: 1,
+                explanation: "Los óvalos representan los atributos, que son las características importantes de cada entidad y equivalen a los campos/columnas de las tablas."
+            },
+            {
+                id: 12,
+                category: "Elementos del Diagrama",
+                difficulty: 1,
+                question: "¿Qué forma geométrica se usa para representar las relaciones?",
+                options: [
+                    "Cuadrados",
+                    "Óvalos",
+                    "Rombos",
+                    "Triángulos"
+                ],
+                correct: 2,
+                explanation: "Las relaciones se representan con rombos que conectan entidades y expresan las conexiones entre ellas (como 'Enviar', 'Solicita', 'Realiza')."
+            },
+            {
+                id: 13,
+                category: "Elementos Especiales",
+                difficulty: 3,
+                question: "¿Qué son los elementos de cardinalidad en un diagrama entidad-relación?",
+                options: [
+                    "Tipos especiales de entidades",
+                    "Números y letras en las conexiones que definen la naturaleza cuantitativa",
+                    "Atributos obligatorios",
+                    "Claves foráneas"
+                ],
+                correct: 1,
+                explanation: "La cardinalidad son números y letras en las conexiones que definen la naturaleza cuantitativa de las relaciones entre entidades."
+            },
+            {
+                id: 14,
+                category: "Proceso de Transformación",
+                difficulty: 2,
+                question: "¿Cuál es el flujo correcto de trabajo según el video?",
+                options: [
+                    "Implementación → Requerimientos → Diagrama → Normalización",
+                    "Requerimientos → Diagrama E-R → Reglas de normalización → Implementación física",
+                    "Diagrama → Requerimientos → Implementación → Normalización",
+                    "Normalización → Diagrama → Requerimientos → Implementación"
+                ],
+                correct: 1,
+                explanation: "El flujo correcto es: Requerimientos del cliente → Diagrama Entidad-Relación → Reglas de normalización → Implementación física (base de datos operativa)."
+            },
+            {
+                id: 15,
+                category: "Filosofía del Curso",
+                difficulty: 2,
+                question: "¿Cuál es la filosofía de aprendizaje mencionada en el video?",
+                options: [
+                    "Memorización completa de todas las opciones de HANA SQL",
+                    "'En programación es importante conocer el lenguaje, pero es casi tan importante saber buscarse la vida y localizar información'",
+                    "Solo teoría sin práctica",
+                    "Enfoque exclusivo en casos extremadamente específicos"
+                ],
+                correct: 1,
+                explanation: "La filosofía del curso reconoce que además de conocer el lenguaje, es casi tan importante o más saber buscarse la vida y localizar información que no se conoce."
+            },
+            {
+                id: 16,
+                category: "Objetivos de la Unidad",
+                difficulty: 2,
+                question: "¿Qué competencias se buscan desarrollar según los objetivos mencionados?",
+                options: [
+                    "Solo habilidades técnicas de programación",
+                    "Únicamente conocimiento teórico avanzado",
+                    "Habilidades técnicas (interpretación de requerimientos, diagramas) y metodológicas (pensamiento sistemático)",
+                    "Solo herramientas de administración"
+                ],
+                correct: 2,
+                explanation: "Se buscan desarrollar tanto habilidades técnicas (interpretación de requerimientos, creación de diagramas, transformación) como metodológicas (pensamiento sistemático, progresión ordenada)."
             }
         ];
 
@@ -507,7 +638,15 @@
             
             container.innerHTML = `
                 <div class="question-card active">
-                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-meta">
+                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                        <div class="category-tag">${question.category}</div>
+                        <div class="difficulty-indicator">
+                            ${Array.from({length: 3}, (_, i) => 
+                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
                     <div class="question-text">${question.question}</div>
                     <div class="options" id="options">
                         ${question.options.map((option, index) => `
@@ -610,25 +749,27 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas la diferencia entre datos e información.';
-            } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Repasa los conceptos sobre las cualidades de la información.';
+            if (finalScore >= 85) {
+                message = '🎉 ¡Excelente! Tienes una base sólida en los fundamentos del modelado de datos.';
+            } else if (finalScore >= 70) {
+                message = '👍 ¡Buen trabajo! Comprendes bien los conceptos básicos del modelado de datos.';
             } else {
-                message = '📚 Necesitas repasar los conceptos fundamentales. Revisa el material del video 008.';
+                message = '📚 Necesitas reforzar los conceptos de modelado de datos. ¡Sigue estudiando!';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📋 Puntos clave del Video 008:</h4>
+                    <h4>📊 Puntos clave sobre Modelado de Datos:</h4>
                     <ul>
-                        <li>Entender la diferencia fundamental entre datos e información</li>
-                        <li>Conocer los tipos de datos y cuándo usar cada uno</li>
-                        <li>Dominar las 5 cualidades de una buena información</li>
-                        <li>Comprender el proceso de transformación de datos a información</li>
-                        <li>Recordar que la información debe facilitar la toma de decisiones</li>
-                        <li>Considerar el impacto del volumen de datos en el rendimiento</li>
+                        <li>Transición de teoría a práctica: herramientas aplicables al trabajo diario</li>
+                        <li>Metodología 'Divide y Vencerás': problemas grandes → problemas manejables</li>
+                        <li>3 Etapas: Conceptual → Lógico → Implementación Física</li>
+                        <li>Modelo E-R: entidades (cuadrados), atributos (óvalos), relaciones (rombos)</li>
+                        <li>Limitación importante: E-R NO se implementa directamente en BD</li>
+                        <li>Filosofía: conocer el lenguaje + saber buscar información</li>
+                        <li>Flujo: Requerimientos → Diagrama E-R → Normalización → Implementación</li>
+                        <li>Competencias: técnicas (diagramas) + metodológicas (sistematización)</li>
                     </ul>
                 </div>
             `;

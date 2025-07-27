@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 018 - Comando SELECT Fundamentos</title>
+    <title>No Disponible - Portal Educativo</title>
     <style>
         * {
             margin: 0;
@@ -12,653 +12,99 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            text-align: center;
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
+            padding: 60px 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 5px solid #667eea;
-            display: none;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .question-card.active {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .question-number {
-            color: #667eea;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .question-text {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            color: #333;
-        }
-
-        .options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .option.correct {
-            border-color: #4CAF50;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-        }
-
-        .option.incorrect {
-            border-color: #f44336;
-            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
-            color: white;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .explanation {
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
-            border-left: 4px solid #4CAF50;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .explanation.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .explanation h4 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .final-score {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            display: none;
-            margin-top: 30px;
-        }
-
-        .final-score.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5em;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-        }
-
-        .progress-bar {
+            max-width: 600px;
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #2d3748;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -1px;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            border-radius: 4px;
-            transition: width 0.8s ease;
+        .subtitle {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
-        .study-tips {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-left: 4px solid #ff9800;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
 
-        .study-tips h4 {
-            color: #e65100;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .study-tips ul {
-            margin-left: 20px;
-        }
-
-        .study-tips li {
-            margin-bottom: 8px;
-            color: #bf360c;
-        }
 
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
             .container {
-                margin: 0;
-                border-radius: 15px;
+                padding: 40px 20px;
             }
             
-            .header {
-                padding: 20px;
+            .main-title {
+                font-size: 2.5rem;
             }
             
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .question-card {
-                padding: 20px;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .stat-item {
-                padding: 12px 20px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-            
-            .question-text {
-                font-size: 1.1em;
-            }
-            
-            .option {
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .content {
-                padding: 15px;
-            }
-            
-            .question-card {
-                padding: 15px;
-            }
-            
-            .score-circle {
-                width: 120px;
-                height: 120px;
-                font-size: 2em;
+            .subtitle {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>📊 Quiz 018</h1>
-            <p>Comando SELECT - Fundamentos y Sintaxis</p>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="currentQuestion">1</span>
-                    <span>Pregunta</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">8</span>
-                    <span>Total</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="score">0</span>
-                    <span>Puntaje</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
+        <div class="icon">📚</div>
+        
+		<h1 class="main-title">QUIZ 018</h1>
+        <h1 class="main-title">NO DISPONIBLE</h1>
+        
+        <p class="subtitle">Contenido temporalmente inaccesible</p>
+        
 
-        <div class="content">
-            <div id="questionContainer"></div>
-            
-            <div class="final-score" id="finalScore">
-                <div class="score-circle" id="finalScoreCircle">0%</div>
-                <h2>¡Quiz Completado!</h2>
-                <p id="scoreMessage"></p>
-                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
-            </div>
-        </div>
     </div>
-
-    <script>
-        const questions = [
-            {
-                question: "¿Cuáles son las tres preguntas fundamentales de la metodología para construir consultas SELECT?",
-                options: [
-                    "¿Cómo conectar? ¿Qué sintaxis? ¿Cómo optimizar?",
-                    "¿Qué datos necesito? ¿Dónde están? ¿Qué requisitos deben cumplir?",
-                    "¿Cuántos registros? ¿Qué columnas? ¿Cómo ordenar?",
-                    "¿Qué tablas unir? ¿Qué filtros aplicar? ¿Cómo agrupar?"
-                ],
-                correct: 1,
-                explanation: "La metodología fundamental consiste en responder: 1) ¿Qué datos necesito? (identificar información requerida), 2) ¿Dónde están? (localizar las tablas), y 3) ¿Qué requisitos deben cumplir? (definir las condiciones). Esta metodología es especialmente importante para principiantes."
-            },
-            {
-                question: "¿Cuál es el orden correcto de procesamiento lógico de las cláusulas SELECT?",
-                options: [
-                    "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY",
-                    "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY",
-                    "FROM → SELECT → WHERE → GROUP BY → ORDER BY → HAVING",
-                    "WHERE → FROM → SELECT → GROUP BY → HAVING → ORDER BY"
-                ],
-                correct: 1,
-                explanation: "SQL procesa en este orden lógico: FROM (identifica fuentes), WHERE (filtra registros individuales), GROUP BY (agrupa datos), HAVING (filtra grupos), SELECT (selecciona columnas), ORDER BY (ordena resultado final). Este orden es fundamental para entender cómo funciona SQL internamente."
-            },
-            {
-                question: "¿Cuál es la diferencia entre WHERE y HAVING?",
-                options: [
-                    "WHERE es para números y HAVING para texto",
-                    "WHERE filtra registros individuales antes de agrupar, HAVING filtra grupos después de agrupar",
-                    "WHERE es obligatorio y HAVING es opcional",
-                    "WHERE es más rápido que HAVING"
-                ],
-                correct: 1,
-                explanation: "WHERE filtra registros individuales ANTES de la agrupación, mientras que HAVING filtra grupos DESPUÉS de la agrupación y agregación. WHERE no puede usar funciones de agregación, pero HAVING sí puede."
-            },
-            {
-                question: "¿Cuáles son las cinco funciones principales de agregación en SQL?",
-                options: [
-                    "SELECT, INSERT, UPDATE, DELETE, CREATE",
-                    "COUNT, SUM, AVG, MAX, MIN",
-                    "TOP, DISTINCT, ALL, ORDER, GROUP",
-                    "FROM, WHERE, HAVING, ORDER, BY"
-                ],
-                correct: 1,
-                explanation: "Las cinco funciones principales de agregación son: COUNT() (conteo), SUM() (suma), AVG() (promedio), MAX() (máximo) y MIN() (mínimo). Estas funciones realizan operaciones matemáticas sobre conjuntos de datos para obtener resúmenes estadísticos."
-            },
-            {
-                question: "¿Cuál es la regla fundamental de GROUP BY?",
-                options: [
-                    "GROUP BY debe usarse siempre con ORDER BY",
-                    "GROUP BY solo puede usar funciones de agregación",
-                    "Todos los campos del SELECT que NO sean funciones de agregación deben aparecer en GROUP BY",
-                    "GROUP BY debe ir antes de WHERE"
-                ],
-                correct: 2,
-                explanation: "La regla fundamental es que todos los campos del SELECT que NO sean funciones de agregación deben aparecer en GROUP BY. Si tienes SELECT id_cliente, nombre, COUNT(*), entonces GROUP BY debe incluir id_cliente, nombre."
-            },
-            {
-                question: "¿Cuál es la diferencia entre ALL y DISTINCT?",
-                options: [
-                    "ALL muestra solo números y DISTINCT solo texto",
-                    "ALL es la opción por defecto que muestra todos los registros, DISTINCT elimina duplicados",
-                    "ALL ordena automáticamente y DISTINCT no",
-                    "ALL es más rápido que DISTINCT"
-                ],
-                correct: 1,
-                explanation: "ALL es la opción por defecto que muestra todos los registros incluyendo duplicados, mientras que DISTINCT elimina registros duplicados del resultado. Se demostró con el ejemplo de id_cliente en pedidos: ALL mostró 772 registros y DISTINCT mostró 89 registros únicos."
-            },
-            {
-                question: "¿Qué hace la cláusula TOP y cómo se diferencia del filtrado?",
-                options: [
-                    "TOP ordena los datos de mayor a menor automáticamente",
-                    "TOP limita el número de registros devueltos tomando los primeros N que encuentra, no calcula cuáles son los 'mejores'",
-                    "TOP filtra por condiciones específicas de los datos",
-                    "TOP es lo mismo que usar LIMIT en otros motores"
-                ],
-                correct: 1,
-                explanation: "TOP es limitación, no filtro. Simplemente toma los primeros N registros que encuentra, no calcula cuáles son los 'mejores'. Para filtros inteligentes usa WHERE. Si pides TOP 15 pero solo hay 9 registros, muestra los 9 disponibles."
-            },
-            {
-                question: "¿En qué orden deben aparecer las cláusulas en la sintaxis de SELECT?",
-                options: [
-                    "El orden puede variar según las necesidades",
-                    "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY",
-                    "FROM → SELECT → WHERE → ORDER BY → GROUP BY → HAVING",
-                    "WHERE → SELECT → FROM → GROUP BY → ORDER BY → HAVING"
-                ],
-                correct: 1,
-                explanation: "El orden de las cláusulas es obligatorio: SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY. Si no respetas este orden, obtendrás errores de sintaxis. ORDER BY siempre debe ser la última cláusula."
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let score = 0;
-
-        function initQuiz() {
-            displayQuestion();
-            updateProgress();
-        }
-
-        function displayQuestion() {
-            const container = document.getElementById('questionContainer');
-            const question = questions[currentQuestionIndex];
-            
-            container.innerHTML = `
-                <div class="question-card active">
-                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options" id="options">
-                        ${question.options.map((option, index) => `
-                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
-                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="explanation" id="explanation">
-                        <h4>💡 Explicación:</h4>
-                        <p>${question.explanation}</p>
-                    </div>
-                    <div class="buttons">
-                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            ← Anterior
-                        </button>
-                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
-                            Confirmar Respuesta
-                        </button>
-                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Restore previous answer if exists
-            if (userAnswers[currentQuestionIndex] !== undefined) {
-                selectOption(userAnswers[currentQuestionIndex]);
-                submitAnswer();
-            }
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll('.option');
-            options.forEach(option => option.classList.remove('selected'));
-            options[index].classList.add('selected');
-            
-            document.getElementById('submitBtn').disabled = false;
-        }
-
-        function submitAnswer() {
-            const selectedOption = document.querySelector('.option.selected');
-            if (!selectedOption) return;
-            
-            const selectedIndex = parseInt(selectedOption.dataset.index);
-            const question = questions[currentQuestionIndex];
-            
-            userAnswers[currentQuestionIndex] = selectedIndex;
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.onclick = null;
-                if (index === question.correct) {
-                    option.classList.add('correct');
-                } else if (index === selectedIndex && index !== question.correct) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            document.getElementById('explanation').classList.add('show');
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'block';
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-                updateProgress();
-            } else {
-                showFinalScore();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-                updateProgress();
-            }
-        }
-
-        function updateProgress() {
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            // Update score
-            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
-            document.getElementById('score').textContent = score;
-        }
-
-        function showFinalScore() {
-            const finalScore = Math.round((score / questions.length) * 100);
-            
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('finalScore').classList.add('show');
-            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
-            
-            let message = '';
-            if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas los fundamentos del comando SELECT.';
-            } else if (finalScore >= 60) {
-                message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
-            } else {
-                message = '📚 Necesitas repasar el material sobre comando SELECT.';
-            }
-            
-            document.getElementById('scoreMessage').innerHTML = `
-                <p>${message}</p>
-                <div class="study-tips">
-                    <h4>📋 Puntos clave para dominar:</h4>
-                    <ul>
-                        <li>Metodología de 3 preguntas: ¿Qué datos? ¿Dónde están? ¿Qué requisitos?</li>
-                        <li>Orden de procesamiento: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</li>
-                        <li>Diferencia entre WHERE (filtra registros) y HAVING (filtra grupos)</li>
-                        <li>Funciones de agregación: COUNT, SUM, AVG, MAX, MIN</li>
-                        <li>Regla de GROUP BY: todas las columnas no agregadas deben estar en GROUP BY</li>
-                        <li>ALL vs DISTINCT: todos los registros vs únicos sin duplicados</li>
-                        <li>TOP limita registros, no filtra inteligentemente</li>
-                        <li>Orden obligatorio de cláusulas en la sintaxis SELECT</li>
-                    </ul>
-                </div>
-            `;
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            score = 0;
-            
-            document.getElementById('questionContainer').style.display = 'block';
-            document.getElementById('finalScore').classList.remove('show');
-            
-            initQuiz();
-        }
-
-        // Initialize quiz when page loads
-        window.onload = initQuiz;
-    </script>
 </body>
 </html>

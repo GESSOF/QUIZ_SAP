@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 006 - SAP HANA - Reglas de Codd</title>
+    <title>Quiz 006 SAP HANA - Almacenamiento</title>
     <style>
         * {
             margin: 0;
@@ -112,45 +112,11 @@
             opacity: 1;
         }
 
-        .question-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
         .question-number {
             color: #667eea;
             font-size: 1.2em;
             font-weight: bold;
-        }
-
-        .category-tag {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .difficulty-indicator {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        .difficulty-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .difficulty-dot.active {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            margin-bottom: 15px;
         }
 
         .question-text {
@@ -351,26 +317,21 @@
             .buttons {
                 flex-direction: column;
             }
-
-            .question-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Quiz 006 - SAP HANA</h1>
-            <p>Las 12 Reglas de Codd para Bases de Datos Relacionales</p>
+            <h1>🎯 Quiz 006 | SAP HANA</h1>
+            <p>Almacenamiento en SAP HANA - Preparación para Certificación</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">20</span>
+                    <span class="stat-number" id="totalQuestions">15</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -398,284 +359,169 @@
     <script>
         const questions = [
             {
-                id: 1,
-                category: "Fundamentos de BD Relacionales",
-                difficulty: 1,
-                question: "¿Cuál es el tipo de base de datos más extendido en la actualidad según el video?",
+                question: "¿Cuál es la principal diferencia entre sistemas transaccionales y analíticos en SAP HANA?",
                 options: [
-                    "Bases de datos orientadas a objetos",
-                    "Bases de datos relacionales",
-                    "Bases de datos NoSQL",
-                    "Bases de datos jerárquicas"
+                    "Los sistemas transaccionales solo usan tablas en filas, los analíticos solo en columnas",
+                    "Los sistemas transaccionales se enfocan en introducir, modificar y borrar datos; los analíticos en análisis de datos",
+                    "Los sistemas transaccionales son más rápidos que los analíticos",
+                    "No hay diferencia, ambos funcionan igual"
                 ],
                 correct: 1,
-                explanation: "Las bases de datos relacionales son el tipo de base de datos más extendido en la actualidad, basándose en el modelo relacional con tablas bidimensionales."
+                explanation: "Los sistemas transaccionales se enfocan en operaciones CRUD (crear, leer, actualizar, eliminar) mientras que los sistemas analíticos se dedican al análisis de datos. SAP HANA maneja ambos tipos en la misma base de datos."
             },
             {
-                id: 2,
-                category: "Terminología Básica",
-                difficulty: 1,
-                question: "¿Qué es una 'tupla' en el contexto de bases de datos relacionales?",
+                question: "¿Qué tipo de almacenamiento es más eficiente para operaciones de agregación como sumatorios?",
                 options: [
-                    "Cada columna de la tabla",
-                    "Cada fila de la tabla",
-                    "El nombre de la tabla",
-                    "Las relaciones entre tablas"
+                    "Almacenamiento orientado a filas",
+                    "Almacenamiento orientado a columnas",
+                    "Ambos son igualmente eficientes",
+                    "Depende del tamaño de la tabla"
                 ],
                 correct: 1,
-                explanation: "Una tupla es cada fila de la tabla, representando una entidad individual con sus características específicas."
+                explanation: "El almacenamiento orientado a columnas es más eficiente para agregaciones porque los valores de una columna están almacenados de forma consecutiva, permitiendo lecturas más rápidas para operaciones como sumatorios."
             },
             {
-                id: 3,
-                category: "Terminología Básica",
-                difficulty: 1,
-                question: "¿Qué representa un 'atributo' en una tabla relacional?",
+                question: "¿Cuál es la ventaja principal del almacenamiento orientado a filas?",
                 options: [
-                    "Cada fila de la tabla",
-                    "El nombre de la tabla",
-                    "Cada columna de la tabla (características de la entidad)",
-                    "Las claves primarias únicamente"
+                    "Mayor compresión de datos",
+                    "Mejor para operaciones de agregación",
+                    "Más eficiente para consultas que requieren todas las columnas de un registro",
+                    "Permite procesamiento en paralelo"
                 ],
                 correct: 2,
-                explanation: "Un atributo es cada columna de la tabla, representando las características o propiedades de las entidades almacenadas."
+                explanation: "El almacenamiento orientado a filas es más eficiente cuando necesitamos obtener todas las columnas de un registro, ya que los datos están almacenados consecutivamente en el disco."
             },
             {
-                id: 4,
-                category: "Regla 1",
-                difficulty: 2,
-                question: "Según la Regla 1 de Codd, ¿cómo debe presentarse toda la información en una base de datos relacional?",
+                question: "¿Qué tipo de compresión se aplica automáticamente a las tablas orientadas a columnas?",
                 options: [
-                    "En archivos de texto plano",
-                    "Por medio de valores en tablas",
-                    "En estructuras jerárquicas",
-                    "En formatos binarios"
+                    "Compresión ZIP",
+                    "Compresión de diccionario",
+                    "Compresión LZ4",
+                    "Compresión GZIP"
                 ],
                 correct: 1,
-                explanation: "La Regla 1 establece que toda la información debe poder presentarse por medio de valores en tablas, con todos los registros teniendo el mismo número de campos."
+                explanation: "La compresión de diccionario se aplica automáticamente a las tablas orientadas a columnas. Esta compresión elimina la repetición y almacena cada valor único una sola vez."
             },
             {
-                id: 5,
-                category: "Regla 2",
-                difficulty: 2,
-                question: "¿Cuáles son los tres elementos necesarios para acceder a cualquier dato según la Regla 2?",
+                question: "¿Cuál es el factor clave para obtener mayor compresión en tablas orientadas a columnas?",
                 options: [
-                    "Usuario, contraseña y permisos",
-                    "Nombre de tabla, valor de su clave y nombre de una columna",
-                    "IP del servidor, puerto y base de datos",
-                    "Esquema, índice y tipo de dato"
-                ],
-                correct: 1,
-                explanation: "La Regla 2 (Acceso Garantizado) establece que todo dato debe ser accesible mediante la combinación de nombre de tabla, valor de su clave y nombre de una columna."
-            },
-            {
-                id: 6,
-                category: "Regla 3",
-                difficulty: 2,
-                question: "¿Para qué tipos de información permite la Regla 3 el uso de valores nulos?",
-                options: [
-                    "Solo para información opcional",
-                    "Para información desconocida e inaplicable",
-                    "Únicamente para campos numéricos",
-                    "Solo para campos de texto"
-                ],
-                correct: 1,
-                explanation: "La Regla 3 permite valores nulos para representar información desconocida e inaplicable, independientemente del tipo de dato."
-            },
-            {
-                id: 7,
-                category: "Regla 4",
-                difficulty: 3,
-                question: "¿Qué debe permitir el catálogo dinámico según la Regla 4?",
-                options: [
-                    "Solo consultar la estructura de tablas",
-                    "Consultar metadatos con el mismo lenguaje que se usa para los datos",
-                    "Únicamente mostrar permisos de usuario",
-                    "Solo información de rendimiento"
-                ],
-                correct: 1,
-                explanation: "La Regla 4 establece que la descripción de la base de datos debe ser consultable por usuarios autorizados usando el mismo lenguaje que para los datos, incluyendo metadatos como base de datos actual, usuario, fecha, etc."
-            },
-            {
-                id: 8,
-                category: "Regla 5",
-                difficulty: 2,
-                question: "¿Qué capacidades debe incluir el lenguaje de datos completo según la Regla 5?",
-                options: [
-                    "Solo consultas básicas",
-                    "Definición, manipulación, restricciones de integridad, autorizaciones y control de transacciones",
-                    "Únicamente inserción y borrado",
-                    "Solo funciones matemáticas"
-                ],
-                correct: 1,
-                explanation: "La Regla 5 requiere un lenguaje completo que permita definición de datos y vistas, manipulación de datos, restricciones de integridad, autorizaciones de acceso y control de transacciones. SQL cumple todos estos requisitos."
-            },
-            {
-                id: 9,
-                category: "Regla 6",
-                difficulty: 2,
-                question: "¿Qué establece la Regla 6 sobre las vistas?",
-                options: [
-                    "Las vistas solo pueden ser de lectura",
-                    "Toda vista teóricamente debe poder actualizarse",
-                    "Las vistas no pueden contener joins",
-                    "Solo se permiten vistas simples"
-                ],
-                correct: 1,
-                explanation: "La Regla 6 establece que toda vista teóricamente debe poder actualizarse en el sistema, manteniendo la capacidad de actualización cuando sea técnicamente posible."
-            },
-            {
-                id: 10,
-                category: "Regla 7",
-                difficulty: 2,
-                question: "¿Qué caracteriza a las operaciones de alto nivel según la Regla 7?",
-                options: [
-                    "Requieren programación compleja por parte del usuario",
-                    "Son instrucciones sencillas donde el sistema se ocupa de las tareas de bajo nivel",
-                    "Solo funcionan con tablas pequeñas",
-                    "Necesitan conocimiento profundo del hardware"
-                ],
-                correct: 1,
-                explanation: "La Regla 7 establece operaciones de alto nivel con instrucciones sencillas (como DELETE) donde el sistema automáticamente se ocupa de localizar, eliminar, liberar memoria y reorganizar la información."
-            },
-            {
-                id: 11,
-                category: "Regla 8",
-                difficulty: 3,
-                question: "¿Qué debe mantenerse inalterado según la Regla 8 de Independencia Física?",
-                options: [
-                    "La estructura de las tablas",
-                    "Los programas aplicativos ante cambios en mecanismos de almacenamiento y métodos de acceso",
-                    "Los permisos de usuario",
-                    "Las claves primarias"
-                ],
-                correct: 1,
-                explanation: "La Regla 8 establece que los programas aplicativos deben permanecer inalterados ante cambios en mecanismos de almacenamiento, métodos de acceso y ubicación física de los datos."
-            },
-            {
-                id: 12,
-                category: "Regla 9",
-                difficulty: 3,
-                question: "¿Qué condición deben cumplir los cambios para mantener la independencia lógica según la Regla 9?",
-                options: [
-                    "Deben ser aprobados por todos los usuarios",
-                    "Deben preservar la información y estar permitidos por el sistema",
-                    "Solo pueden hacerse durante el mantenimiento",
-                    "Requieren reiniciar la base de datos"
-                ],
-                correct: 1,
-                explanation: "La Regla 9 permite cambios que preserven la información y estén permitidos por el sistema, sin afectar los programas aplicativos."
-            },
-            {
-                id: 13,
-                category: "Regla 10",
-                difficulty: 3,
-                question: "¿Dónde deben almacenarse las reglas de integridad según la Regla 10?",
-                options: [
-                    "En los programas de aplicación",
-                    "En el catálogo de la base de datos",
-                    "En archivos externos",
-                    "En la memoria del servidor"
-                ],
-                correct: 1,
-                explanation: "La Regla 10 establece que las reglas de integridad deben definirse mediante el lenguaje de datos y almacenarse en el catálogo de la base de datos, NO en programas de aplicación."
-            },
-            {
-                id: 14,
-                category: "Regla 11",
-                difficulty: 3,
-                question: "¿Qué debe soportar el lenguaje según la Regla 11 sin alterar los programas?",
-                options: [
-                    "Solo bases de datos locales",
-                    "Bases de datos distribuidas cuando se distribuyan o redistribuyan los datos",
-                    "Únicamente replicación de datos",
-                    "Solo copias de seguridad"
-                ],
-                correct: 1,
-                explanation: "La Regla 11 requiere soporte para bases de datos distribuidas sin que el usuario sea consciente de si los datos están en un solo servidor o distribuidos en múltiples localizaciones."
-            },
-            {
-                id: 15,
-                category: "Regla 12",
-                difficulty: 3,
-                question: "¿Qué prohíbe la Regla 12 (No Subversión) respecto a los lenguajes de bajo nivel?",
-                options: [
-                    "Usarlos completamente",
-                    "Utilizarlos para saltarse reglas de integridad y evitar restricciones de lenguajes de alto nivel",
-                    "Acceder a más de una fila a la vez",
-                    "Crear índices automáticamente"
-                ],
-                correct: 1,
-                explanation: "La Regla 12 prohíbe que los lenguajes de bajo nivel con acceso fila a fila se utilicen para saltarse reglas de integridad o evitar restricciones de lenguajes de alto nivel."
-            },
-            {
-                id: 16,
-                category: "Historia y Contexto",
-                difficulty: 1,
-                question: "¿En qué año se establecieron las reglas de Codd?",
-                options: [
-                    "1969",
-                    "1970",
-                    "1971",
-                    "1975"
-                ],
-                correct: 1,
-                explanation: "Las 12 reglas de Codd fueron establecidas por Edgar F. Codd en 1970, proporcionando los fundamentos teóricos de las bases de datos relacionales."
-            },
-            {
-                id: 17,
-                category: "Importancia de las Reglas",
-                difficulty: 2,
-                question: "¿Cuál NO es una de las ventajas importantes que proporcionan las reglas de Codd?",
-                options: [
-                    "Abstracción que simplifica el trabajo del desarrollador",
-                    "Independencia entre aplicaciones y detalles de implementación",
-                    "Aumento automático de la velocidad de procesamiento",
-                    "Garantía de integridad y confiabilidad de los datos"
+                    "Tamaño de la tabla",
+                    "Número de columnas",
+                    "Mayor repetición de valores",
+                    "Tipo de datos utilizado"
                 ],
                 correct: 2,
-                explanation: "Las reglas de Codd proporcionan abstracción, independencia, integridad, portabilidad y escalabilidad, pero no garantizan automáticamente mayor velocidad de procesamiento."
+                explanation: "A mayor repetición de valores, mayor será la compresión. La compresión de diccionario funciona mejor cuando hay muchos valores repetidos en los datos."
             },
             {
-                id: 18,
-                category: "Aplicación Práctica",
-                difficulty: 2,
-                question: "¿Qué lenguaje cumple con todos los requisitos de la Regla 5 según se menciona en el video?",
+                question: "¿Cuál es la estructura típica de un sistema analítico?",
                 options: [
-                    "Java",
-                    "SQL",
-                    "Python",
-                    "JavaScript"
+                    "Estructura relacional normalizada",
+                    "Estructura en estrella o copo de nieve",
+                    "Estructura jerárquica",
+                    "Estructura en red"
                 ],
                 correct: 1,
-                explanation: "El video específicamente menciona que SQL cumple todos los requisitos de la Regla 5 para un lenguaje de datos completo."
+                explanation: "Los sistemas analíticos utilizan estructuras en estrella o copo de nieve, que consisten en una tabla central con datos numéricos rodeada de tablas que proporcionan contexto."
             },
             {
-                id: 19,
-                category: "Estructura de Datos",
-                difficulty: 1,
-                question: "¿En qué se basa principalmente el modelo relacional?",
+                question: "¿Qué ventaja tienen las tablas orientadas a columnas para el procesamiento en paralelo?",
                 options: [
-                    "Estructuras jerárquicas",
-                    "Tablas bidimensionales compuestas por filas y columnas",
-                    "Grafos dirigidos",
-                    "Arrays multidimensionales"
+                    "Cada fila puede ser procesada por un núcleo diferente",
+                    "Cada columna puede ser procesada por un núcleo diferente",
+                    "Solo pueden usar un núcleo a la vez",
+                    "No tienen ventajas para procesamiento en paralelo"
                 ],
                 correct: 1,
-                explanation: "El modelo relacional se basa en tablas bidimensionales compuestas por filas y columnas como estructura principal para organizar la información."
+                explanation: "Las tablas orientadas a columnas permiten que cada columna sea procesada por un núcleo diferente del procesador, facilitando el procesamiento en paralelo."
             },
             {
-                id: 20,
-                category: "Concepto General",
-                difficulty: 1,
-                question: "Según la conclusión del video, ¿es necesario memorizar las reglas de Codd al detalle?",
+                question: "¿Cuál es el máximo número de particiones permitido en una tabla de columnas desde SAP HANA 1.0 SPS10?",
                 options: [
-                    "Sí, es imprescindible memorizarlas todas",
-                    "No es necesario memorizar, pero sí comprenderlas para tener una base sólida",
-                    "Solo las primeras 6 reglas son importantes",
-                    "Solo es necesario para exámenes de certificación"
+                    "1,000 particiones",
+                    "5,000 particiones",
+                    "10,000 particiones",
+                    "16,000 particiones"
+                ],
+                correct: 3,
+                explanation: "Desde SAP HANA 1.0 SPS10, el límite se amplió de 1,000 a 16,000 particiones por tabla de tipo columna, permitiendo mayor paralelización."
+            },
+            {
+                question: "¿Qué son las tablas multialmacenadas en SAP HANA 2.0?",
+                options: [
+                    "Tablas que combinan almacenamiento en filas y columnas",
+                    "Tablas particionadas entre memoria RAM y memoria extendida",
+                    "Tablas que se replican en múltiples servidores",
+                    "Tablas que usan diferentes tipos de compresión"
                 ],
                 correct: 1,
-                explanation: "El video concluye que aunque no es necesario memorizar estas reglas al detalle, comprenderlas proporciona una base sólida para trabajar con bases de datos relacionales."
+                explanation: "Las tablas multialmacenadas son un tipo especial que apareció con HANA 2.0, donde las particiones se distribuyen entre memoria RAM y memoria extendida según criterios específicos."
+            },
+            {
+                question: "¿Cuándo es necesario utilizar índices en SAP HANA?",
+                options: [
+                    "Siempre son necesarios",
+                    "Solo en tablas orientadas a filas",
+                    "Solo en tablas orientadas a columnas",
+                    "Nunca son necesarios"
+                ],
+                correct: 1,
+                explanation: "Los índices son principalmente necesarios en tablas orientadas a filas. En tablas orientadas a columnas pierden sentido debido a la forma en que se almacenan los datos."
+            },
+            {
+                question: "¿Qué desventaja tienen las tablas orientadas a columnas?",
+                options: [
+                    "No se pueden comprimir",
+                    "No permiten procesamiento en paralelo",
+                    "El costo de reconstruir registros completos es alto",
+                    "Ocupan más espacio en disco"
+                ],
+                correct: 2,
+                explanation: "Las tablas orientadas a columnas tienen un alto costo para reconstruir registros completos cuando se necesitan todas las columnas, especialmente en aplicaciones transaccionales."
+            },
+            {
+                question: "¿Qué es la memoria extendida en SAP HANA?",
+                options: [
+                    "Memoria RAM adicional",
+                    "Una capa de almacenamiento basada en disco para datos menos críticos",
+                    "Memoria caché del procesador",
+                    "Memoria virtual del sistema operativo"
+                ],
+                correct: 1,
+                explanation: "La memoria extendida es una capa de almacenamiento basada en disco que se añade desde SAP HANA SPS09 para almacenar tablas que no requieren rendimiento óptimo."
+            },
+            {
+                question: "¿Cuál es el beneficio principal de la compresión en tablas orientadas a columnas?",
+                options: [
+                    "Reduce el tiempo de procesamiento",
+                    "Permite más datos en caché de CPU y reduce accesos a memoria/disco",
+                    "Mejora la seguridad de los datos",
+                    "Facilita las copias de seguridad únicamente"
+                ],
+                correct: 1,
+                explanation: "La compresión permite tener más datos en la caché de CPU (memoria más rápida) y reduce los accesos a memoria RAM y disco duro, mejorando el rendimiento general."
+            },
+            {
+                question: "¿Qué tipos de particionamiento existen para tablas orientadas a columnas?",
+                options: [
+                    "Solo particionamiento automático",
+                    "Particionamiento por valores de columna, automático por la base de datos, y round-robin",
+                    "Solo particionamiento manual",
+                    "Particionamiento por fecha únicamente"
+                ],
+                correct: 1,
+                explanation: "Existen tres tipos: por valores de una columna, automático (la base de datos decide), y round-robin (distribución secuencial entre particiones)."
+            },
+            {
+                question: "¿Por qué las bases de datos tradicionales no aprovechaban bien el procesamiento en paralelo?",
+                options: [
+                    "Los procesadores antiguos no tenían múltiples núcleos",
+                    "Las limitaciones de los discos duros magnéticos con agujas de lectura",
+                    "Los sistemas operativos no lo permitían",
+                    "Era demasiado costoso implementarlo"
+                ],
+                correct: 1,
+                explanation: "Los discos duros magnéticos tenían agujas de lectura que solo podían estar en un lugar a la vez, impidiendo lecturas en paralelo. Al pasar a memoria RAM, esta limitación desaparece."
             }
         ];
 
@@ -694,15 +540,7 @@
             
             container.innerHTML = `
                 <div class="question-card active">
-                    <div class="question-meta">
-                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
-                        <div class="category-tag">${question.category}</div>
-                        <div class="difficulty-indicator">
-                            ${Array.from({length: 3}, (_, i) => 
-                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
-                            ).join('')}
-                        </div>
-                    </div>
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
                     <div class="question-text">${question.question}</div>
                     <div class="options" id="options">
                         ${question.options.map((option, index) => `
@@ -805,28 +643,25 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 85) {
-                message = '🎉 ¡Excelente! Dominas muy bien las reglas fundamentales de las bases de datos relacionales.';
-            } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes una comprensión sólida de las reglas de Codd.';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Estás listo para la certificación SAP HANA.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Revisa los temas que necesitas reforzar.';
             } else {
-                message = '📚 Necesitas reforzar los conceptos de las reglas de Codd. ¡Sigue estudiando!';
+                message = '📚 Necesitas estudiar más. Revisa el material y vuelve a intentarlo.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>📊 Puntos clave sobre las Reglas de Codd:</h4>
+                    <h4>📋 Puntos clave para la certificación:</h4>
                     <ul>
-                        <li>12 reglas establecidas por Edgar F. Codd en 1970</li>
-                        <li>Fundamentos teóricos de las bases de datos relacionales</li>
-                        <li>Terminología: Tupla (fila), Atributo (columna), Relación (tabla)</li>
-                        <li>Reglas 1-4: Representación de información y acceso garantizado</li>
-                        <li>Reglas 5-8: Lenguaje completo y operaciones de alto nivel</li>
-                        <li>Reglas 9-12: Independencia lógica, física y de distribución</li>
-                        <li>SQL cumple todos los requisitos del lenguaje completo</li>
-                        <li>Importancia: abstracción, independencia, integridad, portabilidad</li>
-                        <li>No es necesario memorizar, pero sí comprender para base sólida</li>
+                        <li>Dominar las diferencias entre almacenamiento en filas vs columnas</li>
+                        <li>Comprender cuándo usar cada tipo de almacenamiento</li>
+                        <li>Conocer la compresión de diccionario en tablas columna</li>
+                        <li>Entender el procesamiento en paralelo y particionamiento</li>
+                        <li>Saber sobre memoria extendida y tablas multialmacenadas</li>
+                        <li>Recordar los límites de particiones (16,000 desde SPS10)</li>
                     </ul>
                 </div>
             `;

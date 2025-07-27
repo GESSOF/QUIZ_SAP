@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 019 - Interfaces de Desarrollo SAP HANA</title>
+    <title>Quiz 013 - Diagramas Entidad-Relación SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <<h1>?? Quiz 019 | SAP HANA</h1>
-            <p>Interfaces de Desarrollo - SAP HANA</p>
+            <h1>🎯 Quiz 013 | SAP HANA</h1>
+            <p>Diagramas Entidad-Relación - SAP HANA</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                question: "¿Qué es un modelo entidad-relación?",
                 options: [
-                    "Solo para hacer el trabajo más complicado",
-                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
-                    "Porque SAP lo requiere por licencia",
-                    "Para crear archivos de respaldo automáticamente"
+                    "Un tipo de base de datos relacional",
+                    "Un diagrama de flujo que ilustra cómo las entidades se relacionan entre sí",
+                    "Una herramienta para crear tablas SQL",
+                    "Un método de programación orientada a objetos"
                 ],
                 correct: 1,
-                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+                explanation: "Un modelo entidad-relación es un tipo de diagrama de flujo que ilustra cómo las entidades (elementos de la realidad) se relacionan entre sí dentro de un sistema."
             },
             {
-                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                question: "¿Cuál es la principal diferencia entre el modelo E-R y el modelo relacional?",
                 options: [
-                    "Eclipse y Visual Studio",
-                    "SAP HANA Studio y Web IDE",
-                    "SQL Server Management Studio y phpMyAdmin",
-                    "Cockpit y Database Explorer"
+                    "El modelo E-R es más técnico que el relacional",
+                    "El modelo E-R es conceptual de alto nivel, el relacional considera aspectos técnicos",
+                    "No hay diferencias, son lo mismo",
+                    "El modelo relacional es más antiguo"
                 ],
                 correct: 1,
-                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
+                explanation: "El modelo E-R es una representación conceptual de alto nivel que no considera aspectos técnicos, mientras que el modelo relacional es de nivel inferior y considera la implementación técnica en tablas."
             },
             {
-                question: "¿En qué tecnología se basa SAP HANA Studio?",
+                question: "¿Cómo se representan gráficamente las entidades en un diagrama E-R?",
                 options: [
-                    "Visual Studio",
-                    "IntelliJ IDEA", 
-                    "Eclipse",
-                    "NetBeans"
+                    "Con un rombo",
+                    "Con una elipse",
+                    "Con un rectángulo",
+                    "Con un círculo"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Studio se basa en Eclipse, un entorno de desarrollo libre, extensible mediante plugins, que funciona para múltiples lenguajes de programación."
+                explanation: "Las entidades se representan con un rectángulo que contiene el nombre de la entidad en su interior."
             },
             {
-                question: "¿Cuál es el estado actual de SAP HANA Studio?",
+                question: "¿Qué tipo de atributo puede tomar muchos valores para una misma entidad?",
                 options: [
-                    "Es la interfaz recomendada para nuevos proyectos",
-                    "Está en activo pero condenado a desaparecer",
-                    "Ya no funciona con HANA 2.0",
-                    "Se ha convertido en una aplicación web"
-                ],
-                correct: 1,
-                explanation: "HANA Studio sigue en activo y se puede conectar, pero está condenado a desaparecer. SAP recomienda migrar completamente al entorno web (Web IDE)."
-            },
-            {
-                question: "¿Cuál es la principal ventaja del Web IDE sobre HANA Studio?",
-                options: [
-                    "Es más rápido en procesamiento",
-                    "Tiene más funcionalidades de desarrollo",
-                    "No requiere instalación, acceso desde cualquier navegador",
-                    "Solo funciona con HANA 1.0"
+                    "Atributo simple",
+                    "Atributo compuesto",
+                    "Atributo multivalorado",
+                    "Atributo derivado"
                 ],
                 correct: 2,
-                explanation: "El Web IDE es accesible desde cualquier navegador sin necesidad de instalación, ofrece actualizaciones automáticas y es la interfaz moderna recomendada por SAP para todo desarrollo."
+                explanation: "Los atributos multivalorados pueden tomar muchos valores para una misma entidad, como por ejemplo los números de teléfono de una persona."
             },
             {
-                question: "¿Cuál es el propósito principal del Cockpit en el ecosistema HANA?",
+                question: "¿Cómo se representa gráficamente una relación en un diagrama E-R?",
                 options: [
-                    "Desarrollo de aplicaciones y consultas SQL",
-                    "Administración del sistema, usuarios y monitoreo",
-                    "Crear diagramas entidad-relación",
-                    "Backup automático de datos"
+                    "Con un rectángulo",
+                    "Con una elipse",
+                    "Con un rombo",
+                    "Con una línea punteada"
                 ],
-                correct: 1,
-                explanation: "El Cockpit es la interfaz de administración web enfocada en tareas administrativas: gestión de usuarios, permisos, monitoreo del sistema, configuración del servidor y backup."
+                correct: 2,
+                explanation: "Las relaciones se representan con un rombo que contiene el nombre de la relación, generalmente un verbo que describe la conexión entre entidades."
             },
             {
-                question: "¿Con qué versión de HANA se introdujo el Web IDE?",
+                question: "En una relación 1:N (uno a varios), ¿qué significa esta cardinalidad?",
                 options: [
-                    "HANA 1.0",
-                    "HANA 2.0",
-                    "HANA 3.0",
-                    "Desde el inicio de HANA"
+                    "Cada elemento de ambas entidades se relaciona con varios elementos",
+                    "Un elemento de la entidad A se asocia con varios de B, pero cada elemento de B solo con uno de A",
+                    "Solo puede haber una relación entre las entidades",
+                    "No puede haber relaciones entre las entidades"
                 ],
                 correct: 1,
-                explanation: "El Web IDE se inició con HANA 2.0 como la nueva interfaz principal, mientras que en HANA 1.0 el método principal era SAP HANA Studio basado en Eclipse."
+                explanation: "En una relación 1:N, un elemento de la entidad A se asocia con uno o más elementos de la entidad B, pero cada elemento de B solo se relaciona con un único elemento de A."
             },
             {
-                question: "¿Cuál es la estrategia actual de SAP para las interfaces de HANA?",
+                question: "¿Qué problema presenta la relación N:M (muchos a muchos) en bases de datos relacionales?",
                 options: [
-                    "Mantener solo HANA Studio para compatibilidad",
-                    "Trabajar 100% con entorno web (Web IDE + Cockpit)",
-                    "Crear una nueva aplicación de escritorio",
-                    "Integrar todo en SAP GUI"
+                    "Es la más eficiente de implementar",
+                    "No se puede implementar directamente, debe convertirse en una nueva tabla",
+                    "Solo funciona con tablas pequeñas",
+                    "Requiere índices especiales"
                 ],
                 correct: 1,
-                explanation: "La estrategia actual de SAP es trabajar 100% con el entorno web: Web IDE para desarrollo y consultas, Cockpit para administración, eliminando gradualmente HANA Studio."
+                explanation: "Las relaciones N:M no se pueden implementar directamente en bases de datos relacionales. Se debe crear una nueva tabla intermedia relacionada a ambas entidades con relaciones 1:N."
+            },
+            {
+                question: "¿Cuál es el primer paso en la metodología para crear un diagrama E-R?",
+                options: [
+                    "Crear las tablas en la base de datos",
+                    "Partir de una descripción textual del problema",
+                    "Definir las claves primarias",
+                    "Establecer las restricciones"
+                ],
+                correct: 1,
+                explanation: "El primer paso es partir de una descripción textual del problema, ya sea a través de conversaciones con el cliente o documentos escritos que describan los requisitos del sistema."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            �?Anterior
+                            ← Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
                         </button>
                     </div>
                 </div>
@@ -621,11 +621,11 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas las interfaces de desarrollo SAP HANA.';
+                message = '🎉 ¡Excelente! Dominas los conceptos de diagramas E-R.';
             } else if (finalScore >= 60) {
                 message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
             } else {
-                message = '📚 Necesitas repasar el material sobre interfaces HANA.';
+                message = '📚 Necesitas repasar el material sobre diagramas E-R.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
@@ -633,16 +633,14 @@
                 <div class="study-tips">
                     <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Diferencia entre HANA SQL y otros lenguajes de programación</li>
-                        <li>Necesidad de interfaces especializadas para conectar con la BD</li>
-                        <li>SAP HANA Studio: basado en Eclipse, legacy, en declive</li>
-                        <li>Web IDE: interfaz web moderna, recomendada para desarrollo</li>
-                        <li>Cockpit: herramienta de administración web</li>
-                        <li>Evolución de HANA 1.0 (Studio) a HANA 2.0 (Web IDE)</li>
-                        <li>Estrategia actual: 100% entorno web</li>
-                        <li>Cuándo usar cada interfaz según el propósito</li>
-                        <li>Ventajas del entorno web vs aplicaciones de escritorio</li>
-                        <li>Importancia para certificaciones SAP HANA</li>
+                        <li>Diferencias entre modelo E-R y modelo relacional</li>
+                        <li>Representación gráfica de entidades, atributos y relaciones</li>
+                        <li>Tipos de atributos: simples, compuestos, multivalorados, derivados</li>
+                        <li>Cardinalidad de relaciones: 1:1, 1:N, N:M</li>
+                        <li>Metodología de desarrollo desde descripción textual</li>
+                        <li>Identificación de sustantivos (entidades) y verbos (relaciones)</li>
+                        <li>Importancia de las restricciones en el diseño</li>
+                        <li>Conversión de N:M a tablas relacionales</li>
                     </ul>
                 </div>
             `;

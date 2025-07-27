@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 004 - SAP HANA - Alta Disponibilidad y Seguridad</title>
+    <title>Quiz 004 SAP HANA - Escenarios de Implementación</title>
     <style>
         * {
             margin: 0;
@@ -362,15 +362,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔒 Quiz 004 - SAP HANA</h1>
-            <p>Alta Disponibilidad y Sistemas de Seguridad</p>
+            <h1>🎯 Quiz 004 | SAP HANA</h1>
+            <p>Escenarios de Implementación - Preparación para Certificación</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
                     <span>Pregunta</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">18</span>
+                    <span class="stat-number" id="totalQuestions">15</span>
                     <span>Total</span>
                 </div>
                 <div class="stat-item">
@@ -399,255 +399,213 @@
         const questions = [
             {
                 id: 1,
-                category: "Alta Disponibilidad",
-                difficulty: 1,
-                question: "¿Cuál es el objetivo principal de la alta disponibilidad en SAP HANA?",
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Cuál es el propósito principal de SAP HANA como acelerador?",
                 options: [
-                    "Mejorar la velocidad de procesamiento",
-                    "Que múltiples usuarios puedan acceder simultáneamente sin bloqueos, incluyendo tolerancia a desastres",
-                    "Reducir el consumo de memoria",
-                    "Simplificar la administración del sistema"
+                    "Reemplazar completamente el sistema SAP existente",
+                    "Replicar en tiempo real la base de datos existente para acelerar la obtención de datos",
+                    "Crear una nueva arquitectura de tres capas",
+                    "Eliminar la necesidad de herramientas ETL"
                 ],
                 correct: 1,
-                explanation: "La alta disponibilidad busca que múltiples usuarios puedan acceder al sistema simultáneamente sin bloqueos, incluyendo tolerancia a desastres, como un generador de emergencia en un hospital."
+                explanation: "SAP HANA como acelerador replica en tiempo real la base de datos ya existente en el sistema SAP, logrando una gran aceleración en la obtención de datos sin necesidad de mover todo el sistema existente."
             },
             {
                 id: 2,
-                category: "Arquitectura Scale Out",
-                difficulty: 2,
-                question: "¿Qué componentes incluye la arquitectura Scale Out en un data center?",
+                category: "Arquitectura y Componentes",
+                difficulty: 3,
+                question: "¿Qué significa XSA en el contexto de SAP HANA 2.0?",
                 options: [
-                    "Solo servidores activos",
-                    "Servidores activos + almacenamiento compartido + servidor en espera",
-                    "Solo base de datos distribuida",
-                    "Únicamente servidores de respaldo"
+                    "eXtended Services Advanced",
+                    "eXtended Server Application",
+                    "eXtended SAP Architecture",
+                    "eXtended System Administration"
                 ],
-                correct: 1,
-                explanation: "La arquitectura Scale Out incluye servidores activos, almacenamiento compartido y servidor en espera (standby) para garantizar continuidad del servicio."
+                correct: 0,
+                explanation: "XSA significa eXtended Services Advanced Model, que es el servidor de aplicaciones presentado en HANA 2.0, sustituyendo al XS (eXtended Services) de HANA 1.0."
             },
             {
                 id: 3,
-                category: "Sistemas Distribuidos",
-                difficulty: 2,
-                question: "¿Qué sucede en un sistema distribuido multinacional cuando falla un data center completo?",
+                category: "Conceptos Técnicos",
+                difficulty: 3,
+                question: "¿Qué es el 'push down' en SAP HANA?",
                 options: [
-                    "El sistema se detiene completamente",
-                    "Se pierde toda la información",
-                    "El tráfico se desvía automáticamente a otro data center",
-                    "Solo funciona el servidor local"
+                    "Mover datos desde la memoria al disco",
+                    "Transferir el procesamiento desde el servidor de aplicaciones a la base de datos",
+                    "Comprimir datos para optimizar el almacenamiento",
+                    "Replicar datos entre diferentes sistemas"
                 ],
-                correct: 2,
-                explanation: "En sistemas distribuidos con servidores en diferentes países, si falla un data center completo, el tráfico se desvía automáticamente a otro data center."
+                correct: 1,
+                explanation: "El 'push down' consiste en forzar todas las operaciones de procesamiento a nivel de la base de datos en lugar del servidor de aplicaciones, aprovechando la velocidad y capacidades de HANA."
             },
             {
                 id: 4,
-                category: "Componentes Técnicos",
+                category: "Herramientas de Desarrollo",
                 difficulty: 2,
-                question: "¿Cuál es la función del servidor de nombres en SAP HANA?",
+                question: "¿Cuál es la herramienta principal para desarrollar aplicaciones en SAP HANA 2.0?",
                 options: [
-                    "Almacenar los datos principales",
-                    "Traducir IPs a nombres reconocibles",
-                    "Ejecutar las consultas SQL",
-                    "Gestionar los usuarios y roles"
+                    "SAP HANA Studio",
+                    "SAP Web IDE",
+                    "Eclipse con plugins SAP",
+                    "Visual Studio Code"
                 ],
                 correct: 1,
-                explanation: "El servidor de nombres se encarga de traducir direcciones IP a nombres reconocibles, facilitando la administración del sistema."
+                explanation: "SAP Web IDE es la herramienta principal para desarrollar aplicaciones en HANA 2.0 (XSA), mientras que HANA Studio se usaba para HANA 1.0 (XS) y está destinado a desaparecer."
             },
             {
                 id: 5,
-                category: "Componentes Técnicos",
+                category: "Plataformas y Servicios",
                 difficulty: 2,
-                question: "¿Cuántos servidores maestros puede tener SAP HANA para redundancia en la administración?",
+                question: "¿Qué tipo de plataforma es el motor XSA según la documentación SAP?",
                 options: [
-                    "Solo 1 servidor maestro",
-                    "Hasta 2 servidores maestros",
-                    "Hasta 3 servidores maestros",
-                    "Ilimitados servidores maestros"
+                    "Infrastructure as a Service (IaaS)",
+                    "Software as a Service (SaaS)",
+                    "Platform as a Service (PaaS) de código abierto de Cloud Foundry",
+                    "Database as a Service (DBaaS)"
                 ],
                 correct: 2,
-                explanation: "SAP HANA puede tener hasta 3 servidores maestros para proporcionar redundancia en la administración del sistema."
+                explanation: "El motor XSA es un Platform as a Service (PaaS) de código abierto de Cloud Foundry. Esta es una respuesta exacta que aparece en exámenes de certificación."
             },
             {
                 id: 6,
-                category: "Seguridad General",
-                difficulty: 1,
-                question: "¿Qué elementos protege la seguridad en SAP HANA?",
+                category: "Virtualización de Datos",
+                difficulty: 3,
+                question: "¿Qué significa 'virtualización de datos' en SAP HANA Analytics?",
                 options: [
-                    "Solo la base de datos",
-                    "Solo las aplicaciones XS",
-                    "Base de datos, aplicaciones del motor XS y objetos de desarrollo en repositorios",
-                    "Únicamente los objetos de desarrollo"
+                    "Crear copias físicas de los datos en diferentes servidores",
+                    "Reorganizar datos al vuelo sin almacenarlos físicamente en disco",
+                    "Comprimir datos para ahorrar espacio",
+                    "Encriptar datos para mayor seguridad"
                 ],
-                correct: 2,
-                explanation: "SAP HANA proporciona seguridad completa para la base de datos, aplicaciones del motor XS (clásica y avanzada) y objetos de desarrollo en repositorios."
+                correct: 1,
+                explanation: "La virtualización de datos significa que los datos se reorganizan al vuelo (en memoria volátil) sin estar grabados en disco, permitiendo diferentes estructuras de datos sin ocupar espacio adicional."
             },
             {
                 id: 7,
-                category: "Autenticación",
-                difficulty: 1,
-                question: "¿Qué es la autenticación en SAP HANA?",
+                category: "Modelos de Datos",
+                difficulty: 2,
+                question: "¿Qué modelo de organización de datos se utiliza tradicionalmente en Business Warehouse?",
                 options: [
-                    "Proceso de asignación de roles",
-                    "Proceso de verificación de identidad cuando un usuario intenta conectarse",
-                    "Proceso de cifrado de datos",
-                    "Proceso de auditoría del sistema"
+                    "Modelo relacional",
+                    "Modelo en estrella",
+                    "Modelo jerárquico",
+                    "Modelo de red"
                 ],
                 correct: 1,
-                explanation: "La autenticación es el proceso de verificación de identidad cuando un usuario intenta conectarse a la base de datos HANA."
+                explanation: "En Business Warehouse se utiliza el modelo en estrella para organizar la información de manera más eficiente para análisis, diferente del modelo relacional tradicional."
             },
             {
                 id: 8,
-                category: "Métodos de Autenticación",
+                category: "Arquitectura de Aplicaciones",
                 difficulty: 2,
-                question: "¿Cuáles son los dos métodos principales de autenticación en SAP HANA?",
+                question: "¿Cuántas capas tiene la arquitectura tradicional de un sistema SAP Business Suite?",
                 options: [
-                    "Usuario/Contraseña y biometría",
-                    "Usuario/Contraseña y Kerberos",
-                    "Kerberos y certificados digitales",
-                    "Tokens y tarjetas inteligentes"
+                    "2 capas",
+                    "3 capas",
+                    "4 capas",
+                    "5 capas"
                 ],
                 correct: 1,
-                explanation: "Los dos métodos principales de autenticación en SAP HANA son Usuario/Contraseña (método tradicional) y Kerberos (protocolo avanzado)."
+                explanation: "La arquitectura tradicional de SAP Business Suite tiene 3 capas: capa de presentación (cliente), servidor de aplicaciones, y capa de base de datos."
             },
             {
                 id: 9,
-                category: "Protocolo Kerberos",
-                difficulty: 3,
-                question: "¿Quién creó el protocolo Kerberos?",
+                category: "Formatos de Datos",
+                difficulty: 2,
+                question: "¿Por qué se prefiere JSON sobre XML para transferencias de datos en aplicaciones modernas?",
                 options: [
-                    "Microsoft",
-                    "MIT (Instituto Tecnológico de Massachusetts)",
-                    "SAP",
-                    "IBM"
+                    "JSON es más seguro que XML",
+                    "JSON requiere menos caracteres para la misma información",
+                    "JSON es más fácil de leer",
+                    "JSON es compatible con más navegadores"
                 ],
                 correct: 1,
-                explanation: "El protocolo Kerberos fue creado por el MIT (Instituto Tecnológico de Massachusetts) para permitir autenticación segura en redes inseguras."
+                explanation: "JSON requiere menos caracteres que XML para transmitir la misma información, lo que hace las transferencias más rápidas y eficientes, especialmente importante en aplicaciones empresariales con grandes volúmenes de datos."
             },
             {
                 id: 10,
-                category: "Protocolo Kerberos",
-                difficulty: 3,
-                question: "¿Qué significa KDC en el protocolo Kerberos?",
+                category: "Despliegue y Infraestructura",
+                difficulty: 2,
+                question: "¿Cuál es la principal ventaja de una implementación on-premise de SAP HANA?",
                 options: [
-                    "Kerberos Database Center",
-                    "Key Distribution Center",
-                    "Kerberos Data Control",
-                    "Key Database Controller"
+                    "Menor costo inicial",
+                    "Control completo sobre mantenimiento y actualizaciones",
+                    "Acceso automático a las últimas funcionalidades",
+                    "No requiere personal técnico especializado"
                 ],
                 correct: 1,
-                explanation: "KDC significa Key Distribution Center (Centro de Distribución de Claves), uno de los componentes clave del protocolo Kerberos."
+                explanation: "La principal ventaja de una implementación on-premise es que el cliente tiene control completo sobre el mantenimiento y las actualizaciones del sistema, pudiendo decidir cuándo y cómo aplicar cambios."
             },
             {
                 id: 11,
-                category: "Usuarios y Roles",
+                category: "Despliegue y Infraestructura",
                 difficulty: 2,
-                question: "¿Cuál es la filosofía de seguridad recomendada para asignar privilegios?",
+                question: "¿Con qué frecuencia recibe actualizaciones una solución SAP HANA en cloud?",
                 options: [
-                    "Dar acceso completo a todos los usuarios",
-                    "Lo menos posible - cada usuario debe tener acceso únicamente a lo que necesita",
-                    "Asignar permisos según la antigüedad del empleado",
-                    "Todos los usuarios deben tener los mismos permisos"
+                    "Cada mes",
+                    "Cada dos semanas aproximadamente",
+                    "Cada trimestre",
+                    "Una vez al año"
                 ],
                 correct: 1,
-                explanation: "La filosofía de seguridad es 'lo menos posible' - cada usuario debe tener acceso únicamente a los recursos que realmente necesita para su trabajo."
+                explanation: "Las soluciones SAP HANA en cloud reciben actualizaciones regulares aproximadamente cada dos semanas, lo que puede ser ventajoso para obtener las últimas innovaciones pero desventajoso para aplicaciones que requieren estabilidad."
             },
             {
                 id: 12,
-                category: "Sistema de Roles",
+                category: "Herramientas ETL",
                 difficulty: 2,
-                question: "¿Qué es un rol en SAP HANA?",
+                question: "¿Cuál es la herramienta ETL recomendada por SAP para replicación de datos hacia HANA?",
                 options: [
-                    "Un tipo de usuario especial",
-                    "Una 'caja' que contiene un conjunto de privilegios predefinidos para un perfil específico",
-                    "Un método de cifrado",
-                    "Una herramienta de auditoría"
+                    "SAP Data Services",
+                    "SAP SLT (SAP Landscape Transformation)",
+                    "SAP BW",
+                    "SAP PI/PO"
                 ],
                 correct: 1,
-                explanation: "Un rol es como una 'caja' que contiene un conjunto de privilegios predefinidos para un perfil específico de trabajo (desarrollador, modelador, usuario normal)."
+                explanation: "SAP recomienda SLT (SAP Landscape Transformation) como la herramienta ETL para replicar datos hacia HANA, especialmente en escenarios de acelerador."
             },
             {
                 id: 13,
-                category: "Cifrado",
-                difficulty: 1,
-                question: "¿Cuál es el objetivo principal del cifrado en SAP HANA?",
+                category: "Ventajas Competitivas",
+                difficulty: 3,
+                question: "¿Por qué los nuevos sistemas SAP (como S/4HANA) tienen mayor eficiencia que sistemas genéricos sobre HANA?",
                 options: [
-                    "Acelerar las consultas",
-                    "Garantizar que la información solo sea legible por usuarios con permisos y autenticación correcta",
-                    "Reducir el espacio de almacenamiento",
-                    "Mejorar la conectividad de red"
+                    "Tienen mejor interfaz de usuario",
+                    "Están diseñados específicamente para trabajar con HANA",
+                    "Incluyen más funcionalidades",
+                    "Son más económicos"
                 ],
                 correct: 1,
-                explanation: "El cifrado garantiza que la información permanezca segura y solo sea legible por usuarios con permisos y autenticación correcta."
+                explanation: "Los nuevos sistemas SAP como S/4HANA están diseñados específicamente para trabajar con HANA desde el principio, a diferencia de sistemas genéricos que deben funcionar con cualquier base de datos, lo que les permite mayor eficiencia."
             },
             {
                 id: 14,
-                category: "Historia del Cifrado",
+                category: "Escenarios de Implementación",
                 difficulty: 2,
-                question: "¿Qué ejemplo histórico de cifrado se menciona en el curso?",
+                question: "¿Cuál es la diferencia principal entre HANA como acelerador y HANA como Business Suite?",
                 options: [
-                    "Código Morse",
-                    "Máquina Enigma de la Segunda Guerra Mundial",
-                    "Alfabeto César",
-                    "Código Navajo"
+                    "El acelerador es más rápido",
+                    "El Business Suite requiere cambio en la filosofía de programación",
+                    "El acelerador es más económico",
+                    "El Business Suite no necesita servidor de aplicaciones"
                 ],
                 correct: 1,
-                explanation: "Se menciona la Máquina Enigma de la Segunda Guerra Mundial como ejemplo histórico de cifrado que cambiaba la posición de las letras."
+                explanation: "HANA como Business Suite requiere un cambio en la filosofía de programación para aprovechar todo el potencial de HANA, mientras que como acelerador simplemente mejora la velocidad sin cambios significativos en la programación."
             },
             {
                 id: 15,
-                category: "Audit Logging",
-                difficulty: 1,
-                question: "¿Qué son los Audit Logs en SAP HANA?",
+                category: "Casos de Uso",
+                difficulty: 3,
+                question: "¿En qué escenario sería más recomendable una solución híbrida (on-premise + cloud)?",
                 options: [
-                    "Archivos de configuración del sistema",
-                    "Registros que hacen seguimiento completo de todas las actividades del sistema",
-                    "Copias de seguridad automáticas",
-                    "Reportes de rendimiento"
-                ],
-                correct: 1,
-                explanation: "Los Audit Logs (también llamados logs o trazas del sistema) registran un seguimiento completo de todas las actividades en el sistema."
-            },
-            {
-                id: 16,
-                category: "Beneficios de Auditoría",
-                difficulty: 2,
-                question: "¿Cuál NO es un beneficio de la auditoría en SAP HANA?",
-                options: [
-                    "Trazabilidad completa de actividades",
-                    "Detección de anomalías y comportamientos sospechosos",
-                    "Mejora automática del rendimiento del sistema",
-                    "Cumplimiento de requisitos legales y normativos"
-                ],
-                correct: 2,
-                explanation: "La auditoría no mejora automáticamente el rendimiento. Sus beneficios incluyen trazabilidad, detección de anomalías, cumplimiento normativo e investigación de incidentes."
-            },
-            {
-                id: 17,
-                category: "Herramientas de Administración",
-                difficulty: 2,
-                question: "¿Cuál es la principal diferencia entre SAP HANA 1.0 y 2.0 en herramientas de administración?",
-                options: [
-                    "HANA 1.0 usaba HANA Studio para todo; HANA 2.0 prioriza Cockpit (Web) para administración",
-                    "No hay diferencias entre las versiones",
-                    "HANA 2.0 solo usa HANA Studio",
-                    "HANA 1.0 solo tenía herramientas web"
+                    "Cuando se tienen aplicaciones críticas que requieren control total y otras que se benefician de las últimas innovaciones",
+                    "Cuando se quiere ahorrar dinero",
+                    "Cuando se tiene poco personal técnico",
+                    "Cuando se necesita alta velocidad de procesamiento"
                 ],
                 correct: 0,
-                explanation: "HANA 1.0 usaba HANA Studio como herramienta única para desarrollo, modelado y administración. HANA 2.0 adopta un enfoque híbrido priorizando Cockpit (Web) para administración."
-            },
-            {
-                id: 18,
-                category: "Evolución de Herramientas",
-                difficulty: 2,
-                question: "¿Cuál es la recomendación de SAP para el futuro de las herramientas de administración?",
-                options: [
-                    "Mantener HANA Studio como principal herramienta",
-                    "Priorizar Cockpit (Web) y se espera que sea la única herramienta de administración",
-                    "Crear nuevas herramientas de línea de comandos",
-                    "Volver a herramientas de escritorio tradicionales"
-                ],
-                correct: 1,
-                explanation: "SAP recomienda priorizar Cockpit (Web) para todas las tareas posibles y se espera que en el futuro sea la única herramienta de administración."
+                explanation: "Una solución híbrida es ideal cuando se tienen operaciones críticas que requieren control total (on-premise) y otras aplicaciones que se benefician de las últimas innovaciones del software (cloud)."
             }
         ];
 
@@ -777,27 +735,25 @@
             document.getElementById('finalScoreCircle').textContent = finalScore + '%';
             
             let message = '';
-            if (finalScore >= 85) {
-                message = '🎉 ¡Excelente! Dominas muy bien los conceptos de alta disponibilidad y seguridad en SAP HANA.';
-            } else if (finalScore >= 70) {
-                message = '👍 ¡Buen trabajo! Tienes una base sólida en seguridad y alta disponibilidad de HANA.';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas los escenarios de implementación de SAP HANA.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Revisa algunos conceptos de implementación.';
             } else {
-                message = '📚 Necesitas reforzar los conceptos de seguridad y alta disponibilidad. ¡Sigue estudiando!';
+                message = '📚 Necesitas estudiar más sobre escenarios de implementación. ¡Sigue practicando!';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
                 <p>${message}</p>
                 <div class="study-tips">
-                    <h4>🔒 Puntos clave sobre Alta Disponibilidad y Seguridad:</h4>
+                    <h4>📋 Puntos clave sobre escenarios de implementación:</h4>
                     <ul>
-                        <li>Alta disponibilidad: tolerancia a desastres y acceso simultáneo</li>
-                        <li>Arquitectura Scale Out: servidores activos + almacenamiento + standby</li>
-                        <li>Autenticación: Usuario/Contraseña y protocolo Kerberos (MIT)</li>
-                        <li>Filosofía de seguridad: "lo menos posible" en privilegios</li>
-                        <li>Sistema de roles para gestión eficiente de permisos</li>
-                        <li>Cifrado: protección desde Enigma hasta algoritmos modernos</li>
-                        <li>Audit Logs: trazabilidad completa de actividades</li>
-                        <li>Herramientas: HANA Studio (1.0) → Cockpit Web (2.0)</li>
+                        <li>Diferencias entre HANA como acelerador vs. Business Suite</li>
+                        <li>Entender la arquitectura XSA y Cloud Foundry</li>
+                        <li>Conocer las herramientas de desarrollo (Web IDE vs HANA Studio)</li>
+                        <li>Comprender los conceptos de push down y virtualización</li>
+                        <li>Dominar las opciones de despliegue (on-premise vs cloud)</li>
+                        <li>Saber sobre herramientas ETL como SLT</li>
                     </ul>
                 </div>
             `;

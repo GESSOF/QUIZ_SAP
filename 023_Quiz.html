@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 019 - Interfaces de Desarrollo SAP HANA</title>
+    <title>Quiz 023 - Introducción al Lenguaje HANA SQL</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <<h1>?? Quiz 019 | SAP HANA</h1>
-            <p>Interfaces de Desarrollo - SAP HANA</p>
+            <h1>💻 Quiz 023 | SAP HANA</h1>
+            <p>Introducción al Lenguaje HANA SQL</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                question: "¿En qué estándar está basado HANA SQL?",
                 options: [
-                    "Solo para hacer el trabajo más complicado",
-                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
-                    "Porque SAP lo requiere por licencia",
-                    "Para crear archivos de respaldo automáticamente"
+                    "SQL-99 con extensiones propietarias de SAP",
+                    "SQL-92 (SQL estándar) con modificaciones específicas para SAP HANA",
+                    "Un lenguaje completamente nuevo creado por SAP",
+                    "SQL-2003 con compatibilidad Oracle"
                 ],
                 correct: 1,
-                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+                explanation: "SAP no ha inventado un lenguaje nuevo. Ha tomado el lenguaje SQL estándar (SQL-92) y lo ha implementado sobre su producto, realizando algunas modificaciones específicas para adaptarlo a las características particulares de SAP HANA."
             },
             {
-                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                question: "¿Cuáles son los tres tipos principales de lenguaje SQL?",
                 options: [
-                    "Eclipse y Visual Studio",
-                    "SAP HANA Studio y Web IDE",
-                    "SQL Server Management Studio y phpMyAdmin",
-                    "Cockpit y Database Explorer"
-                ],
-                correct: 1,
-                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
-            },
-            {
-                question: "¿En qué tecnología se basa SAP HANA Studio?",
-                options: [
-                    "Visual Studio",
-                    "IntelliJ IDEA", 
-                    "Eclipse",
-                    "NetBeans"
+                    "SELECT, INSERT, UPDATE",
+                    "CREATE, READ, UPDATE",
+                    "DDL, DML, DCL",
+                    "QUERY, MODIFY, CONTROL"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Studio se basa en Eclipse, un entorno de desarrollo libre, extensible mediante plugins, que funciona para múltiples lenguajes de programación."
+                explanation: "Los tres tipos principales de lenguaje SQL son: DDL (Data Definition Language) para definir objetos, DML (Data Manipulation Language) para manipular datos, y DCL (Data Control Language) para controlar accesos y permisos."
             },
             {
-                question: "¿Cuál es el estado actual de SAP HANA Studio?",
+                question: "¿Cuáles son los comandos principales de DDL (Data Definition Language)?",
                 options: [
-                    "Es la interfaz recomendada para nuevos proyectos",
-                    "Está en activo pero condenado a desaparecer",
-                    "Ya no funciona con HANA 2.0",
-                    "Se ha convertido en una aplicación web"
+                    "SELECT, INSERT, UPDATE, DELETE",
+                    "CREATE, ALTER, DROP",
+                    "GRANT, REVOKE",
+                    "BEGIN, COMMIT, ROLLBACK"
                 ],
                 correct: 1,
-                explanation: "HANA Studio sigue en activo y se puede conectar, pero está condenado a desaparecer. SAP recomienda migrar completamente al entorno web (Web IDE)."
+                explanation: "Los comandos principales de DDL son: CREATE (crear nuevos objetos), ALTER (modificar objetos existentes) y DROP (eliminar objetos de la base de datos)."
             },
             {
-                question: "¿Cuál es la principal ventaja del Web IDE sobre HANA Studio?",
+                question: "¿Cuál es el comando DML más potente y extenso según el contenido del video?",
                 options: [
-                    "Es más rápido en procesamiento",
-                    "Tiene más funcionalidades de desarrollo",
-                    "No requiere instalación, acceso desde cualquier navegador",
-                    "Solo funciona con HANA 1.0"
+                    "INSERT - para introducir nuevos datos",
+                    "UPDATE - para modificar registros existentes",
+                    "DELETE - para eliminar datos",
+                    "SELECT - para consultar y recuperar datos"
+                ],
+                correct: 3,
+                explanation: "El comando SELECT es extremadamente extenso y flexible. Nos permite una flexibilidad casi absoluta para recuperar información, unir datos de diferentes tablas y convertir datos en información útil para la toma de decisiones."
+            },
+            {
+                question: "¿Cuáles son los dos comandos principales de DCL (Data Control Language)?",
+                options: [
+                    "LOGIN y LOGOUT",
+                    "GRANT y REVOKE",
+                    "CONNECT y DISCONNECT",
+                    "ALLOW y DENY"
+                ],
+                correct: 1,
+                explanation: "Los comandos principales de DCL son: GRANT (otorgar permisos y privilegios a usuarios o roles) y REVOKE (quitar permisos, roles o privilegios previamente concedidos)."
+            },
+            {
+                question: "¿Cuáles son los dos tipos de comentarios en SQL y sus sintaxis respectivas?",
+                options: [
+                    "# para una línea y /* */ para múltiples líneas",
+                    "// para una línea y <!-- --> para múltiples líneas",
+                    "-- para una línea y /* */ para múltiples líneas",
+                    "' para una línea y \"\"\" \"\"\" para múltiples líneas"
                 ],
                 correct: 2,
-                explanation: "El Web IDE es accesible desde cualquier navegador sin necesidad de instalación, ofrece actualizaciones automáticas y es la interfaz moderna recomendada por SAP para todo desarrollo."
+                explanation: "Los dos tipos de comentarios en SQL son: -- (doble guión) para comentarios de una sola línea, y /* */ para comentarios multilínea que pueden abarcar múltiples líneas."
             },
             {
-                question: "¿Cuál es el propósito principal del Cockpit en el ecosistema HANA?",
+                question: "¿Cómo funcionan las interfaces HANA Studio y WebIDE en relación con SQL?",
                 options: [
-                    "Desarrollo de aplicaciones y consultas SQL",
-                    "Administración del sistema, usuarios y monitoreo",
-                    "Crear diagramas entidad-relación",
-                    "Backup automático de datos"
+                    "Son editores de texto que no generan código automáticamente",
+                    "Solo pueden trabajar con formularios gráficos",
+                    "Son esencialmente generadores de código SQL que traducen acciones a SQL",
+                    "Requieren conocimiento avanzado de SQL para funcionar"
                 ],
-                correct: 1,
-                explanation: "El Cockpit es la interfaz de administración web enfocada en tareas administrativas: gestión de usuarios, permisos, monitoreo del sistema, configuración del servidor y backup."
+                correct: 2,
+                explanation: "Tanto HANA Studio como WebIDE son esencialmente generadores de código SQL. Pueden comunicarse con la base de datos HANA tanto trabajando de forma textual (código directo) como con entornos gráficos que traducen nuestras acciones a SQL."
             },
             {
-                question: "¿Con qué versión de HANA se introdujo el Web IDE?",
+                question: "¿Por qué considera el instructor que el conocimiento de DML es 'totalmente básico'?",
                 options: [
-                    "HANA 1.0",
-                    "HANA 2.0",
-                    "HANA 3.0",
-                    "Desde el inicio de HANA"
+                    "Porque es el más fácil de aprender",
+                    "Porque permite consultas no programadas, análisis iterativo y trabajo sin desarrolladores",
+                    "Porque solo se usa en tareas simples",
+                    "Porque tiene menos comandos que DDL y DCL"
                 ],
                 correct: 1,
-                explanation: "El Web IDE se inició con HANA 2.0 como la nueva interfaz principal, mientras que en HANA 1.0 el método principal era SAP HANA Studio basado en Eclipse."
-            },
-            {
-                question: "¿Cuál es la estrategia actual de SAP para las interfaces de HANA?",
-                options: [
-                    "Mantener solo HANA Studio para compatibilidad",
-                    "Trabajar 100% con entorno web (Web IDE + Cockpit)",
-                    "Crear una nueva aplicación de escritorio",
-                    "Integrar todo en SAP GUI"
-                ],
-                correct: 1,
-                explanation: "La estrategia actual de SAP es trabajar 100% con el entorno web: Web IDE para desarrollo y consultas, Cockpit para administración, eliminando gradualmente HANA Studio."
+                explanation: "El DML es considerado básico porque permite realizar consultas no programadas (información específica sin formularios), análisis iterativo (refinar consultas según resultados), rapidez (no necesitar un desarrollador para cada consulta) y flexibilidad (adaptar la consulta en tiempo real)."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            �?Anterior
+                            ← Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
                         </button>
                     </div>
                 </div>
@@ -621,11 +621,11 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas las interfaces de desarrollo SAP HANA.';
+                message = '🎉 ¡Excelente! Dominas los conceptos básicos de HANA SQL.';
             } else if (finalScore >= 60) {
                 message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
             } else {
-                message = '📚 Necesitas repasar el material sobre interfaces HANA.';
+                message = '📚 Necesitas repasar el material sobre lenguaje HANA SQL.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
@@ -633,16 +633,14 @@
                 <div class="study-tips">
                     <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Diferencia entre HANA SQL y otros lenguajes de programación</li>
-                        <li>Necesidad de interfaces especializadas para conectar con la BD</li>
-                        <li>SAP HANA Studio: basado en Eclipse, legacy, en declive</li>
-                        <li>Web IDE: interfaz web moderna, recomendada para desarrollo</li>
-                        <li>Cockpit: herramienta de administración web</li>
-                        <li>Evolución de HANA 1.0 (Studio) a HANA 2.0 (Web IDE)</li>
-                        <li>Estrategia actual: 100% entorno web</li>
-                        <li>Cuándo usar cada interfaz según el propósito</li>
-                        <li>Ventajas del entorno web vs aplicaciones de escritorio</li>
-                        <li>Importancia para certificaciones SAP HANA</li>
+                        <li>Diferencia entre DDL, DML y DCL y sus comandos específicos</li>
+                        <li>HANA SQL basado en estándar SQL-92 con modificaciones SAP</li>
+                        <li>SELECT como el comando más potente y versátil de DML</li>
+                        <li>Interfaces HANA como generadores automáticos de SQL</li>
+                        <li>Uso de comentarios: -- para línea única y /* */ para multilínea</li>
+                        <li>CREATE, ALTER, DROP para definición de objetos (DDL)</li>
+                        <li>GRANT y REVOKE para control de accesos (DCL)</li>
+                        <li>Importancia de DML para consultas diarias sin desarrolladores</li>
                     </ul>
                 </div>
             `;

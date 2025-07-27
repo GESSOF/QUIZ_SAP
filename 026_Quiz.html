@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 019 - Interfaces de Desarrollo SAP HANA</title>
+    <title>Quiz 026 - Comando INSERT</title>
     <style>
         * {
             margin: 0;
@@ -377,8 +377,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <<h1>?? Quiz 019 | SAP HANA</h1>
-            <p>Interfaces de Desarrollo - SAP HANA</p>
+            <h1>➕ Quiz 026 | SAP HANA</h1>
+            <p>Comando INSERT - Inserción de Datos</p>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="currentQuestion">1</span>
@@ -413,92 +413,92 @@
     <script>
         const questions = [
             {
-                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                question: "¿Cuál es la sintaxis básica completa del comando INSERT?",
                 options: [
-                    "Solo para hacer el trabajo más complicado",
-                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
-                    "Porque SAP lo requiere por licencia",
-                    "Para crear archivos de respaldo automáticamente"
+                    "INSERT VALUES (valores) INTO tabla;",
+                    "INSERT INTO nombre_tabla [(columnas)] VALUES (valores);",
+                    "INSERT nombre_tabla WITH VALUES (valores);",
+                    "INSERT (valores) INTO nombre_tabla;"
                 ],
                 correct: 1,
-                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+                explanation: "La sintaxis correcta es: INSERT INTO nombre_tabla [(columnas)] VALUES (valores); donde la especificación de columnas es opcional, pero si se usa, va entre paréntesis después del nombre de la tabla."
             },
             {
-                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                question: "¿Cuáles son los dos enfoques principales para usar el comando INSERT?",
                 options: [
-                    "Eclipse y Visual Studio",
-                    "SAP HANA Studio y Web IDE",
-                    "SQL Server Management Studio y phpMyAdmin",
-                    "Cockpit y Database Explorer"
-                ],
-                correct: 1,
-                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
-            },
-            {
-                question: "¿En qué tecnología se basa SAP HANA Studio?",
-                options: [
-                    "Visual Studio",
-                    "IntelliJ IDEA", 
-                    "Eclipse",
-                    "NetBeans"
+                    "INSERT rápido e INSERT lento",
+                    "INSERT simple e INSERT complejo",
+                    "Sin especificar columnas (todos los campos en orden) y especificando columnas (mayor flexibilidad)",
+                    "INSERT directo e INSERT con subconsulta"
                 ],
                 correct: 2,
-                explanation: "SAP HANA Studio se basa en Eclipse, un entorno de desarrollo libre, extensible mediante plugins, que funciona para múltiples lenguajes de programación."
+                explanation: "Los dos enfoques son: 1) Sin especificar columnas: requiere valores para todos los campos en el orden exacto de la tabla, y 2) Especificando columnas: permite insertar valores desordenados o solo en algunos campos."
             },
             {
-                question: "¿Cuál es el estado actual de SAP HANA Studio?",
+                question: "¿Qué regla se debe seguir cuando se especifican columnas en el INSERT?",
                 options: [
-                    "Es la interfaz recomendada para nuevos proyectos",
-                    "Está en activo pero condenado a desaparecer",
-                    "Ya no funciona con HANA 2.0",
-                    "Se ha convertido en una aplicación web"
-                ],
-                correct: 1,
-                explanation: "HANA Studio sigue en activo y se puede conectar, pero está condenado a desaparecer. SAP recomienda migrar completamente al entorno web (Web IDE)."
-            },
-            {
-                question: "¿Cuál es la principal ventaja del Web IDE sobre HANA Studio?",
-                options: [
-                    "Es más rápido en procesamiento",
-                    "Tiene más funcionalidades de desarrollo",
-                    "No requiere instalación, acceso desde cualquier navegador",
-                    "Solo funciona con HANA 1.0"
+                    "Las columnas deben estar siempre en orden alfabético",
+                    "Solo se pueden especificar columnas de tipo VARCHAR",
+                    "La secuencia de valores debe coincidir exactamente con la secuencia de columnas especificadas",
+                    "Se deben especificar todas las columnas de la tabla"
                 ],
                 correct: 2,
-                explanation: "El Web IDE es accesible desde cualquier navegador sin necesidad de instalación, ofrece actualizaciones automáticas y es la interfaz moderna recomendada por SAP para todo desarrollo."
+                explanation: "La regla fundamental es que la secuencia de valores debe coincidir exactamente con la secuencia de columnas que especifiques, independientemente del orden original de la tabla."
             },
             {
-                question: "¿Cuál es el propósito principal del Cockpit en el ecosistema HANA?",
+                question: "¿Cuál es la diferencia entre NULL y 'NULL' en INSERT?",
                 options: [
-                    "Desarrollo de aplicaciones y consultas SQL",
-                    "Administración del sistema, usuarios y monitoreo",
-                    "Crear diagramas entidad-relación",
-                    "Backup automático de datos"
+                    "No hay diferencia, son lo mismo",
+                    "NULL (sin comillas) es un estado que representa ausencia de valor, 'NULL' (con comillas) es texto literal",
+                    "NULL es para números y 'NULL' es para texto",
+                    "'NULL' es la forma correcta, NULL sin comillas es un error"
                 ],
                 correct: 1,
-                explanation: "El Cockpit es la interfaz de administración web enfocada en tareas administrativas: gestión de usuarios, permisos, monitoreo del sistema, configuración del servidor y backup."
+                explanation: "NULL sin comillas representa ausencia de valor (estado especial de la base de datos que se consulta con IS NULL), mientras que 'NULL' con comillas es un texto que contiene las letras N-U-L-L (se consulta con = 'NULL')."
             },
             {
-                question: "¿Con qué versión de HANA se introdujo el Web IDE?",
+                question: "¿Cuáles son las dos formas de realizar inserción parcial de datos?",
                 options: [
-                    "HANA 1.0",
-                    "HANA 2.0",
-                    "HANA 3.0",
-                    "Desde el inicio de HANA"
+                    "INSERT rápido e INSERT completo",
+                    "Con NULL explícito (especificar NULL para campos vacíos) o especificando solo las columnas necesarias",
+                    "Solo se puede insertar datos completos, no parciales",
+                    "INSERT temporal e INSERT permanente"
                 ],
                 correct: 1,
-                explanation: "El Web IDE se inició con HANA 2.0 como la nueva interfaz principal, mientras que en HANA 1.0 el método principal era SAP HANA Studio basado en Eclipse."
+                explanation: "Las dos formas de inserción parcial son: 1) Con NULL explícito: especificar NULL para campos vacíos sin especificar columnas, y 2) Especificar solo las columnas que queremos llenar, omitiendo las demás que quedarán NULL automáticamente."
             },
             {
-                question: "¿Cuál es la estrategia actual de SAP para las interfaces de HANA?",
+                question: "¿Cuál de estos es un error común al usar INSERT?",
                 options: [
-                    "Mantener solo HANA Studio para compatibilidad",
-                    "Trabajar 100% con entorno web (Web IDE + Cockpit)",
-                    "Crear una nueva aplicación de escritorio",
-                    "Integrar todo en SAP GUI"
+                    "Usar mayúsculas en las palabras clave",
+                    "Intentar insertar texto en un campo INTEGER o superar la longitud de VARCHAR",
+                    "Especificar el nombre de la tabla",
+                    "Usar la palabra VALUES"
                 ],
                 correct: 1,
-                explanation: "La estrategia actual de SAP es trabajar 100% con el entorno web: Web IDE para desarrollo y consultas, Cockpit para administración, eliminando gradualmente HANA Studio."
+                explanation: "Los errores más comunes incluyen: intentar insertar texto en campo numérico, superar la longitud permitida en VARCHAR, no coincidir el orden de valores con columnas especificadas, y confundir NULL (estado) con 'NULL' (texto)."
+            },
+            {
+                question: "¿Qué sucede si creas un campo VARCHAR sin especificar tamaño?",
+                options: [
+                    "Acepta texto de cualquier longitud",
+                    "Solo acepta 1 carácter",
+                    "Toma un tamaño por defecto de 255 caracteres",
+                    "Genera un error de sintaxis"
+                ],
+                correct: 1,
+                explanation: "Si defines VARCHAR sin especificar longitud, solo acepta 1 carácter. Siempre se debe especificar la longitud: VARCHAR(50), VARCHAR(100), etc., para definir cuántos caracteres puede almacenar el campo."
+            },
+            {
+                question: "¿Cuáles son las mejores prácticas al usar INSERT?",
+                options: [
+                    "Nunca especificar columnas para mayor velocidad",
+                    "Siempre usar comillas en todos los valores",
+                    "Especificar columnas para claridad, verificar tipos de datos, usar comillas solo para texto y validar con SELECT",
+                    "Usar solo números, evitar texto"
+                ],
+                correct: 2,
+                explanation: "Las mejores prácticas incluyen: especificar siempre columnas para mayor mantenibilidad, verificar tipos de datos consultando la estructura, usar comillas correctamente (solo para texto, nunca para números), y validar después de insertar con SELECT para confirmar los datos."
             }
         ];
 
@@ -532,13 +532,13 @@
                     </div>
                     <div class="buttons">
                         <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            �?Anterior
+                            ← Anterior
                         </button>
                         <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
                             Confirmar Respuesta
                         </button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
-                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente �?}
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
                         </button>
                     </div>
                 </div>
@@ -621,11 +621,11 @@
             
             let message = '';
             if (finalScore >= 80) {
-                message = '🎉 ¡Excelente! Dominas las interfaces de desarrollo SAP HANA.';
+                message = '🎉 ¡Excelente! Dominas el comando INSERT.';
             } else if (finalScore >= 60) {
                 message = '👍 Buen trabajo. Revisa algunos conceptos para mejorar.';
             } else {
-                message = '📚 Necesitas repasar el material sobre interfaces HANA.';
+                message = '📚 Necesitas repasar el material sobre comando INSERT.';
             }
             
             document.getElementById('scoreMessage').innerHTML = `
@@ -633,16 +633,14 @@
                 <div class="study-tips">
                     <h4>📋 Puntos clave para dominar:</h4>
                     <ul>
-                        <li>Diferencia entre HANA SQL y otros lenguajes de programación</li>
-                        <li>Necesidad de interfaces especializadas para conectar con la BD</li>
-                        <li>SAP HANA Studio: basado en Eclipse, legacy, en declive</li>
-                        <li>Web IDE: interfaz web moderna, recomendada para desarrollo</li>
-                        <li>Cockpit: herramienta de administración web</li>
-                        <li>Evolución de HANA 1.0 (Studio) a HANA 2.0 (Web IDE)</li>
-                        <li>Estrategia actual: 100% entorno web</li>
-                        <li>Cuándo usar cada interfaz según el propósito</li>
-                        <li>Ventajas del entorno web vs aplicaciones de escritorio</li>
-                        <li>Importancia para certificaciones SAP HANA</li>
+                        <li>Sintaxis: INSERT INTO tabla [(columnas)] VALUES (valores)</li>
+                        <li>Dos enfoques: sin columnas (orden estricto) vs con columnas (flexibilidad)</li>
+                        <li>Regla de orden: valores deben coincidir con columnas especificadas</li>
+                        <li>NULL sin comillas (estado) vs 'NULL' con comillas (texto)</li>
+                        <li>Inserción parcial: NULL explícito o especificar solo columnas necesarias</li>
+                        <li>Errores comunes: tipos incompatibles, longitud VARCHAR, orden incorrecto</li>
+                        <li>VARCHAR sin tamaño solo acepta 1 carácter</li>
+                        <li>Mejores prácticas: especificar columnas, verificar tipos, validar resultados</li>
                     </ul>
                 </div>
             `;
