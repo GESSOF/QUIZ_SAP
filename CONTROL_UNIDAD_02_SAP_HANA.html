@@ -1,550 +1,1094 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CONTROL UNIDAD 1 | SAP HANA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Unidad 2 - SAP HANA Modelado de Datos</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
         .container {
-            background: #fff;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        h1 {
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
-        .question-card {
-            border-left: 5px solid #667eea;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
-        .question-number {
-            color: #667eea;
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
             font-weight: bold;
-            margin-bottom: 10px;
+            display: block;
         }
-        .question-text {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #333;
+
+        .content {
+            padding: 40px;
         }
-        .options {
-            display: grid;
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
             gap: 10px;
         }
-        .option {
-            padding: 10px 15px;
-            background: #eef;
-            border-radius: 10px;
-            cursor: default;
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
         }
+
+        .category-tag {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .explanation {
-            margin-top: 15px;
-            background: #e8f5e9;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
             border-left: 4px solid #4CAF50;
-            padding: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .exam-note {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 4px solid #ffa000;
+            padding: 15px;
             border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .exam-note strong {
+            color: #e65100;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📘 CONTROL UNIFICADO – UNIDAD 1</h1>
-        <p style="text-align:center;">Resumen de los Quizzes 004, 005, 006 y 007</p>
-        
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
+        <div class="header">
+            <h1>📊 Control Unidad 2 - SAP HANA</h1>
+            <p>Modelado de Datos Completo - Evaluación Comprensiva</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">30</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Control Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Control</button>
+            </div>
         </div>
     </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
+    <script>
+        const questions = [
+            // Introducción al Modelado de Datos (4 preguntas)
+            {
+                id: 1,
+                category: "Fundamentos del Modelado",
+                difficulty: 1,
+                question: "Según el video, ¿por qué es importante el modelado de datos en el curso de SAP HANA?",
+                options: [
+                    "Es la parte más teórica del curso",
+                    "Representa lo que realmente nos interesa porque proporciona herramientas prácticas para el desarrollo profesional",
+                    "Es opcional para la certificación",
+                    "Solo se necesita para proyectos grandes"
+                ],
+                correct: 1,
+                explanation: "El modelado de datos representa 'lo que realmente nos interesa del curso' porque proporciona herramientas prácticas aplicables en el trabajo diario, yendo más allá de la teoría.",
+                examNote: false
+            },
+            {
+                id: 2,
+                category: "Fundamentos del Modelado",
+                difficulty: 2,
+                question: "¿Cuáles son las 3 etapas del proceso de modelado mencionadas en el video?",
+                options: [
+                    "Análisis, Diseño, Implementación",
+                    "Modelado Conceptual, Modelado Lógico, Implementación Física",
+                    "Planificación, Desarrollo, Pruebas",
+                    "Requerimientos, Codificación, Despliegue"
+                ],
+                correct: 1,
+                explanation: "Las 3 etapas del modelado son: 1) Modelado Conceptual (esquema de alto nivel), 2) Modelado Lógico (refinamiento), y 3) Implementación Física (creación real en BD).",
+                examNote: true
+            },
+            {
+                id: 3,
+                category: "Fundamentos del Modelado",
+                difficulty: 2,
+                question: "¿Cuál es el flujo correcto de trabajo según el video?",
+                options: [
+                    "Implementación → Requerimientos → Diagrama → Normalización",
+                    "Requerimientos → Diagrama E-R → Reglas de normalización → Implementación física",
+                    "Diagrama → Requerimientos → Implementación → Normalización",
+                    "Normalización → Diagrama → Requerimientos → Implementación"
+                ],
+                correct: 1,
+                explanation: "El flujo correcto es: Requerimientos del cliente → Diagrama Entidad-Relación → Reglas de normalización → Implementación física (base de datos operativa).",
+                examNote: false
+            },
+            {
+                id: 4,
+                category: "Fundamentos del Modelado",
+                difficulty: 2,
+                question: "¿Qué competencias se buscan desarrollar según los objetivos mencionados?",
+                options: [
+                    "Solo habilidades técnicas de programación",
+                    "Únicamente conocimiento teórico avanzado",
+                    "Habilidades técnicas (interpretación de requerimientos, diagramas) y metodológicas (pensamiento sistemático)",
+                    "Solo herramientas de administración"
+                ],
+                correct: 2,
+                explanation: "Se buscan desarrollar tanto habilidades técnicas (interpretación de requerimientos, creación de diagramas, transformación) como metodológicas (pensamiento sistemático, progresión ordenada).",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
+            // Reglas de Codd (6 preguntas)
+            {
+                id: 5,
+                category: "Reglas de Codd",
+                difficulty: 1,
+                question: "¿Cuál es el tipo de base de datos más extendido en la actualidad según el video?",
+                options: [
+                    "Bases de datos orientadas a objetos",
+                    "Bases de datos relacionales",
+                    "Bases de datos NoSQL",
+                    "Bases de datos jerárquicas"
+                ],
+                correct: 1,
+                explanation: "Las bases de datos relacionales son el tipo de base de datos más extendido en la actualidad, basándose en el modelo relacional con tablas bidimensionales.",
+                examNote: false
+            },
+            {
+                id: 6,
+                category: "Reglas de Codd",
+                difficulty: 2,
+                question: "Según la Regla 1 de Codd, ¿cómo debe presentarse toda la información en una base de datos relacional?",
+                options: [
+                    "En archivos de texto plano",
+                    "Por medio de valores en tablas",
+                    "En estructuras jerárquicas",
+                    "En formatos binarios"
+                ],
+                correct: 1,
+                explanation: "La Regla 1 establece que toda la información debe poder presentarse por medio de valores en tablas, con todos los registros teniendo el mismo número de campos.",
+                examNote: true
+            },
+            {
+                id: 7,
+                category: "Reglas de Codd",
+                difficulty: 2,
+                question: "¿Cuáles son los tres elementos necesarios para acceder a cualquier dato según la Regla 2?",
+                options: [
+                    "Usuario, contraseña y permisos",
+                    "Nombre de tabla, valor de su clave y nombre de una columna",
+                    "IP del servidor, puerto y base de datos",
+                    "Esquema, índice y tipo de dato"
+                ],
+                correct: 1,
+                explanation: "La Regla 2 (Acceso Garantizado) establece que todo dato debe ser accesible mediante la combinación de nombre de tabla, valor de su clave y nombre de una columna.",
+                examNote: true
+            },
+            {
+                id: 8,
+                category: "Reglas de Codd",
+                difficulty: 2,
+                question: "¿Qué capacidades debe incluir el lenguaje de datos completo según la Regla 5?",
+                options: [
+                    "Solo consultas básicas",
+                    "Definición, manipulación, restricciones de integridad, autorizaciones y control de transacciones",
+                    "Únicamente inserción y borrado",
+                    "Solo funciones matemáticas"
+                ],
+                correct: 1,
+                explanation: "La Regla 5 requiere un lenguaje completo que permita definición de datos y vistas, manipulación de datos, restricciones de integridad, autorizaciones de acceso y control de transacciones. SQL cumple todos estos requisitos.",
+                examNote: false
+            },
+            {
+                id: 9,
+                category: "Reglas de Codd",
+                difficulty: 3,
+                question: "¿Dónde deben almacenarse las reglas de integridad según la Regla 10?",
+                options: [
+                    "En los programas de aplicación",
+                    "En el catálogo de la base de datos",
+                    "En archivos externos",
+                    "En la memoria del servidor"
+                ],
+                correct: 1,
+                explanation: "La Regla 10 establece que las reglas de integridad deben definirse mediante el lenguaje de datos y almacenarse en el catálogo de la base de datos, NO en programas de aplicación.",
+                examNote: true
+            },
+            {
+                id: 10,
+                category: "Reglas de Codd",
+                difficulty: 1,
+                question: "¿En qué año se establecieron las reglas de Codd?",
+                options: [
+                    "1969",
+                    "1970",
+                    "1971",
+                    "1975"
+                ],
+                correct: 1,
+                explanation: "Las 12 reglas de Codd fueron establecidas por Edgar F. Codd en 1970, proporcionando los fundamentos teóricos de las bases de datos relacionales.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
+            // Diseño y Evolución de BD (5 preguntas)
+            {
+                id: 11,
+                category: "Diseño de Bases de Datos",
+                difficulty: 2,
+                question: "¿Cuáles son los tres modelos de diseño de bases de datos en orden secuencial?",
+                options: [
+                    "Físico, Lógico, Conceptual",
+                    "Conceptual, Físico, Lógico",
+                    "Conceptual, Lógico, Físico",
+                    "Lógico, Conceptual, Físico"
+                ],
+                correct: 2,
+                explanation: "El orden correcto es: 1) Modelo Conceptual (boceto), 2) Modelo Lógico (planos), 3) Modelo Físico (construcción).",
+                examNote: true
+            },
+            {
+                id: 12,
+                category: "Diseño de Bases de Datos",
+                difficulty: 2,
+                question: "¿Cuál es la característica principal del Modelo Conceptual?",
+                options: [
+                    "Define tipos de datos específicos",
+                    "Es totalmente independiente del lenguaje y sistema gestor",
+                    "Incluye detalles de implementación física",
+                    "Especifica índices y claves foráneas"
+                ],
+                correct: 1,
+                explanation: "El Modelo Conceptual es totalmente independiente del lenguaje, no incluye tipos de datos específicos, sistema gestor particular ni lenguaje de implementación.",
+                examNote: false
+            },
+            {
+                id: 13,
+                category: "Evolución Histórica",
+                difficulty: 2,
+                question: "¿Cuál es la principal limitación del Modelo Jerárquico?",
+                options: [
+                    "No puede almacenar datos numéricos",
+                    "Cada nodo solo puede tener un nodo padre",
+                    "No permite relaciones entre datos",
+                    "Solo funciona con datos de texto"
+                ],
+                correct: 1,
+                explanation: "El Modelo Jerárquico tiene la limitación de que cada nodo solo puede tener un nodo padre, como un árbol genealógico tradicional.",
+                examNote: false
+            },
+            {
+                id: 14,
+                category: "Evolución Histórica",
+                difficulty: 2,
+                question: "¿Qué característica revolucionaria tiene el Sistema Relacional?",
+                options: [
+                    "Usa estructuras jerárquicas mejoradas",
+                    "Se olvida de las relaciones jerárquicas y utiliza conceptos matemáticos",
+                    "Solo mejora la velocidad de los sistemas anteriores",
+                    "Permite únicamente relaciones simples"
+                ],
+                correct: 1,
+                explanation: "El Sistema Relacional es revolucionario porque se olvida de las relaciones jerárquicas tradicionales y utiliza conceptos matemáticos para establecer relaciones, representar datos y definir operaciones.",
+                examNote: true
+            },
+            {
+                id: 15,
+                category: "Diseño de Bases de Datos",
+                difficulty: 2,
+                question: "¿En qué influyen directamente las decisiones tomadas en el Modelo Físico?",
+                options: [
+                    "Solo en la apariencia visual",
+                    "En la eficacia del sistema, rendimiento de consultas y espacio de almacenamiento",
+                    "Únicamente en la seguridad",
+                    "Solo en la facilidad de programación"
+                ],
+                correct: 1,
+                explanation: "Las decisiones del Modelo Físico influyen directamente en la eficacia del sistema, el rendimiento de las consultas y el espacio de almacenamiento requerido.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
+            // Datos vs Información (4 preguntas)
+            {
+                id: 16,
+                category: "Datos vs Información",
+                difficulty: 2,
+                question: "¿Cuál es la diferencia principal entre datos e información?",
+                options: [
+                    "Los datos son más importantes que la información",
+                    "No hay diferencia, son sinónimos",
+                    "Los datos son elementos individuales sin contexto, la información es el resultado de su procesamiento",
+                    "La información siempre viene antes que los datos"
+                ],
+                correct: 2,
+                explanation: "Los datos son elementos individuales que por sí solos no constituyen información útil, mientras que la información es el resultado del procesamiento adecuado de los datos.",
+                examNote: true
+            },
+            {
+                id: 17,
+                category: "Datos vs Información",
+                difficulty: 2,
+                question: "¿Cuáles son las cinco cualidades de una buena información mencionadas en el módulo?",
+                options: [
+                    "Velocidad, seguridad, accesibilidad, formato, tamaño",
+                    "Precisión, exactitud, oportunidad, integridad, significatividad",
+                    "Cantidad, calidad, costo, tiempo, espacio",
+                    "Origen, destino, formato, estructura, contenido"
+                ],
+                correct: 1,
+                explanation: "Las cinco cualidades de una buena información son: precisión (adaptada al objetivo), exactitud (verificable), oportunidad (momento correcto), integridad (completa), y significatividad (clara y relevante).",
+                examNote: true
+            },
+            {
+                id: 18,
+                category: "Datos vs Información",
+                difficulty: 1,
+                question: "¿Cuál es la expresión más básica de la informática según el video?",
+                options: [
+                    "Los datos numéricos",
+                    "Los datos booleanos (true/false)",
+                    "Las cadenas de texto",
+                    "Los datos de fecha"
+                ],
+                correct: 1,
+                explanation: "Los datos booleanos, que manejan valores lógicos como true/false, 1/0, verdadero/falso, son considerados la expresión más básica de la informática.",
+                examNote: false
+            },
+            {
+                id: 19,
+                category: "Datos vs Información",
+                difficulty: 3,
+                question: "¿Cuál es el objetivo final de cualquier sistema de gestión de bases de datos?",
+                options: [
+                    "Almacenar la mayor cantidad de datos posible",
+                    "Transformar datos brutos en información valiosa para la toma de decisiones",
+                    "Procesar datos lo más rápido posible",
+                    "Usar la tecnología más avanzada disponible"
+                ],
+                correct: 1,
+                explanation: "El propósito fundamental de cualquier sistema de gestión de bases de datos es transformar datos brutos en información valiosa que facilite la toma de decisiones informadas y estratégicas.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
+            // Modelado de Datos (4 preguntas)
+            {
+                id: 20,
+                category: "Principios del Modelado",
+                difficulty: 2,
+                question: "¿Por qué el modelado de datos es considerado el paso más importante al iniciar un proyecto?",
+                options: [
+                    "Porque determina el lenguaje de programación a utilizar",
+                    "Porque constituye la estructura sobre la que se apoyará toda la aplicación",
+                    "Porque es el más fácil de implementar",
+                    "Porque es requerido por SAP HANA únicamente"
+                ],
+                correct: 1,
+                explanation: "El modelado de datos constituye la estructura sobre la que se apoyará toda la aplicación. Si el diseño es deficiente, todo lo que se construya sobre él será también deficiente.",
+                examNote: true
+            },
+            {
+                id: 21,
+                category: "Principios del Modelado",
+                difficulty: 2,
+                question: "¿Qué representan las entidades en el modelo relacional?",
+                options: [
+                    "Los usuarios del sistema",
+                    "La representación de un objeto existente en el mundo real",
+                    "Los procesos del sistema",
+                    "Las consultas más frecuentes"
+                ],
+                correct: 1,
+                explanation: "Las entidades son la representación de un objeto existente en el mundo real y se convertirán en las tablas de nuestro sistema de almacenaje.",
+                examNote: false
+            },
+            {
+                id: 22,
+                category: "Principios del Modelado",
+                difficulty: 2,
+                question: "¿Cuál es el objetivo principal del proceso de diseño de base de datos?",
+                options: [
+                    "Crear la mayor cantidad de tablas posible",
+                    "Tener la información almacenada de manera organizada, ocupando el menor espacio posible y con acceso sencillo",
+                    "Usar únicamente tecnología SAP HANA",
+                    "Maximizar el número de relaciones entre tablas"
+                ],
+                correct: 1,
+                explanation: "El objetivo principal es tener la información almacenada de manera organizada, ocupando el menor espacio posible y con acceso sencillo.",
+                examNote: false
+            },
+            {
+                id: 23,
+                category: "Principios del Modelado",
+                difficulty: 2,
+                question: "¿Por qué no se deben incluir datos calculados como columnas separadas?",
+                options: [
+                    "Porque ocupan mucho espacio en disco",
+                    "Para evitar redundancia de datos que pueden obtenerse mediante cálculos de columnas existentes",
+                    "Porque SAP HANA no los soporta",
+                    "Porque son más lentos de consultar"
+                ],
+                correct: 1,
+                explanation: "No se deben incluir datos calculados para evitar redundancia de datos que pueden obtenerse mediante cálculos de columnas existentes, manteniendo así la integridad y consistencia.",
+                examNote: true
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
+            // Diagramas E-R (3 preguntas)
+            {
+                id: 24,
+                category: "Diagramas Entidad-Relación",
+                difficulty: 1,
+                question: "¿Qué es un modelo entidad-relación?",
+                options: [
+                    "Un tipo de base de datos relacional",
+                    "Un diagrama de flujo que ilustra cómo las entidades se relacionan entre sí",
+                    "Una herramienta para crear tablas SQL",
+                    "Un método de programación orientada a objetos"
+                ],
+                correct: 1,
+                explanation: "Un modelo entidad-relación es un tipo de diagrama de flujo que ilustra cómo las entidades (elementos de la realidad) se relacionan entre sí dentro de un sistema.",
+                examNote: false
+            },
+            {
+                id: 25,
+                category: "Diagramas Entidad-Relación",
+                difficulty: 2,
+                question: "¿Cómo se representan gráficamente las entidades en un diagrama E-R?",
+                options: [
+                    "Con un rombo",
+                    "Con una elipse",
+                    "Con un rectángulo",
+                    "Con un círculo"
+                ],
+                correct: 2,
+                explanation: "Las entidades se representan con un rectángulo que contiene el nombre de la entidad en su interior.",
+                examNote: true
+            },
+            {
+                id: 26,
+                category: "Diagramas Entidad-Relación",
+                difficulty: 2,
+                question: "¿Qué problema presenta la relación N:M (muchos a muchos) en bases de datos relacionales?",
+                options: [
+                    "Es la más eficiente de implementar",
+                    "No se puede implementar directamente, debe convertirse en una nueva tabla",
+                    "Solo funciona con tablas pequeñas",
+                    "Requiere índices especiales"
+                ],
+                correct: 1,
+                explanation: "Las relaciones N:M no se pueden implementar directamente en bases de datos relacionales. Se debe crear una nueva tabla intermedia relacionada a ambas entidades con relaciones 1:N.",
+                examNote: true
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
+            // Práctica E-R (2 preguntas)
+            {
+                id: 27,
+                category: "Práctica Modelo E-R",
+                difficulty: 2,
+                question: "¿Cuál es el primer paso en la metodología de análisis de texto para crear un modelo E-R?",
+                options: [
+                    "Identificar las relaciones entre entidades",
+                    "Marcar sustantivos como candidatos a entidades o atributos",
+                    "Crear las claves primarias",
+                    "Definir la cardinalidad de las relaciones"
+                ],
+                correct: 1,
+                explanation: "El primer paso es marcar los sustantivos del texto, ya que estos son candidatos a entidades o atributos. Después se procede con los verbos para identificar relaciones.",
+                examNote: true
+            },
+            {
+                id: 28,
+                category: "Práctica Modelo E-R",
+                difficulty: 2,
+                question: "¿Cuándo un atributo debe ubicarse en la relación y no en una entidad?",
+                options: [
+                    "Cuando es un campo numérico",
+                    "Cuando nace de la relación entre dos entidades y requiere información de ambas",
+                    "Cuando es un campo de texto largo",
+                    "Cuando es una fecha"
+                ],
+                correct: 1,
+                explanation: "Un atributo va en la relación cuando 'nace' de la conexión entre dos entidades, como la 'nota' de un alumno en una asignatura, que solo tiene sentido con ambas entidades.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
+            // Ejercicios Modelado (2 preguntas)
+            {
+                id: 29,
+                category: "Metodología de Modelado",
+                difficulty: 2,
+                question: "¿Cuál es el primer paso en la metodología sistemática de 5 pasos para crear un modelo de base de datos?",
+                options: [
+                    "Definir los atributos de cada entidad",
+                    "Análisis del texto para identificar sustantivos que representen entidades",
+                    "Establecer las relaciones entre entidades",
+                    "Convertir el diagrama a modelo relacional"
+                ],
+                correct: 1,
+                explanation: "El primer paso en la metodología es el análisis del texto para identificar sustantivos que representen entidades y sus atributos correspondientes. Este análisis textual es fundamental para extraer todos los elementos del sistema.",
+                examNote: true
+            },
+            {
+                id: 30,
+                category: "Metodología de Modelado",
+                difficulty: 2,
+                question: "¿Cuál es el beneficio principal de seguir la metodología de 5 pasos para modelado de bases de datos?",
+                options: [
+                    "Acelerar el proceso de desarrollo",
+                    "Garantizar que todos los requisitos sean capturados de forma sistemática y completa",
+                    "Reducir el tamaño de la base de datos",
+                    "Mejorar automáticamente el rendimiento"
+                ],
+                correct: 1,
+                explanation: "El beneficio principal es garantizar que todos los requisitos del enunciado sean capturados de forma sistemática y completa. La metodología estructurada asegura que no se omita información importante y que el diseño sea consistente.",
+                examNote: false
+            }
+        ];
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-meta">
+                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                        <div class="category-tag">${question.category}</div>
+                        <div class="difficulty-indicator">
+                            ${Array.from({length: 3}, (_, i) => 
+                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                        ${question.examNote ? '<div class="exam-note"><strong>⚡ CONCEPTO CLAVE PARA EXAMEN</strong> - Importante para certificación</div>' : ''}
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            let tips = '';
+            
+            if (finalScore >= 90) {
+                message = '🎉 ¡EXCELENTE! Dominas completamente el modelado de datos en SAP HANA. Nivel de certificación alcanzado.';
+                tips = `
+                    <h4>🏆 ¡Felicitaciones! Nivel Experto en Modelado:</h4>
+                    <ul>
+                        <li>Has demostrado dominio completo de los fundamentos teóricos</li>
+                        <li>Comprendes perfectamente las metodologías de diseño</li>
+                        <li>Dominas la práctica del modelado E-R</li>
+                        <li>Conoces a fondo las reglas de Codd y sus aplicaciones</li>
+                        <li><strong>Recomendación:</strong> Estás listo para proyectos reales de modelado</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 80) {
+                message = '👏 ¡MUY BIEN! Tienes un excelente conocimiento del modelado de datos. Solo pequeños ajustes.';
+                tips = `
+                    <h4>📈 Muy buen nivel - Refinamiento final:</h4>
+                    <ul>
+                        <li>Repasa los conceptos marcados como "clave para examen"</li>
+                        <li>Refuerza las 3 etapas del modelado (Conceptual-Lógico-Físico)</li>
+                        <li>Practica más la identificación de entidades desde texto</li>
+                        <li>Revisa las reglas de Codd más importantes (1, 2, 5, 10)</li>
+                        <li><strong>Recomendación:</strong> Un repaso más y estarás perfecto</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 70) {
+                message = '👍 BUEN TRABAJO. Tienes una base sólida pero necesitas reforzar algunos conceptos clave.';
+                tips = `
+                    <h4>📚 Buen nivel - Refuerzo necesario en:</h4>
+                    <ul>
+                        <li>Diferencias entre datos e información</li>
+                        <li>Metodología de análisis textual para E-R</li>
+                        <li>Resolución de relaciones N:M con tablas intermedias</li>
+                        <li>Principios fundamentales del diseño de BD</li>
+                        <li><strong>Recomendación:</strong> Estudia estos temas y repite el control</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 60) {
+                message = '📖 CONOCIMIENTO BÁSICO. Tienes las bases pero necesitas estudiar más para dominar el modelado.';
+                tips = `
+                    <h4>⚠️ Nivel básico - Estudio intensivo requerido:</h4>
+                    <ul>
+                        <li>Repasa todos los fundamentos del modelado de datos</li>
+                        <li>Estudia en detalle las reglas de Codd</li>
+                        <li>Practica la metodología de diseño paso a paso</li>
+                        <li>Comprende las diferencias entre modelos conceptual, lógico y físico</li>
+                        <li><strong>Recomendación:</strong> Revisa todo el material antes de continuar</li>
+                    </ul>
+                `;
+            } else {
+                message = '🚨 NECESITAS ESTUDIAR MÁS. El nivel actual no es suficiente para aplicar modelado de datos.';
+                tips = `
+                    <h4>🔄 Nivel inicial - Plan de estudio completo:</h4>
+                    <ul>
+                        <li>Revisa todo el material teórico desde el inicio de la unidad</li>
+                        <li>Practica cada quiz individual hasta dominar cada tema</li>
+                        <li>Enfócate en comprender conceptos fundamentales</li>
+                        <li>Estudia las reglas de Codd como base teórica</li>
+                        <li><strong>Recomendación:</strong> Dedica más tiempo al estudio antes de continuar</li>
+                    </ul>
+                `;
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    ${tips}
+                </div>
+            `;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    </div>
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>

@@ -1,550 +1,1086 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CONTROL UNIDAD 1 | SAP HANA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Unidad 1 - SAP HANA Fundamentos</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
         .container {
-            background: #fff;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        h1 {
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
-        .question-card {
-            border-left: 5px solid #667eea;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
-        .question-number {
-            color: #667eea;
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
             font-weight: bold;
-            margin-bottom: 10px;
+            display: block;
         }
-        .question-text {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #333;
+
+        .content {
+            padding: 40px;
         }
-        .options {
-            display: grid;
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
             gap: 10px;
         }
-        .option {
-            padding: 10px 15px;
-            background: #eef;
-            border-radius: 10px;
-            cursor: default;
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
         }
+
+        .category-tag {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .explanation {
-            margin-top: 15px;
-            background: #e8f5e9;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
             border-left: 4px solid #4CAF50;
-            padding: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .exam-note {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 4px solid #ffa000;
+            padding: 15px;
             border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .exam-note strong {
+            color: #e65100;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📘 CONTROL UNIFICADO – UNIDAD 1</h1>
-        <p style="text-align:center;">Resumen de los Quizzes 004, 005, 006 y 007</p>
-        
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
+        <div class="header">
+            <h1>📚 Control Unidad 1 - SAP HANA</h1>
+            <p>Fundamentos Completos - Evaluación Comprensiva</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">30</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Control Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Control</button>
+            </div>
         </div>
     </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
+    <script>
+        const questions = [
+            // Escenarios de Implementación (8 preguntas)
+            {
+                id: 1,
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Cuál es el propósito principal de SAP HANA como acelerador?",
+                options: [
+                    "Reemplazar completamente el sistema SAP existente",
+                    "Replicar en tiempo real la base de datos existente para acelerar la obtención de datos",
+                    "Crear una nueva arquitectura de tres capas",
+                    "Eliminar la necesidad de herramientas ETL"
+                ],
+                correct: 1,
+                explanation: "SAP HANA como acelerador replica en tiempo real la base de datos ya existente en el sistema SAP, logrando una gran aceleración en la obtención de datos sin necesidad de mover todo el sistema existente.",
+                examNote: false
+            },
+            {
+                id: 2,
+                category: "Escenarios de Implementación",
+                difficulty: 3,
+                question: "¿Qué significa XSA en el contexto de SAP HANA 2.0?",
+                options: [
+                    "eXtended Services Advanced",
+                    "eXtended Server Application",
+                    "eXtended SAP Architecture",
+                    "eXtended System Administration"
+                ],
+                correct: 0,
+                explanation: "XSA significa eXtended Services Advanced Model, que es el servidor de aplicaciones presentado en HANA 2.0, sustituyendo al XS (eXtended Services) de HANA 1.0.",
+                examNote: true
+            },
+            {
+                id: 3,
+                category: "Escenarios de Implementación",
+                difficulty: 3,
+                question: "¿Qué es el 'push down' en SAP HANA?",
+                options: [
+                    "Mover datos desde la memoria al disco",
+                    "Transferir el procesamiento desde el servidor de aplicaciones a la base de datos",
+                    "Comprimir datos para optimizar el almacenamiento",
+                    "Replicar datos entre diferentes sistemas"
+                ],
+                correct: 1,
+                explanation: "El 'push down' consiste en forzar todas las operaciones de procesamiento a nivel de la base de datos en lugar del servidor de aplicaciones, aprovechando la velocidad y capacidades de HANA.",
+                examNote: true
+            },
+            {
+                id: 4,
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Cuál es la herramienta principal para desarrollar aplicaciones en SAP HANA 2.0?",
+                options: [
+                    "SAP HANA Studio",
+                    "SAP Web IDE",
+                    "Eclipse con plugins SAP",
+                    "Visual Studio Code"
+                ],
+                correct: 1,
+                explanation: "SAP Web IDE es la herramienta principal para desarrollar aplicaciones en HANA 2.0 (XSA), mientras que HANA Studio se usaba para HANA 1.0 (XS) y está destinado a desaparecer.",
+                examNote: false
+            },
+            {
+                id: 5,
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Qué tipo de plataforma es el motor XSA según la documentación SAP?",
+                options: [
+                    "Infrastructure as a Service (IaaS)",
+                    "Software as a Service (SaaS)",
+                    "Platform as a Service (PaaS) de código abierto de Cloud Foundry",
+                    "Database as a Service (DBaaS)"
+                ],
+                correct: 2,
+                explanation: "El motor XSA es un Platform as a Service (PaaS) de código abierto de Cloud Foundry. Esta es una respuesta exacta que aparece en exámenes de certificación.",
+                examNote: true
+            },
+            {
+                id: 6,
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Cuál es la herramienta ETL recomendada por SAP para replicación de datos hacia HANA?",
+                options: [
+                    "SAP Data Services",
+                    "SAP SLT (SAP Landscape Transformation)",
+                    "SAP BW",
+                    "SAP PI/PO"
+                ],
+                correct: 1,
+                explanation: "SAP recomienda SLT (SAP Landscape Transformation) como la herramienta ETL para replicar datos hacia HANA, especialmente en escenarios de acelerador.",
+                examNote: false
+            },
+            {
+                id: 7,
+                category: "Escenarios de Implementación",
+                difficulty: 2,
+                question: "¿Con qué frecuencia recibe actualizaciones una solución SAP HANA en cloud?",
+                options: [
+                    "Cada mes",
+                    "Cada dos semanas aproximadamente",
+                    "Cada trimestre",
+                    "Una vez al año"
+                ],
+                correct: 1,
+                explanation: "Las soluciones SAP HANA en cloud reciben actualizaciones regulares aproximadamente cada dos semanas, lo que puede ser ventajoso para obtener las últimas innovaciones pero desventajoso para aplicaciones que requieren estabilidad.",
+                examNote: false
+            },
+            {
+                id: 8,
+                category: "Escenarios de Implementación",
+                difficulty: 3,
+                question: "¿Por qué los nuevos sistemas SAP (como S/4HANA) tienen mayor eficiencia que sistemas genéricos sobre HANA?",
+                options: [
+                    "Tienen mejor interfaz de usuario",
+                    "Están diseñados específicamente para trabajar con HANA",
+                    "Incluyen más funcionalidades",
+                    "Son más económicos"
+                ],
+                correct: 1,
+                explanation: "Los nuevos sistemas SAP como S/4HANA están diseñados específicamente para trabajar con HANA desde el principio, a diferencia de sistemas genéricos que deben funcionar con cualquier base de datos, lo que les permite mayor eficiencia.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
+            // Arquitectura y Componentes (8 preguntas)
+            {
+                id: 9,
+                category: "Arquitectura y Componentes",
+                difficulty: 1,
+                question: "¿Cuáles son las tres ediciones principales de SAP HANA?",
+                options: [
+                    "Standard, Professional, Enterprise",
+                    "Standard, Enterprise, Express",
+                    "Basic, Advanced, Premium",
+                    "Starter, Business, Enterprise"
+                ],
+                correct: 1,
+                explanation: "Las tres ediciones son: Standard Edition (básica), Enterprise Edition (completa) y Express Edition (gratuita para estudiantes).",
+                examNote: false
+            },
+            {
+                id: 10,
+                category: "Arquitectura y Componentes",
+                difficulty: 2,
+                question: "¿Hasta cuántos GB de memoria RAM permite usar SAP HANA Express Edition sin costo?",
+                options: [
+                    "16 GB",
+                    "32 GB",
+                    "64 GB",
+                    "128 GB"
+                ],
+                correct: 1,
+                explanation: "SAP HANA Express Edition permite construir y desplegar aplicaciones que utilicen hasta 32 GB de memoria RAM sin pagar licencia.",
+                examNote: false
+            },
+            {
+                id: 11,
+                category: "Arquitectura y Componentes",
+                difficulty: 3,
+                question: "¿En qué estándar abierto se basa el motor XSA?",
+                options: [
+                    "Docker",
+                    "Kubernetes",
+                    "Cloud Foundry",
+                    "OpenStack"
+                ],
+                correct: 2,
+                explanation: "El motor XSA (Extended Application Service Advanced) se basa en el estándar abierto Cloud Foundry.",
+                examNote: true
+            },
+            {
+                id: 12,
+                category: "Arquitectura y Componentes",
+                difficulty: 2,
+                question: "¿Qué significa SDI en el contexto de SAP HANA?",
+                options: [
+                    "System Data Integration",
+                    "Smart Data Integration",
+                    "Secure Data Interface",
+                    "Standard Data Import"
+                ],
+                correct: 1,
+                explanation: "SDI significa Smart Data Integration y es una herramienta ETL (Extract, Transform, Load) para aprovisionamiento de datos.",
+                examNote: false
+            },
+            {
+                id: 13,
+                category: "Arquitectura y Componentes",
+                difficulty: 3,
+                question: "¿Cuál es la diferencia principal entre Web IDE y SAP HANA Studio?",
+                options: [
+                    "Web IDE es más antiguo",
+                    "No hay diferencia",
+                    "Web IDE es para XSA, Studio es para XS",
+                    "Studio es solo para administración"
+                ],
+                correct: 2,
+                explanation: "Web IDE for SAP HANA es para el motor XSA, mientras que SAP HANA Studio es para el motor XS.",
+                examNote: true
+            },
+            {
+                id: 14,
+                category: "Arquitectura y Componentes",
+                difficulty: 2,
+                question: "¿Qué es Dynamic Tiering en SAP HANA?",
+                options: [
+                    "Un sistema de copias de seguridad",
+                    "Una capa basada en disco para datos menos críticos",
+                    "Un método de compresión",
+                    "Una técnica de indexación"
+                ],
+                correct: 1,
+                explanation: "Dynamic Tiering proporciona una capa basada en disco para complementar la memoria, descargando datos menos críticos y dejando más espacio para datos críticos.",
+                examNote: false
+            },
+            {
+                id: 15,
+                category: "Arquitectura y Componentes",
+                difficulty: 2,
+                question: "¿Cuál es la función principal del motor de texto en SAP HANA?",
+                options: [
+                    "Crear documentos",
+                    "Búsquedas difusas y minería de texto",
+                    "Traducir idiomas",
+                    "Formatear texto"
+                ],
+                correct: 1,
+                explanation: "El motor de texto proporciona funcionalidades como búsquedas difusas (fuzzy search), minería de texto y análisis de sentimientos.",
+                examNote: false
+            },
+            {
+                id: 16,
+                category: "Arquitectura y Componentes",
+                difficulty: 2,
+                question: "¿Cuál es la principal ventaja de la tecnología In-Memory de SAP HANA?",
+                options: [
+                    "Menor costo de hardware",
+                    "Eliminar el cuello de botella entre disco duro y RAM",
+                    "Mayor capacidad de almacenamiento",
+                    "Mejor interfaz de usuario"
+                ],
+                correct: 1,
+                explanation: "La tecnología In-Memory elimina el cuello de botella entre el disco duro y la memoria RAM al mantener los datos en memoria para acceso más rápido.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
+            // Almacenamiento (7 preguntas)
+            {
+                id: 17,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Cuál es la principal diferencia entre sistemas transaccionales y analíticos en SAP HANA?",
+                options: [
+                    "Los sistemas transaccionales solo usan tablas en filas, los analíticos solo en columnas",
+                    "Los sistemas transaccionales se enfocan en introducir, modificar y borrar datos; los analíticos en análisis de datos",
+                    "Los sistemas transaccionales son más rápidos que los analíticos",
+                    "No hay diferencia, ambos funcionan igual"
+                ],
+                correct: 1,
+                explanation: "Los sistemas transaccionales se enfocan en operaciones CRUD (crear, leer, actualizar, eliminar) mientras que los sistemas analíticos se dedican al análisis de datos. SAP HANA maneja ambos tipos en la misma base de datos.",
+                examNote: false
+            },
+            {
+                id: 18,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Qué tipo de almacenamiento es más eficiente para operaciones de agregación como sumatorios?",
+                options: [
+                    "Almacenamiento orientado a filas",
+                    "Almacenamiento orientado a columnas",
+                    "Ambos son igualmente eficientes",
+                    "Depende del tamaño de la tabla"
+                ],
+                correct: 1,
+                explanation: "El almacenamiento orientado a columnas es más eficiente para agregaciones porque los valores de una columna están almacenados de forma consecutiva, permitiendo lecturas más rápidas para operaciones como sumatorios.",
+                examNote: false
+            },
+            {
+                id: 19,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Qué tipo de compresión se aplica automáticamente a las tablas orientadas a columnas?",
+                options: [
+                    "Compresión ZIP",
+                    "Compresión de diccionario",
+                    "Compresión LZ4",
+                    "Compresión GZIP"
+                ],
+                correct: 1,
+                explanation: "La compresión de diccionario se aplica automáticamente a las tablas orientadas a columnas. Esta compresión elimina la repetición y almacena cada valor único una sola vez.",
+                examNote: false
+            },
+            {
+                id: 20,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Cuál es la estructura típica de un sistema analítico?",
+                options: [
+                    "Estructura relacional normalizada",
+                    "Estructura en estrella o copo de nieve",
+                    "Estructura jerárquica",
+                    "Estructura en red"
+                ],
+                correct: 1,
+                explanation: "Los sistemas analíticos utilizan estructuras en estrella o copo de nieve, que consisten en una tabla central con datos numéricos rodeada de tablas que proporcionan contexto.",
+                examNote: false
+            },
+            {
+                id: 21,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Cuál es el máximo número de particiones permitido en una tabla de columnas desde SAP HANA 1.0 SPS10?",
+                options: [
+                    "1,000 particiones",
+                    "5,000 particiones",
+                    "10,000 particiones",
+                    "16,000 particiones"
+                ],
+                correct: 3,
+                explanation: "Desde SAP HANA 1.0 SPS10, el límite se amplió de 1,000 a 16,000 particiones por tabla de tipo columna, permitiendo mayor paralelización.",
+                examNote: false
+            },
+            {
+                id: 22,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Cuándo es necesario utilizar índices en SAP HANA?",
+                options: [
+                    "Siempre son necesarios",
+                    "Solo en tablas orientadas a filas",
+                    "Solo en tablas orientadas a columnas",
+                    "Nunca son necesarios"
+                ],
+                correct: 1,
+                explanation: "Los índices son principalmente necesarios en tablas orientadas a filas. En tablas orientadas a columnas pierden sentido debido a la forma en que se almacenan los datos.",
+                examNote: false
+            },
+            {
+                id: 23,
+                category: "Almacenamiento",
+                difficulty: 2,
+                question: "¿Qué es la memoria extendida en SAP HANA?",
+                options: [
+                    "Memoria RAM adicional",
+                    "Una capa de almacenamiento basada en disco para datos menos críticos",
+                    "Memoria caché del procesador",
+                    "Memoria virtual del sistema operativo"
+                ],
+                correct: 1,
+                explanation: "La memoria extendida es una capa de almacenamiento basada en disco que se añade desde SAP HANA SPS09 para almacenar tablas que no requieren rendimiento óptimo.",
+                examNote: false
+            },
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
+            // Alta Disponibilidad y Seguridad (7 preguntas)
+            {
+                id: 24,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 1,
+                question: "¿Cuál es el objetivo principal de la alta disponibilidad en SAP HANA?",
+                options: [
+                    "Mejorar la velocidad de procesamiento",
+                    "Que múltiples usuarios puedan acceder simultáneamente sin bloqueos, incluyendo tolerancia a desastres",
+                    "Reducir el consumo de memoria",
+                    "Simplificar la administración del sistema"
+                ],
+                correct: 1,
+                explanation: "La alta disponibilidad busca que múltiples usuarios puedan acceder al sistema simultáneamente sin bloqueos, incluyendo tolerancia a desastres, como un generador de emergencia en un hospital.",
+                examNote: false
+            },
+            {
+                id: 25,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 2,
+                question: "¿Qué componentes incluye la arquitectura Scale Out en un data center?",
+                options: [
+                    "Solo servidores activos",
+                    "Servidores activos + almacenamiento compartido + servidor en espera",
+                    "Solo base de datos distribuida",
+                    "Únicamente servidores de respaldo"
+                ],
+                correct: 1,
+                explanation: "La arquitectura Scale Out incluye servidores activos, almacenamiento compartido y servidor en espera (standby) para garantizar continuidad del servicio.",
+                examNote: false
+            },
+            {
+                id: 26,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 1,
+                question: "¿Qué es la autenticación en SAP HANA?",
+                options: [
+                    "Proceso de asignación de roles",
+                    "Proceso de verificación de identidad cuando un usuario intenta conectarse",
+                    "Proceso de cifrado de datos",
+                    "Proceso de auditoría del sistema"
+                ],
+                correct: 1,
+                explanation: "La autenticación es el proceso de verificación de identidad cuando un usuario intenta conectarse a la base de datos HANA.",
+                examNote: false
+            },
+            {
+                id: 27,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 2,
+                question: "¿Cuáles son los dos métodos principales de autenticación en SAP HANA?",
+                options: [
+                    "Usuario/Contraseña y biometría",
+                    "Usuario/Contraseña y Kerberos",
+                    "Kerberos y certificados digitales",
+                    "Tokens y tarjetas inteligentes"
+                ],
+                correct: 1,
+                explanation: "Los dos métodos principales de autenticación en SAP HANA son Usuario/Contraseña (método tradicional) y Kerberos (protocolo avanzado).",
+                examNote: false
+            },
+            {
+                id: 28,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 3,
+                question: "¿Quién creó el protocolo Kerberos?",
+                options: [
+                    "Microsoft",
+                    "MIT (Instituto Tecnológico de Massachusetts)",
+                    "SAP",
+                    "IBM"
+                ],
+                correct: 1,
+                explanation: "El protocolo Kerberos fue creado por el MIT (Instituto Tecnológico de Massachusetts) para permitir autenticación segura en redes inseguras.",
+                examNote: false
+            },
+            {
+                id: 29,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 2,
+                question: "¿Cuál es la filosofía de seguridad recomendada para asignar privilegios?",
+                options: [
+                    "Dar acceso completo a todos los usuarios",
+                    "Lo menos posible - cada usuario debe tener acceso únicamente a lo que necesita",
+                    "Asignar permisos según la antigüedad del empleado",
+                    "Todos los usuarios deben tener los mismos permisos"
+                ],
+                correct: 1,
+                explanation: "La filosofía de seguridad es 'lo menos posible' - cada usuario debe tener acceso únicamente a los recursos que realmente necesita para su trabajo.",
+                examNote: false
+            },
+            {
+                id: 30,
+                category: "Alta Disponibilidad y Seguridad",
+                difficulty: 1,
+                question: "¿Qué son los Audit Logs en SAP HANA?",
+                options: [
+                    "Archivos de configuración del sistema",
+                    "Registros que hacen seguimiento completo de todas las actividades del sistema",
+                    "Copias de seguridad automáticas",
+                    "Reportes de rendimiento"
+                ],
+                correct: 1,
+                explanation: "Los Audit Logs (también llamados logs o trazas del sistema) registran un seguimiento completo de todas las actividades en el sistema.",
+                examNote: false
+            }
+        ];
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-meta">
+                        <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                        <div class="category-tag">${question.category}</div>
+                        <div class="difficulty-indicator">
+                            ${Array.from({length: 3}, (_, i) => 
+                                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                        ${question.examNote ? '<div class="exam-note"><strong>⚡ PREGUNTA TÍPICA DE EXAMEN</strong> - Memoriza esta respuesta</div>' : ''}
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            let tips = '';
+            
+            if (finalScore >= 90) {
+                message = '🎉 ¡EXCELENTE! Dominas completamente los fundamentos de SAP HANA. Estás perfectamente preparado para la certificación.';
+                tips = `
+                    <h4>🏆 ¡Felicitaciones! Nivel de Certificación Alcanzado:</h4>
+                    <ul>
+                        <li>Has demostrado dominio completo de todos los conceptos fundamentales</li>
+                        <li>Tienes sólido conocimiento en escenarios de implementación</li>
+                        <li>Comprendes perfectamente la arquitectura y componentes</li>
+                        <li>Dominas los conceptos de almacenamiento y seguridad</li>
+                        <li><strong>Recomendación:</strong> Estás listo para avanzar a temas avanzados</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 80) {
+                message = '👏 ¡MUY BIEN! Tienes un excelente conocimiento de SAP HANA. Solo necesitas refinar algunos detalles.';
+                tips = `
+                    <h4>📈 Muy buen nivel - Pequeños ajustes necesarios:</h4>
+                    <ul>
+                        <li>Repasa las preguntas marcadas como "típicas de examen"</li>
+                        <li>Refuerza conceptos de XSA y Cloud Foundry</li>
+                        <li>Practica diferencias entre herramientas (Web IDE vs Studio)</li>
+                        <li>Revisa protocolos de seguridad (Kerberos, autenticación)</li>
+                        <li><strong>Recomendación:</strong> Un repaso más y estarás perfecto</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 70) {
+                message = '👍 BUEN TRABAJO. Tienes una base sólida pero necesitas reforzar algunos conceptos clave.';
+                tips = `
+                    <h4>📚 Buen nivel - Refuerzo necesario en:</h4>
+                    <ul>
+                        <li>Conceptos de Push Down y procesamiento</li>
+                        <li>Diferencias entre almacenamiento por filas vs columnas</li>
+                        <li>Arquitectura Scale Out y alta disponibilidad</li>
+                        <li>Herramientas ETL (SLT, SDI, SDQ)</li>
+                        <li><strong>Recomendación:</strong> Estudia estos temas y repite el control</li>
+                    </ul>
+                `;
+            } else if (finalScore >= 60) {
+                message = '📖 CONOCIMIENTO BÁSICO. Tienes las bases pero necesitas estudiar más para la certificación.';
+                tips = `
+                    <h4>⚠️ Nivel básico - Estudio intensivo requerido:</h4>
+                    <ul>
+                        <li>Repasa todos los escenarios de implementación</li>
+                        <li>Estudia la arquitectura completa de SAP HANA</li>
+                        <li>Comprende las diferencias entre ediciones</li>
+                        <li>Practica conceptos de seguridad y autenticación</li>
+                        <li><strong>Recomendación:</strong> Revisa todo el material antes de continuar</li>
+                    </ul>
+                `;
+            } else {
+                message = '🚨 NECESITAS ESTUDIAR MÁS. El nivel actual no es suficiente para la certificación.';
+                tips = `
+                    <h4>🔄 Nivel inicial - Plan de estudio completo:</h4>
+                    <ul>
+                        <li>Revisa todo el material teórico desde el inicio</li>
+                        <li>Practica cada quiz individual hasta dominar cada tema</li>
+                        <li>Enfócate en comprender conceptos, no memorizar</li>
+                        <li>Toma notas y crea resúmenes de cada sección</li>
+                        <li><strong>Recomendación:</strong> Dedica más tiempo al estudio antes de continuar</li>
+                    </ul>
+                `;
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    ${tips}
+                </div>
+            `;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    </div>
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>
