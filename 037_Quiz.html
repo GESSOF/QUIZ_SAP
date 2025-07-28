@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 037 - Subconsultas SAP HANA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Quiz 037 | SAP HANA</h1>
+            <p>Subconsultas - Consultas dentro de consultas para lógica avanzada</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Qué son las subconsultas en SAP HANA?",
+                options: [
+                    "Tablas temporales que se crean automáticamente",
+                    "Consultas HANA SQL escritas entre paréntesis que se utilizan como entrada de datos para otra consulta",
+                    "Funciones especiales para optimizar el rendimiento",
+                    "Un tipo de JOIN avanzado entre múltiples tablas"
+                ],
+                correct: 1,
+                explanation: "Las subconsultas son consultas HANA SQL escritas entre paréntesis que se utilizan como entrada de datos para otra consulta. Crean una 'tabla virtual' temporal que puede ser usada por la consulta principal."
+            },
+            {
+                question: "¿Cuáles son los dos usos principales de las subconsultas?",
+                options: [
+                    "Solo para optimización de performance y creación de índices",
+                    "Como origen de datos (en FROM) y con WHERE e IN para filtrar registros",
+                    "Únicamente para reemplazar JOINs complejos",
+                    "Solo para crear vistas y procedimientos almacenados"
+                ],
+                correct: 1,
+                explanation: "Los dos usos principales de las subconsultas son: 1) Como origen de datos en la cláusula FROM (como si fuera una tabla normal), y 2) Con WHERE e IN para filtrar registros usando conjuntos dinámicos de valores."
+            },
+            {
+                question: "¿Cuál es la sintaxis correcta para usar una subconsulta en FROM?",
+                options: [
+                    "SELECT * FROM [SELECT campo FROM tabla];",
+                    "SELECT * FROM (SELECT campo FROM tabla);",
+                    "SELECT * FROM {SELECT campo FROM tabla}",
+                    "SELECT * FROM <SELECT campo FROM tabla>"
+                ],
+                correct: 1,
+                explanation: "La sintaxis correcta requiere paréntesis () alrededor de la subconsulta: SELECT * FROM (SELECT campo FROM tabla). Los paréntesis son obligatorios para delimitar la subconsulta."
+            },
+            {
+                question: "En el ejemplo avanzado, ¿cuál es el problema que se busca resolver?",
+                options: [
+                    "Encontrar todos los pedidos enviados por cualquier compañía",
+                    "Mostrar pedidos repartidos por compañías que nunca hayan servido a la empresa 'Queen'",
+                    "Listar todas las compañías que más pedidos han repartido",
+                    "Calcular el promedio de pedidos por compañía de envío"
+                ],
+                correct: 1,
+                explanation: "El problema del ejemplo avanzado es mostrar pedidos repartidos por compañías que NUNCA hayan servido a la empresa 'Queen'. Esto requiere identificar primero qué compañías SÍ le sirvieron, para luego excluirlas."
+            },
+            {
+                question: "¿Por qué la solución de simplemente filtrar pedidos != 'Queen' es errónea?",
+                options: [
+                    "Es una sintaxis incorrecta en SAP HANA",
+                    "No elimina las compañías que sí le han servido a Queen; solo excluye los pedidos específicos de Queen",
+                    "Causa problemas de rendimiento en la base de datos",
+                    "No se puede usar el operador != en WHERE"
+                ],
+                correct: 1,
+                explanation: "Filtrar pedidos != 'Queen' solo excluye los pedidos específicos de Queen, pero NO elimina las compañías que también le han servido. Una compañía que sirvió tanto a Queen como a otros clientes seguiría apareciendo por sus otros pedidos."
+            },
+            {
+                question: "¿Cuál es la lógica correcta para resolver el problema de las compañías que nunca sirvieron a Queen?",
+                options: [
+                    "Usar un INNER JOIN entre pedidos y compañías",
+                    "Dividir en 2 pasos: encontrar compañías que SÍ sirvieron a Queen, luego usar NOT IN para excluirlas",
+                    "Usar solo un WHERE con múltiples condiciones",
+                    "Crear una vista temporal con todas las compañías"
+                ],
+                correct: 1,
+                explanation: "La lógica correcta es: 1) PASO 1: Encontrar compañías que SÍ sirvieron a Queen (subconsulta), 2) PASO 2: Mostrar compañías que NO están en esa lista usando NOT IN. Esto divide el problema complejo en pasos simples."
+            },
+            {
+                question: "¿Dónde se coloca el punto y coma en una consulta con subconsultas?",
+                options: [
+                    "Al final de cada subconsulta individual",
+                    "Solo al final de toda la consulta principal",
+                    "Tanto en subconsultas como en la consulta principal",
+                    "No se usa punto y coma en subconsultas"
+                ],
+                correct: 1,
+                explanation: "El punto y coma se coloca solo al final de toda la consulta principal. Las subconsultas no llevan punto y coma individual, ya que forman parte de una consulta más grande."
+            },
+            {
+                question: "¿Cuándo es recomendable usar subconsultas en lugar de JOINs simples?",
+                options: [
+                    "Siempre, porque son más rápidas que los JOINs",
+                    "Cuando necesites resolver un problema en múltiples pasos lógicos o cuando un JOIN simple no sea suficiente para la lógica requerida",
+                    "Solo cuando trabajas con más de 5 tablas simultáneamente",
+                    "Nunca, los JOINs son siempre superiores"
+                ],
+                correct: 1,
+                explanation: "Las subconsultas son recomendables cuando necesitas resolver un problema en múltiples pasos lógicos o cuando un JOIN simple no es suficiente para la lógica requerida. Permiten dividir problemas complejos en pasos más manejables y legibles."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>🔍 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas las subconsultas y puedes resolver problemas complejos con lógica avanzada.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa la sintaxis y los casos de uso para perfeccionar las subconsultas.';
+            } else {
+                message = '⚠️ IMPORTANTE: Las subconsultas son esenciales para resolver problemas complejos que requieren múltiples pasos.';
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>🔍 Puntos clave de subconsultas:</h4>
+                    <ul>
+                        <li><strong>Definición:</strong> Consultas entre paréntesis usadas como entrada para otra consulta</li>
+                        <li><strong>Usos principales:</strong> Como origen de datos (FROM) y con WHERE/IN</li>
+                        <li><strong>Sintaxis:</strong> Paréntesis obligatorios, punto y coma solo al final</li>
+                        <li><strong>Ventaja clave:</strong> Dividir problemas complejos en pasos lógicos</li>
+                        <li><strong>Solución errónea común:</strong> Filtrar != en lugar de usar NOT IN</li>
+                        <li><strong>Lógica correcta:</strong> Encontrar lo que SÍ cumple, luego excluir</li>
+                        <li><strong>Cuándo usar:</strong> Problemas en múltiples pasos o lógica que JOIN no resuelve</li>
+                        <li><strong>Resultado:</strong> Código más legible y mantenible</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
+
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>

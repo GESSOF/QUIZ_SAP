@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 036 - Funciones Agregadas SAP HANA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Quiz 036 | SAP HANA</h1>
+            <p>Funciones Agregadas - Operaciones Matemáticas sobre Datos</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Qué son las funciones agregadas en SAP HANA?",
+                options: [
+                    "Funciones que crean tablas temporales automáticamente",
+                    "Funciones que realizan operaciones matemáticas sobre los datos y calculan valores simples de diferentes valores de una columna",
+                    "Funciones que solo funcionan con texto y fechas",
+                    "Funciones que reemplazan completamente a GROUP BY"
+                ],
+                correct: 1,
+                explanation: "Las funciones agregadas realizan operaciones matemáticas sobre los datos, calculando valores simples de diferentes valores de una columna. Transforman múltiples registros en un único resultado, como contar, sumar, promediar, etc."
+            },
+            {
+                question: "¿Cuáles son las cinco funciones agregadas básicas que usarás en el 95% de los casos?",
+                options: [
+                    "COUNT, MIN, MAX, SUM, AVG",
+                    "TOCHAR, CURRENT_DATE, GROUP BY, ORDER BY, WHERE",
+                    "LEFT JOIN, RIGHT JOIN, INNER JOIN, FULL OUTER JOIN, UNION",
+                    "CREATE, INSERT, UPDATE, DELETE, SELECT"
+                ],
+                correct: 0,
+                explanation: "Las cinco funciones agregadas esenciales son: COUNT (cuenta registros), MIN (valor mínimo), MAX (valor máximo), SUM (suma valores numéricos), y AVG (media aritmética). Estas son estándar SQL y están disponibles en prácticamente todas las bases de datos."
+            },
+            {
+                question: "¿Cuál es la diferencia entre COUNT(*), COUNT(columna) y COUNT(DISTINCT columna)?",
+                options: [
+                    "No hay diferencias, todas cuentan lo mismo",
+                    "COUNT(*) cuenta todo incluyendo NULLs, COUNT(columna) excluye NULLs, COUNT(DISTINCT columna) cuenta valores únicos excluyendo NULLs y duplicados",
+                    "Solo COUNT(*) funciona correctamente en SAP HANA",
+                    "COUNT(DISTINCT) es un error de sintaxis"
+                ],
+                correct: 1,
+                explanation: "COUNT(*) cuenta todas las filas incluyendo NULLs y duplicados (total de registros). COUNT(columna) cuenta registros donde esa columna NO sea NULL. COUNT(DISTINCT columna) cuenta solo valores únicos, excluyendo NULLs y duplicados."
+            },
+            {
+                question: "¿Qué funciones agregadas pueden usarse con datos de texto?",
+                options: [
+                    "Todas las funciones funcionan igual con cualquier tipo de dato",
+                    "Solo COUNT funciona con texto",
+                    "COUNT, MIN y MAX funcionan con texto; SUM y AVG requieren datos numéricos",
+                    "Ninguna función agregada funciona con texto"
+                ],
+                correct: 2,
+                explanation: "COUNT funciona con cualquier tipo de dato. MIN y MAX funcionan con texto usando orden alfabético (A-Z). SUM y AVG solo funcionan con datos numéricos - intentar usarlos con texto genera error de 'inconsistencia en tipos de datos'."
+            },
+            {
+                question: "Con 772 registros totales y 89 clientes únicos en la tabla pedidos, ¿cuál es la interpretación correcta?",
+                options: [
+                    "Cada cliente tiene exactamente 8.7 pedidos",
+                    "Hay un promedio de 8.7 pedidos por cliente (772 ÷ 89)",
+                    "Los datos están incorrectos porque no puede haber decimales",
+                    "Faltan registros en la base de datos"
+                ],
+                correct: 1,
+                explanation: "772 pedidos totales ÷ 89 clientes únicos = 8.7 pedidos promedio por cliente. Esto no significa que cada cliente tenga exactamente 8.7 pedidos, sino que es el promedio. Algunos clientes pueden tener 15 pedidos, otros solo 1."
+            },
+            {
+                question: "¿Por qué las funciones agregadas se encuentran altamente relacionadas con GROUP BY?",
+                options: [
+                    "Porque GROUP BY es opcional y no afecta los resultados",
+                    "Sin GROUP BY obtienes información sesgada (totales globales), con GROUP BY obtienes análisis detallado por grupos",
+                    "GROUP BY reemplaza completamente a las funciones agregadas",
+                    "Solo funcionan juntos en SAP HANA, no en otros motores"
+                ],
+                correct: 1,
+                explanation: "Sin GROUP BY, las funciones agregadas dan información sesgada (un solo valor global). Con GROUP BY, obtienes un valor por grupo, permitiendo análisis detallado y comparativo. Es la diferencia entre saber '772 pedidos totales' vs '4 clientes VIP, 12 Premium, 28 Regular'."
+            },
+            {
+                question: "¿Cuál es el estado de las funciones STDDEV y VAR en SAP HANA?",
+                options: [
+                    "Son las funciones más importantes y de uso diario",
+                    "Son funciones estadísticas avanzadas, no estándar SQL, de uso muy especializado",
+                    "No existen en SAP HANA",
+                    "Son obligatorias para cualquier análisis empresarial"
+                ],
+                correct: 1,
+                explanation: "STDDEV (desviación estándar) y VAR (varianza) son funciones estadísticas especializadas, no estándar SQL. El instructor admite que no las domina y que no son de uso habitual en desarrollo típico empresarial. Se usan en análisis científico, control de calidad o estudios estadísticos específicos."
+            },
+            {
+                question: "¿Cuál es la principal ventaja empresarial de usar funciones agregadas con GROUP BY?",
+                options: [
+                    "Acelerar las consultas SQL automáticamente",
+                    "Transformar datos en información estratégica y permitir segmentación de clientes para toma de decisiones",
+                    "Reemplazar la necesidad de usar WHERE en las consultas",
+                    "Crear backups automáticos de los datos"
+                ],
+                correct: 1,
+                explanation: "Las funciones agregadas con GROUP BY transforman datos dispersos en información estratégica. Permiten segmentación de clientes (VIP, Premium, Regular), análisis de performance por región/producto, y toma de decisiones basada en datos. Es pasar de 'tengo números' a 'sé dónde enfocar recursos'."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>📊 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas las funciones agregadas y puedes crear análisis empresariales estratégicos.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa las variantes de COUNT y la relación con GROUP BY para perfeccionar.';
+            } else {
+                message = '⚠️ IMPORTANTE: Las funciones agregadas son esenciales para análisis de datos y toma de decisiones.';
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>📊 Puntos clave de funciones agregadas:</h4>
+                    <ul>
+                        <li><strong>Operaciones matemáticas:</strong> Múltiples valores → un resultado</li>
+                        <li><strong>5 funciones básicas:</strong> COUNT, MIN, MAX, SUM, AVG (95% casos)</li>
+                        <li><strong>COUNT variants:</strong> *, columna, DISTINCT (comportamientos diferentes)</li>
+                        <li><strong>Tipos de datos:</strong> MIN/MAX cualquiera, SUM/AVG solo números</li>
+                        <li><strong>GROUP BY esencial:</strong> De totales globales a análisis detallado</li>
+                        <li><strong>Aplicación empresarial:</strong> Segmentación de clientes, métricas clave</li>
+                        <li><strong>Funciones avanzadas:</strong> STDDEV/VAR para casos especializados</li>
+                        <li><strong>Datos → Información:</strong> Base para decisiones estratégicas</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
+
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
