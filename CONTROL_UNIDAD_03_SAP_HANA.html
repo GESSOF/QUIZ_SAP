@@ -1,550 +1,904 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CONTROL UNIDAD 1 | SAP HANA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Unidad 3 SAP HANA - 20 Preguntas Esenciales</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
         .container {
-            background: #fff;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        h1 {
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
         .question-card {
-            border-left: 5px solid #667eea;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         .question-number {
             color: #667eea;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .question-text {
             font-size: 1.2em;
+            font-weight: bold;
             margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
             color: #333;
         }
+
+        .topic-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .options {
             display: grid;
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
+
         .option {
-            padding: 10px 15px;
-            background: #eef;
-            border-radius: 10px;
-            cursor: default;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .explanation {
-            margin-top: 15px;
-            background: #e8f5e9;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
             border-left: 4px solid #4CAF50;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .score-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .score-item h5 {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .score-item .score-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📘 CONTROL UNIFICADO – UNIDAD 1</h1>
-        <p style="text-align:center;">Resumen de los Quizzes 004, 005, 006 y 007</p>
-        
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
+        <div class="header">
+            <h1>🏆 Control Unidad 3 * SAP HANA</h1>
+            <p>20 Preguntas Esenciales - Interfaces, SQL y Comandos Fundamentales</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">20</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Comprehensivo Completado!</h2>
+                <p id="scoreMessage"></p>
+                <div class="score-breakdown" id="scoreBreakdown"></div>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
         </div>
     </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
+    <script>
+        const questions = [
+            // INTERFACES DE DESARROLLO
+            {
+                topic: "Interfaces de Desarrollo",
+                question: "¿Por qué necesitamos una interfaz específica para trabajar con HANA SQL?",
+                options: [
+                    "Solo para hacer el trabajo más complicado",
+                    "Para conectarnos contra la base de datos, escribir código y ejecutar consultas",
+                    "Porque SAP lo requiere por licencia",
+                    "Para crear archivos de respaldo automáticamente"
+                ],
+                correct: 1,
+                explanation: "A diferencia de otros lenguajes donde basta con un bloc de notas, HANA SQL necesita una interfaz que gestione la conexión, autenticación y ejecución contra el servidor de base de datos."
+            },
+            {
+                topic: "Interfaces de Desarrollo",
+                question: "¿Cuáles son las dos interfaces principales oficiales de SAP para HANA?",
+                options: [
+                    "Eclipse y Visual Studio",
+                    "SAP HANA Studio y Web IDE",
+                    "SQL Server Management Studio y phpMyAdmin",
+                    "Cockpit y Database Explorer"
+                ],
+                correct: 1,
+                explanation: "SAP proporciona dos grandes interfaces principales que son consideradas estándar: SAP HANA Studio (legacy) y Web IDE (actual), complementadas por Cockpit para administración."
+            },
+            // SAP HANA STUDIO
+            {
+                topic: "SAP HANA Studio",
+                question: "¿En qué plataforma tecnológica se basa SAP HANA Studio?",
+                options: [
+                    "Visual Studio",
+                    "Eclipse",
+                    "IntelliJ IDEA",
+                    "NetBeans"
+                ],
+                correct: 1,
+                explanation: "SAP HANA Studio es una aplicación basada en Java que corre sobre la plataforma Eclipse. Eclipse es una plataforma de programación de código abierto extensible mediante plugins."
+            },
+            {
+                topic: "SAP HANA Studio",
+                question: "¿Con qué motor es compatible SAP HANA Studio en HANA 2.0?",
+                options: [
+                    "Solo con motor XSA",
+                    "Solo con motor XS clásico",
+                    "Con ambos motores XS y XSA",
+                    "No es compatible con HANA 2.0"
+                ],
+                correct: 1,
+                explanation: "SAP HANA Studio puede utilizarse en HANA 2.0 cuando se trabaja en modo desarrollo del motor XS clásico, pero NO puede utilizarse para desarrollar aplicaciones en el motor XSA."
+            },
+            // SAP WEB IDE
+            {
+                topic: "SAP Web IDE",
+                question: "¿Qué es SAP Web IDE for SAP HANA?",
+                options: [
+                    "Una herramienta de administración de base de datos",
+                    "Un entorno de desarrollo integrado basado en web para aplicaciones SAP HANA",
+                    "Un sistema operativo para servidores HANA",
+                    "Una aplicación para crear reportes"
+                ],
+                correct: 1,
+                explanation: "SAP Web IDE for SAP HANA es un entorno de desarrollo integrado basado en web utilizado para el desarrollo de aplicaciones basadas en SAP HANA que comprenden interfaces de usuario web o móviles, lógica empresarial y modelos de datos extensos."
+            },
+            {
+                topic: "SAP Web IDE",
+                question: "¿Con qué motor es compatible SAP Web IDE for SAP HANA?",
+                options: [
+                    "Solo con XS Classic",
+                    "Solo con XS Advanced (XSA)",
+                    "Con ambos: XS Classic y XSA",
+                    "Con cualquier motor de base de datos"
+                ],
+                correct: 1,
+                explanation: "SAP Web IDE for SAP HANA SOLO funciona con XS Advanced (XSA). No es compatible con el desarrollo XS Classic, a diferencia de SAP Web ID que sí trabajaba con XS Classic."
+            },
+            // INTERFACES COCKPIT
+            {
+                topic: "Interfaces Cockpit",
+                question: "¿Cuáles son las dos interfaces Cockpit principales de SAP HANA?",
+                options: [
+                    "SAP HANA Studio y Web IDE",
+                    "SAP HANA Cockpit y XSA Cockpit",
+                    "HANA Database Manager y Application Server",
+                    "SQL Console y Database Explorer"
+                ],
+                correct: 1,
+                explanation: "Las dos interfaces Cockpit principales son SAP HANA Cockpit (para administración de base de datos) y XSA Cockpit (para administración del servidor de aplicaciones XSA)."
+            },
+            {
+                topic: "Interfaces Cockpit",
+                question: "¿Cuál es el propósito principal del SAP HANA Cockpit?",
+                options: [
+                    "Desarrollo de aplicaciones y modelado de datos",
+                    "Proveer un único punto de acceso para herramientas de administración y monitorización de BD",
+                    "Gestión de usuarios del servidor de aplicaciones",
+                    "Creación de vistas calculadas y procedimientos"
+                ],
+                correct: 1,
+                explanation: "El SAP HANA Cockpit provee un único punto de acceso a herramientas para administración y monitorización de bases de datos SAP HANA, integrando capacidades de desarrollo SQL requeridas por administradores."
+            },
+            // INTRODUCCIÓN HANA SQL
+            {
+                topic: "Introducción HANA SQL",
+                question: "¿En qué estándar está basado HANA SQL?",
+                options: [
+                    "SQL-99 con extensiones propietarias de SAP",
+                    "SQL-92 (SQL estándar) con modificaciones específicas para SAP HANA",
+                    "Un lenguaje completamente nuevo creado por SAP",
+                    "SQL-2003 con compatibilidad Oracle"
+                ],
+                correct: 1,
+                explanation: "SAP no ha inventado un lenguaje nuevo. Ha tomado el lenguaje SQL estándar (SQL-92) y lo ha implementado sobre su producto, realizando algunas modificaciones específicas para adaptarlo a las características particulares de SAP HANA."
+            },
+            {
+                topic: "Introducción HANA SQL",
+                question: "¿Cuáles son los tres tipos principales de lenguaje SQL?",
+                options: [
+                    "SELECT, INSERT, UPDATE",
+                    "CREATE, READ, UPDATE",
+                    "DDL, DML, DCL",
+                    "QUERY, MODIFY, CONTROL"
+                ],
+                correct: 2,
+                explanation: "Los tres tipos principales de lenguaje SQL son: DDL (Data Definition Language) para definir objetos, DML (Data Manipulation Language) para manipular datos, y DCL (Data Control Language) para controlar accesos y permisos."
+            },
+            // COMANDO SELECT
+            {
+                topic: "Comando SELECT",
+                question: "¿Cuáles son las tres preguntas fundamentales de la metodología para construir consultas SELECT?",
+                options: [
+                    "¿Cómo conectar? ¿Qué sintaxis? ¿Cómo optimizar?",
+                    "¿Qué datos necesito? ¿Dónde están? ¿Qué requisitos deben cumplir?",
+                    "¿Cuántos registros? ¿Qué columnas? ¿Cómo ordenar?",
+                    "¿Qué tablas unir? ¿Qué filtros aplicar? ¿Cómo agrupar?"
+                ],
+                correct: 1,
+                explanation: "La metodología fundamental consiste en responder: 1) ¿Qué datos necesito? (identificar información requerida), 2) ¿Dónde están? (localizar las tablas), y 3) ¿Qué requisitos deben cumplir? (definir las condiciones). Esta metodología es especialmente importante para principiantes."
+            },
+            {
+                topic: "Comando SELECT",
+                question: "¿Cuál es el orden correcto de procesamiento lógico de las cláusulas SELECT?",
+                options: [
+                    "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY",
+                    "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY",
+                    "FROM → SELECT → WHERE → GROUP BY → ORDER BY → HAVING",
+                    "WHERE → FROM → SELECT → GROUP BY → HAVING → ORDER BY"
+                ],
+                correct: 1,
+                explanation: "SQL procesa en este orden lógico: FROM (identifica fuentes), WHERE (filtra registros individuales), GROUP BY (agrupa datos), HAVING (filtra grupos), SELECT (selecciona columnas), ORDER BY (ordena resultado final). Este orden es fundamental para entender cómo funciona SQL internamente."
+            },
+            // COMANDO INSERT
+            {
+                topic: "Comando INSERT",
+                question: "¿Cuál es la sintaxis básica completa del comando INSERT?",
+                options: [
+                    "INSERT VALUES (valores) INTO tabla;",
+                    "INSERT INTO nombre_tabla [(columnas)] VALUES (valores);",
+                    "INSERT nombre_tabla WITH VALUES (valores);",
+                    "INSERT (valores) INTO nombre_tabla;"
+                ],
+                correct: 1,
+                explanation: "La sintaxis correcta es: INSERT INTO nombre_tabla [(columnas)] VALUES (valores); donde la especificación de columnas es opcional, pero si se usa, va entre paréntesis después del nombre de la tabla."
+            },
+            {
+                topic: "Comando INSERT",
+                question: "¿Cuál es la diferencia entre NULL y 'NULL' en INSERT?",
+                options: [
+                    "No hay diferencia, son lo mismo",
+                    "NULL (sin comillas) es un estado que representa ausencia de valor, 'NULL' (con comillas) es texto literal",
+                    "NULL es para números y 'NULL' es para texto",
+                    "'NULL' es la forma correcta, NULL sin comillas es un error"
+                ],
+                correct: 1,
+                explanation: "NULL sin comillas representa ausencia de valor (estado especial de la base de datos que se consulta con IS NULL), mientras que 'NULL' con comillas es un texto que contiene las letras N-U-L-L (se consulta con = 'NULL')."
+            },
+            // COMANDO UPDATE
+            {
+                topic: "Comando UPDATE",
+                question: "¿Cuál es la sintaxis completa del comando UPDATE?",
+                options: [
+                    "UPDATE tabla VALUES (valores) WHERE condición;",
+                    "UPDATE tabla SET campo = valor WHERE condición;",
+                    "UPDATE SET campo = valor FROM tabla WHERE condición;",
+                    "UPDATE WHERE condición SET campo = valor IN tabla;"
+                ],
+                correct: 1,
+                explanation: "La sintaxis correcta es: UPDATE tabla SET campo = valor WHERE condición; donde UPDATE especifica la operación, tabla es la tabla a modificar, SET introduce las asignaciones, y WHERE filtra qué registros modificar."
+            },
+            {
+                topic: "Comando UPDATE",
+                question: "¿Qué sucede si ejecutas UPDATE sin la cláusula WHERE?",
+                options: [
+                    "Se genera un error de sintaxis",
+                    "No se modifica ningún registro",
+                    "Se modifican TODOS los registros de la tabla",
+                    "Solo se modifica el primer registro"
+                ],
+                correct: 2,
+                explanation: "Si ejecutas UPDATE sin WHERE, se modifican TODOS los registros de la tabla. Esta es una de las operaciones más peligrosas en SQL y puede causar pérdida masiva de datos. WHERE es técnicamente opcional pero prácticamente obligatorio."
+            },
+            // COMANDO DELETE
+            {
+                topic: "Comando DELETE",
+                question: "¿Por qué se considera DELETE el comando más peligroso de SQL?",
+                options: [
+                    "Porque es muy complejo de escribir",
+                    "Porque sin WHERE elimina TODA la tabla y es irreversible",
+                    "Porque solo funciona en SAP HANA",
+                    "Porque requiere permisos especiales"
+                ],
+                correct: 1,
+                explanation: "DELETE sin WHERE elimina TODOS los registros de la tabla de forma permanente. A diferencia de UPDATE que modifica datos, DELETE los elimina completamente, siendo solo recuperables desde backups."
+            },
+            {
+                topic: "Comando DELETE",
+                question: "¿Cuál es el protocolo de seguridad OBLIGATORIO antes de ejecutar DELETE?",
+                options: [
+                    "Hacer backup de toda la base de datos",
+                    "Usar SELECT con el mismo WHERE para verificar qué se eliminará",
+                    "Pedir autorización al supervisor",
+                    "Ejecutar en horario nocturno"
+                ],
+                correct: 1,
+                explanation: "SIEMPRE debes usar SELECT con exactamente el mismo WHERE que planeas usar en DELETE. Esto te permite verificar cuántos registros se eliminarán y confirmar que son los correctos antes de la eliminación irreversible."
+            },
+            // JOINs
+            {
+                topic: "JOINs",
+                question: "¿Cuál es la principal limitación que superan los JOINs en SQL?",
+                options: [
+                    "La velocidad de las consultas",
+                    "Solo poder consultar información de una tabla a la vez",
+                    "La cantidad de registros que se pueden procesar",
+                    "El uso de memoria del sistema"
+                ],
+                correct: 1,
+                explanation: "Los JOINs nos permiten superar la limitación fundamental de SQL básico: hasta ahora solo podíamos obtener información de una sola tabla por consulta. Los JOINs combinan datos de múltiples tablas relacionadas en una sola consulta."
+            },
+            {
+                topic: "JOINs",
+                question: "¿Cuál es la característica principal del INNER JOIN?",
+                options: [
+                    "Devuelve todos los registros de ambas tablas",
+                    "Solo devuelve registros que tienen coincidencias en ambas tablas",
+                    "Devuelve todos los registros de la tabla izquierda",
+                    "Es el JOIN más lento de todos"
+                ],
+                correct: 1,
+                explanation: "INNER JOIN es el más selectivo de todos los JOINs. Solo devuelve registros que tienen coincidencias en ambas tablas según la condición especificada en la cláusula ON. Si un registro de cualquier tabla no tiene correspondencia, queda excluido del resultado."
+            }
+        ];
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="topic-tag">${question.topic}</div>
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
+        function calculateTopicScores() {
+            const topicScores = {};
+            const topicTotals = {};
+            
+            questions.forEach((question, index) => {
+                const topic = question.topic;
+                if (!topicScores[topic]) {
+                    topicScores[topic] = 0;
+                    topicTotals[topic] = 0;
+                }
+                topicTotals[topic]++;
+                if (userAnswers[index] === question.correct) {
+                    topicScores[topic]++;
+                }
+            });
+            
+            return { topicScores, topicTotals };
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            const { topicScores, topicTotals } = calculateTopicScores();
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🏆 ¡EXTRAORDINARIO! Dominas completamente SAP HANA. Eres un experto.';
+            } else if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Tienes un dominio muy sólido de SAP HANA.';
+            } else if (finalScore >= 70) {
+                message = '👍 Muy buen trabajo. Dominas la mayoría de los conceptos.';
+            } else if (finalScore >= 60) {
+                message = '📖 Buen progreso. Necesitas repasar algunos conceptos clave.';
+            } else {
+                message = '📚 Necesitas estudiar más los fundamentos antes de continuar.';
+            }
+            
+            // Generate topic breakdown
+            let topicBreakdown = '';
+            Object.keys(topicScores).forEach(topic => {
+                const topicPercentage = Math.round((topicScores[topic] / topicTotals[topic]) * 100);
+                topicBreakdown += `
+                    <div class="score-item">
+                        <h5>${topic}</h5>
+                        <div class="score-value">${topicScores[topic]}/${topicTotals[topic]} (${topicPercentage}%)</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('scoreBreakdown').innerHTML = topicBreakdown;
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>🎯 Resumen de Conceptos Evaluados:</h4>
+                    <ul>
+                        <li><strong>Interfaces de Desarrollo:</strong> Studio, Web IDE, Cockpit - propósitos y diferencias</li>
+                        <li><strong>Fundamentos SQL:</strong> DDL, DML, DCL - tipos de lenguaje y comandos</li>
+                        <li><strong>Comando SELECT:</strong> Metodología, procesamiento lógico, cláusulas</li>
+                        <li><strong>Comandos DML:</strong> INSERT, UPDATE, DELETE - sintaxis y seguridad</li>
+                        <li><strong>JOINs:</strong> Limitaciones superadas, tipos principales, INNER JOIN</li>
+                        <li><strong>Seguridad:</strong> Protocolos críticos para UPDATE y DELETE</li>
+                        <li><strong>Compatibilidad:</strong> Motores XS vs XSA en diferentes interfaces</li>
+                        <li><strong>Mejores Prácticas:</strong> Sintaxis moderna, verificación previa, alias</li>
+                    </ul>
+                </div>
+            `;
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
 
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 1</div>
-        <div class="question-text">¿Cuál es el propósito principal de SAP HANA como acelerador?</div>
-        <div class="options">
-            <div class="option">Reemplazar completamente el sistema SAP existente</div>
-<div class="option">Replicar en tiempo real la base de datos existente para acelerar la obtención de datos</div>
-<div class="option">Crear una nueva arquitectura de tres capas</div>
-<div class="option">Eliminar la necesidad de herramientas ETL</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA como acelerador replica en tiempo real la base de datos existente, mejorando la velocidad de consulta sin reemplazar el sistema completo.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 2</div>
-        <div class="question-text">¿Qué edición de SAP HANA es gratuita y diseñada para estudiantes?</div>
-        <div class="options">
-            <div class="option">Enterprise Edition</div>
-<div class="option">Express Edition</div>
-<div class="option">Standard Edition</div>
-<div class="option">Developer Edition</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA Express Edition es gratuita y orientada al aprendizaje, con límite de hasta 32 GB de RAM.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 3</div>
-        <div class="question-text">¿Cuántas capas tiene la arquitectura tradicional de SAP?</div>
-        <div class="options">
-            <div class="option">2 capas</div>
-<div class="option">3 capas</div>
-<div class="option">4 capas</div>
-<div class="option">1 capa</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP tradicionalmente usa una arquitectura de 3 capas: presentación, aplicación y base de datos.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 4</div>
-        <div class="question-text">¿Qué tipo de almacenamiento es más eficiente para operaciones analíticas?</div>
-        <div class="options">
-            <div class="option">Orientado a filas</div>
-<div class="option">Orientado a columnas</div>
-<div class="option">Ambos son iguales</div>
-<div class="option">Depende de la base de datos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El almacenamiento en columnas es ideal para operaciones analíticas como agregaciones y consultas masivas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 5</div>
-        <div class="question-text">¿Qué significa el concepto de 'push down' en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Cargar datos desde disco</div>
-<div class="option">Procesar datos directamente en la base de datos</div>
-<div class="option">Comprimir tablas en memoria</div>
-<div class="option">Reducir uso de CPU</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Push down significa trasladar el procesamiento de datos a la base de datos, evitando pasos innecesarios en el servidor de aplicación.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 6</div>
-        <div class="question-text">¿Cuál es la herramienta recomendada para desarrollar sobre SAP HANA 2.0?</div>
-        <div class="options">
-            <div class="option">SAP HANA Studio</div>
-<div class="option">SAP Web IDE</div>
-<div class="option">Eclipse</div>
-<div class="option">Visual Studio Code</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP Web IDE es la herramienta de desarrollo para HANA 2.0 (XSA), mientras que Studio se utilizaba para HANA 1.0.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 7</div>
-        <div class="question-text">¿Qué implica la virtualización de datos en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Copiar datos en múltiples servidores</div>
-<div class="option">Procesar datos sin almacenarlos físicamente</div>
-<div class="option">Encriptar todos los registros</div>
-<div class="option">Reducir el tamaño de los datos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Virtualizar significa reorganizar los datos en memoria sin grabarlos en disco.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 8</div>
-        <div class="question-text">¿Qué motor se utiliza para ejecutar vistas calculadas en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Motor SQL</div>
-<div class="option">Motor de Cálculo</div>
-<div class="option">Motor OLAP</div>
-<div class="option">Motor de Texto</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor de cálculo se encarga de las vistas calculadas, realizando operaciones complejas de análisis.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 9</div>
-        <div class="question-text">¿Cuál es la función del motor espacial en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Control de seguridad</div>
-<div class="option">Procesamiento de texto</div>
-<div class="option">Análisis geoespacial</div>
-<div class="option">Procesamiento OLAP</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El motor espacial permite análisis de datos geográficos como distancias, rutas y mapas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 10</div>
-        <div class="question-text">¿Qué es la autenticación en SAP HANA?</div>
-        <div class="options">
-            <div class="option">Asignación de permisos</div>
-<div class="option">Verificación de identidad del usuario</div>
-<div class="option">Control de sesiones</div>
-<div class="option">Auditoría del sistema</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La autenticación valida la identidad del usuario que accede al sistema.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 11</div>
-        <div class="question-text">¿Qué entidad creó el protocolo Kerberos?</div>
-        <div class="options">
-            <div class="option">SAP</div>
-<div class="option">MIT</div>
-<div class="option">IBM</div>
-<div class="option">Oracle</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>Kerberos fue desarrollado por el MIT como protocolo de autenticación segura en redes.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 12</div>
-        <div class="question-text">¿Cuál es la filosofía de seguridad recomendada al asignar roles?</div>
-        <div class="options">
-            <div class="option">Permisos máximos para todos</div>
-<div class="option">Acceso mínimo necesario</div>
-<div class="option">Permisos por antigüedad</div>
-<div class="option">Igualdad de accesos</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>La filosofía más segura es la del menor privilegio: otorgar solo el acceso estrictamente necesario.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 13</div>
-        <div class="question-text">¿Qué tipo de compresión se aplica en tablas en columnas?</div>
-        <div class="options">
-            <div class="option">ZIP</div>
-<div class="option">GZIP</div>
-<div class="option">Compresión de diccionario</div>
-<div class="option">Compresión de índice</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA aplica compresión de diccionario, reduciendo redundancias en los datos de columnas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 14</div>
-        <div class="question-text">¿Cuál es la ventaja principal del almacenamiento en filas?</div>
-        <div class="options">
-            <div class="option">Compresión</div>
-<div class="option">Velocidad de agregación</div>
-<div class="option">Acceso rápido a registros completos</div>
-<div class="option">Procesamiento paralelo</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>El acceso a registros completos es más eficiente en almacenamiento orientado a filas.</p>
-        </div>
-    </div>
-    
-    <div class="question-card">
-        <div class="question-number">Pregunta 15</div>
-        <div class="question-text">¿Cuántas particiones máximas puede tener una tabla columna desde SPS10?</div>
-        <div class="options">
-            <div class="option">1,000</div>
-<div class="option">5,000</div>
-<div class="option">10,000</div>
-<div class="option">16,000</div>
-
-        </div>
-        <div class="explanation">
-            <h4>Explicación:</h4>
-            <p>SAP HANA permite hasta 16,000 particiones en tablas columnares desde la versión SPS10.</p>
-        </div>
-    </div>
-    
-    </div>
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>
