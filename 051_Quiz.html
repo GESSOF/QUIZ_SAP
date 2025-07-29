@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 051 - Acciones Referenciales SAP HANA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Quiz 051 | SAP HANA</h1>
+            <p>Acciones Referenciales: ON UPDATE y ON DELETE</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questionsBase = [
+            {
+                question: "¿Cuáles son las cuatro acciones referenciales disponibles en SAP HANA?",
+                options: [
+                    "CREATE, UPDATE, DELETE, SELECT",
+                    "RESTRICT, CASCADE, SET NULL, SET DEFAULT",
+                    "INSERT, MODIFY, REMOVE, VALIDATE",
+                    "BLOCK, ALLOW, IGNORE, WARNING"
+                ],
+                correct: 1,
+                explanation: "Las cuatro acciones referenciales son: RESTRICT (impide la operación), CASCADE (propaga la operación), SET NULL (establece NULL) y SET DEFAULT (establece valor por defecto)."
+            },
+            {
+                question: "¿Qué comportamiento tiene ON DELETE RESTRICT cuando intentas eliminar un registro padre que tiene referencias?",
+                options: [
+                    "Elimina automáticamente los registros relacionados",
+                    "Convierte las referencias a NULL",
+                    "No permite la eliminación si existen registros relacionados",
+                    "Establece un valor por defecto en las referencias"
+                ],
+                correct: 2,
+                explanation: "ON DELETE RESTRICT impide la eliminación del registro padre si existen registros hijos que lo referencian, proporcionando máximo control y seguridad sobre los datos."
+            },
+            {
+                question: "¿Cuál es el principal peligro de usar ON DELETE CASCADE en sistemas Big Data?",
+                options: [
+                    "Hace las consultas más lentas",
+                    "Requiere más espacio de almacenamiento",
+                    "Puede eliminar millones de registros relacionados automáticamente",
+                    "Aumenta la complejidad del código"
+                ],
+                correct: 2,
+                explanation: "ON DELETE CASCADE puede causar eliminaciones masivas no intencionadas. Un solo DELETE en la tabla padre puede borrar automáticamente millones de registros relacionados, siendo muy peligroso en sistemas Big Data."
+            },
+            {
+                question: "Si tienes ON UPDATE CASCADE y actualizas la clave primaria de un registro padre, ¿qué sucede?",
+                options: [
+                    "La operación es rechazada por la base de datos",
+                    "Solo se actualiza el registro padre",
+                    "Todas las claves foráneas que referencian ese valor se actualizan automáticamente",
+                    "Las referencias se convierten a NULL"
+                ],
+                correct: 2,
+                explanation: "ON UPDATE CASCADE propaga automáticamente la actualización. Si cambias la clave primaria de un registro padre, todas las claves foráneas que lo referencian se actualizarán automáticamente al nuevo valor."
+            },
+            {
+                question: "¿Qué requisito especial tiene ON DELETE SET DEFAULT para funcionar correctamente?",
+                options: [
+                    "La tabla hija debe tener menos de 1000 registros",
+                    "El campo debe permitir valores NULL",
+                    "El valor por defecto debe existir como clave primaria en la tabla padre",
+                    "Se debe ejecutar en horario nocturno"
+                ],
+                correct: 2,
+                explanation: "Para que ON DELETE SET DEFAULT funcione, el valor por defecto definido en la tabla hija debe existir como clave primaria válida en la tabla padre, manteniendo la integridad referencial."
+            },
+            {
+                question: "En una tabla con ON UPDATE RESTRICT, si quieres cambiar una clave primaria que tiene referencias, ¿cuál es el orden correcto?",
+                options: [
+                    "1. Cambiar directamente la clave primaria",
+                    "2. Actualizar primero las referencias en tablas hijas, luego la clave primaria",
+                    "3. Eliminar todas las referencias y volver a crearlas",
+                    "4. Cambiar temporalmente a CASCADE, actualizar y volver a RESTRICT"
+                ],
+                correct: 1,
+                explanation: "Con RESTRICT debes actualizar manualmente: primero cambiar las claves foráneas en las tablas hijas al nuevo valor, y después actualizar la clave primaria en la tabla padre."
+            },
+            {
+                question: "¿Cuál es la diferencia entre ON DELETE SET NULL y ON DELETE SET DEFAULT?",
+                options: [
+                    "SET NULL es más rápido que SET DEFAULT",
+                    "SET NULL convierte las referencias a NULL, SET DEFAULT las convierte a un valor predefinido válido",
+                    "SET DEFAULT solo funciona con números enteros",
+                    "No hay diferencias, son sinónimos"
+                ],
+                correct: 1,
+                explanation: "SET NULL convierte las claves foráneas a NULL (útil para relaciones opcionales), mientras que SET DEFAULT las convierte a un valor por defecto que debe existir en la tabla padre."
+            },
+            {
+                question: "¿Cuál es la recomendación de mejores prácticas para acciones referenciales según la clase?",
+                options: [
+                    "Usar siempre CASCADE para mayor automatización",
+                    "Usar RESTRICT por defecto para máximo control, CASCADE solo con extrema precaución",
+                    "Alternar entre diferentes acciones según el día de la semana",
+                    "SET NULL es siempre la opción más segura"
+                ],
+                correct: 1,
+                explanation: "La mejor práctica es usar RESTRICT por defecto para tener máximo control manual sobre los datos, y usar CASCADE solo con extrema precaución en relaciones maestro-detalle muy específicas donde el comportamiento automático sea realmente deseado."
+            }
+        ];
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function randomizeQuestions() {
+            questions = questionsBase.map(q => {
+                const correctAnswer = q.options[q.correct];
+                const shuffledOptions = shuffleArray(q.options);
+                const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+                
+                return {
+                    ...q,
+                    options: shuffledOptions,
+                    correct: newCorrectIndex
+                };
+            });
+        }
+
+        function initQuiz() {
+            randomizeQuestions();
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas las acciones referenciales y sus implicaciones de seguridad.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa los riesgos de CASCADE y las mejores prácticas.';
+            } else {
+                message = '⚠️ Es crítico dominar estos conceptos para evitar pérdida de datos en producción.';
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>🔄 Conceptos clave de Acciones Referenciales:</h4>
+                    <ul>
+                        <li><strong>RESTRICT:</strong> Impide operación si hay referencias - MÁXIMO CONTROL</li>
+                        <li><strong>CASCADE:</strong> Propaga automáticamente - EXTREMA PRECAUCIÓN</li>
+                        <li><strong>SET NULL:</strong> Convierte referencias a NULL - para relaciones opcionales</li>
+                        <li><strong>SET DEFAULT:</strong> Usa valor por defecto - debe existir en tabla padre</li>
+                        <li><strong>Riesgo CASCADE:</strong> Puede eliminar millones de registros automáticamente</li>
+                        <li><strong>Mejor práctica:</strong> RESTRICT por defecto, validar impacto antes de CASCADE</li>
+                        <li><strong>Orden con RESTRICT:</strong> Actualizar dependientes antes que padre</li>
+                        <li><strong>Seguridad:</strong> Siempre tener backups antes de operaciones masivas</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
+
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>

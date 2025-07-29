@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 052 - Ejercicio Práctico Ficheros SAP HANA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Quiz 052 | SAP HANA</h1>
+            <p>Ejercicio Práctico: Transición a Ficheros SAP HANA</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questionsBase = [
+            {
+                question: "¿Cuál es la principal diferencia entre el método SQL directo y el método con ficheros en SAP HANA?",
+                options: [
+                    "Los ficheros son más lentos que SQL directo",
+                    "SQL directo usa CREATE TABLE explícito, ficheros .hdbtable omiten esta palabra",
+                    "Los ficheros solo funcionan con tablas pequeñas",
+                    "SQL directo no permite claves foráneas"
+                ],
+                correct: 1,
+                explanation: "La diferencia clave es que SQL directo usa el comando CREATE TABLE explícitamente, mientras que los ficheros .hdbtable omiten esta palabra y definen directamente la estructura con COLUMN TABLE."
+            },
+            {
+                question: "¿Cuántas tablas se diseñaron en el ejercicio práctico de la clase 052?",
+                options: [
+                    "2 tablas (productos y proveedores)",
+                    "4 tablas (productos, proveedores, países y categorías)",
+                    "3 tablas (productos, proveedores y países)", 
+                    "5 tablas (productos, proveedores, países, clientes y ventas)"
+                ],
+                correct: 2,
+                explanation: "Se diseñaron 3 tablas en el ejercicio: EJE_PAÍSES (tabla padre), EJE_PROVEEDORES (tabla intermedia) y EJE_PRODUCTOS (tabla hija), formando un sistema completo de inventario."
+            },
+            {
+                question: "¿Por qué se eligió NCHAR para los campos de texto en lugar de VARCHAR?",
+                options: [
+                    "NCHAR es más rápido en consultas",
+                    "VARCHAR no existe en SAP HANA",
+                    "NCHAR ofrece soporte Unicode para empresas multinacionales",
+                    "NCHAR ocupa menos espacio de almacenamiento"
+                ],
+                correct: 2,
+                explanation: "Se eligió NCHAR porque ofrece soporte Unicode, siendo ideal para empresas multinacionales que manejan caracteres especiales y diferentes idiomas en nombres de productos y proveedores."
+            },
+            {
+                question: "¿Qué filosofía de diseño se aplicó para determinar los tamaños de los campos?",
+                options: [
+                    "Usar siempre el tamaño mínimo necesario",
+                    "Filosofía 'curarse en salud' - si necesitas X, diseña para 3X",
+                    "Usar tamaños estándar de 255 caracteres",
+                    "Calcular el promedio de datos existentes"
+                ],
+                correct: 1,
+                explanation: "Se aplicó la filosofía 'curarse en salud': si el nombre más largo son 30 caracteres, pon límite de 35-40. Como ejemplo del puente: si calculas que soporta X peso, hazlo para 3X."
+            },
+            {
+                question: "¿Cuál fue el tipo de dato elegido para el campo precio_compra y por qué?",
+                options: [
+                    "INTEGER para simplificar cálculos",
+                    "FLOAT para máxima precisión",
+                    "DECIMAL(6,2) para precios hasta 9999.99 con precisión de centavos",
+                    "VARCHAR para flexibilidad de formatos"
+                ],
+                correct: 2,
+                explanation: "Se eligió DECIMAL(6,2) que permite precios hasta 9999.99, suficiente para productos normales, con precisión exacta de centavos, evitando problemas de redondeo de FLOAT."
+            },
+            {
+                question: "¿Cuántos ficheros .hdbconstraint se crearon en el ejercicio y para qué?",
+                options: [
+                    "1 fichero para la relación productos-proveedores",
+                    "3 ficheros, uno para cada tabla",
+                    "2 ficheros: fk_pais.hdbconstraint y fk_proveedor.hdbconstraint",
+                    "4 ficheros para todas las restricciones"
+                ],
+                correct: 2,
+                explanation: "Se crearon 2 ficheros .hdbconstraint: fk_pais.hdbconstraint para la relación proveedores→países y fk_proveedor.hdbconstraint para la relación productos→proveedores."
+            },
+            {
+                question: "¿Por qué se estableció DEFAULT 0.0 en el campo precio_compra?",
+                options: [
+                    "Para acelerar las consultas de la base de datos",
+                    "Para evitar problemas con NULL en cálculos matemáticos",
+                    "Porque es un requisito obligatorio de SAP HANA",
+                    "Para reducir el espacio de almacenamiento"
+                ],
+                correct: 1,
+                explanation: "DEFAULT 0.0 evita valores NULL que pueden causar problemas en cálculos matemáticos. Un NULL en una suma hace que todo el resultado sea NULL, mientras que 0.0 permite cálculos correctos."
+            },
+            {
+                question: "¿Cuál es el orden correcto de inserción de datos respetando las dependencias del ejercicio?",
+                options: [
+                    "Productos → Proveedores → Países",
+                    "Proveedores → Productos → Países", 
+                    "Países → Proveedores → Productos",
+                    "El orden no importa en SAP HANA"
+                ],
+                correct: 2,
+                explanation: "El orden correcto es Países → Proveedores → Productos, respetando las dependencias de claves foráneas: los países deben existir antes de crear proveedores, y los proveedores antes de crear productos."
+            }
+        ];
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function randomizeQuestions() {
+            questions = questionsBase.map(q => {
+                const correctAnswer = q.options[q.correct];
+                const shuffledOptions = shuffleArray(q.options);
+                const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+                
+                return {
+                    ...q,
+                    options: shuffledOptions,
+                    correct: newCorrectIndex
+                };
+            });
+        }
+
+        function initQuiz() {
+            randomizeQuestions();
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas la transición a ficheros y las decisiones de diseño.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa las diferencias entre SQL directo y ficheros.';
+            } else {
+                message = '⚠️ Es importante dominar este cambio metodológico fundamental.';
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>🏗️ Conceptos clave del Ejercicio Práctico:</h4>
+                    <ul>
+                        <li><strong>Sin CREATE:</strong> Ficheros .hdbtable omiten comando CREATE TABLE</li>
+                        <li><strong>3 tablas diseñadas:</strong> Países → Proveedores → Productos</li>
+                        <li><strong>NCHAR para Unicode:</strong> Soporte multinacional en textos</li>
+                        <li><strong>Filosofía "curarse en salud":</strong> Si necesitas X, diseña para 3X</li>
+                        <li><strong>DECIMAL(6,2):</strong> Precios hasta 9999.99 con precisión exacta</li>
+                        <li><strong>2 ficheros .hdbconstraint:</strong> fk_pais y fk_proveedor</li>
+                        <li><strong>DEFAULT 0.0:</strong> Evita problemas NULL en cálculos matemáticos</li>
+                        <li><strong>Orden crítico:</strong> Países → Proveedores → Productos</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
+
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
