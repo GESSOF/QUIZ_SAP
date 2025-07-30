@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Disponible - Portal Educativo</title>
+    <title>Quiz 024 - Instalación de Tablas de Prueba SAP HANA</title>
     <style>
         * {
             margin: 0;
@@ -12,99 +12,659 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 60px 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-            animation: fadeInUp 0.8s ease-out;
+            overflow: hidden;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .icon {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: bounce 2s infinite;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: move 20s linear infinite;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        .main-title {
-            font-size: 3.5rem;
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
             font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            letter-spacing: -1px;
+            display: block;
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: #4a5568;
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 30px;
-            line-height: 1.6;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #2c5aa0;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
 
+        .question-card.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
 
+        .question-number {
+            color: #2c5aa0;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option.selected {
+            border-color: #2c5aa0;
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-score.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .study-tips {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .study-tips h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .study-tips ul {
+            margin-left: 20px;
+        }
+
+        .study-tips li {
+            margin-bottom: 8px;
+            color: #bf360c;
+        }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
             .container {
-                padding: 40px 20px;
+                margin: 0;
+                border-radius: 15px;
             }
             
-            .main-title {
-                font-size: 2.5rem;
+            .header {
+                padding: 20px;
             }
             
-            .subtitle {
-                font-size: 1.1rem;
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 12px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="icon">📚</div>
-        
-        <h1 class="main-title">QUIZ 024</h1>
-		<h1 class="main-title">NO DISPONIBLE</h1>
-        
-        <p class="subtitle">Contenido temporalmente inaccesible</p>
-        
+        <div class="header">
+            <h1>🛠️ Quiz 024 | SAP HANA</h1>
+            <p>Instalación de Tablas de Prueba - Configuración del Entorno</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">1</span>
+                    <span>Pregunta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">8</span>
+                    <span>Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="score">0</span>
+                    <span>Puntaje</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
+        <div class="content">
+            <div id="questionContainer"></div>
+            
+            <div class="final-score" id="finalScore">
+                <div class="score-circle" id="finalScoreCircle">0%</div>
+                <h2>¡Quiz Completado!</h2>
+                <p id="scoreMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Cuáles son los 3 tipos de archivos necesarios para instalar una tabla completa en SAP HANA?",
+                options: [
+                    ".sql, .csv, .config",
+                    ".hdbtable (estructura), .csv (datos), .hdbtabledata (configuración)",
+                    ".table, .data, .import",
+                    ".hana, .csv, .schema"
+                ],
+                correct: 1,
+                explanation: "Para cada tabla se necesitan exactamente 3 archivos: .hdbtable (contiene sentencias SQL para crear la tabla), .csv (datos en formato CSV), y .hdbtabledata (relaciona la tabla con su archivo de datos)."
+            },
+            {
+                question: "¿Cuál es el nombre recomendado para el proyecto Multi-Target Application que se crea en el Web IDE?",
+                options: [
+                    "hana-database-project",
+                    "curso-modelado-hana",
+                    "base-datos-modelado",
+                    "tablas-prueba-sap"
+                ],
+                correct: 2,
+                explanation: "Según el video, se recomienda usar 'base-datos-modelado' como nombre del proyecto Multi-Target Application, con versión 0.0.1 y en el espacio 'development'."
+            },
+            {
+                question: "¿Qué configuración es CRÍTICA al crear el módulo SAP HANA Database Module?",
+                options: [
+                    "Definir el schema name específico",
+                    "Seleccionar SAP HANA version 2.0 SPS03 y marcar 'Build module after creation'",
+                    "Configurar el usuario administrador",
+                    "Establecer permisos de acceso"
+                ],
+                correct: 1,
+                explanation: "Es crucial seleccionar 'SAP HANA version: 2.0 SPS03' y marcar la casilla '✅ Build module after creation' para que el sistema construya automáticamente el módulo y aparezca la carpeta 'src'."
+            },
+            {
+                question: "¿Cuál es el paso más importante al importar el archivo tablas_curso.zip?",
+                options: [
+                    "Renombrar el archivo antes de importar",
+                    "Crear una carpeta específica llamada 'imports'",
+                    "Verificar que esté marcado 'Extract Archive' durante la importación",
+                    "Cambiar la codificación del archivo a UTF-8"
+                ],
+                correct: 2,
+                explanation: "Al importar el ZIP es crucial marcar '✅ Extract Archive' para que se descompriman automáticamente todos los archivos en la carpeta 'tablas'. Sin esto, solo se importaría el archivo ZIP sin extraer su contenido."
+            },
+            {
+                question: "¿Cuál es el formato correcto del namespace que debe configurarse en los archivos?",
+                options: [
+                    "[NOMBRE_PROYECTO].[NOMBRE_MODULO].tablas",
+                    "hana.[NOMBRE_PROYECTO].db",
+                    "[NOMBRE_USUARIO].[NOMBRE_PROYECTO]",
+                    "sap.hana.[NOMBRE_MODULO]"
+                ],
+                correct: 0,
+                explanation: "El namespace sigue el formato '[NOMBRE_PROYECTO].[NOMBRE_MÓDULO].tablas'. Por ejemplo: 'base-datos-modelado.base-datos.tablas'. Este namespace debe actualizarse tanto en archivos .hdbtable como .hdbtabledata."
+            },
+            {
+                question: "¿En qué orden específico se deben construir (build) los archivos para cada tabla?",
+                options: [
+                    ".csv → .hdbtabledata → .hdbtable",
+                    ".hdbtabledata → .hdbtable → .csv",
+                    ".hdbtable → .csv → .hdbtabledata",
+                    "El orden no importa, se pueden construir simultáneamente"
+                ],
+                correct: 2,
+                explanation: "Los archivos deben construirse en orden específico: 1) .hdbtable (estructura de la tabla), 2) .csv (datos), 3) .hdbtabledata (configuración). Este orden asegura que la tabla existe antes de cargar datos y configurar la importación."
+            },
+            {
+                question: "¿Cómo se verifica que las tablas se han instalado correctamente en SAP HANA?",
+                options: [
+                    "Revisando los logs del sistema SAP HANA",
+                    "Usando Database Explorer, añadiendo HDI Container y navegando a 'Tables'",
+                    "Ejecutando un script de verificación automática",
+                    "Comprobando el espacio de almacenamiento utilizado"
+                ],
+                correct: 1,
+                explanation: "La verificación se hace abriendo Database Explorer (🗄️), añadiendo la base de datos tipo 'HDI Container' (nombre: tu-proyecto-HDI-DB), y navegando a 'Tables' donde deberían aparecer CATEGORIAS, PRODUCTOS, CLIENTES."
+            },
+            {
+                question: "¿Cuál es la alternativa más eficiente para actualizar el namespace en múltiples archivos?",
+                options: [
+                    "Editar cada archivo manualmente uno por uno en el Web IDE",
+                    "Usar herramientas de bases de datos externas",
+                    "Descomprimir localmente, usar Notepad++ para reemplazar en todos los archivos, recomprimir e importar nuevamente",
+                    "Crear un script SQL personalizado"
+                ],
+                correct: 2,
+                explanation: "El video sugiere como 'Alternativa Rápida': descomprimir archivos localmente, usar Notepad++ (función 'Replace in Files') para cambiar el namespace en todos los archivos simultáneamente, recomprimir y reimportar. Es mucho más eficiente que editar archivo por archivo."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function initQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('questionContainer');
+            const question = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                <strong>${String.fromCharCode(65 + index)})</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <h4>💡 Explicación:</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            ← Anterior
+                        </button>
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submitBtn" disabled>
+                            Confirmar Respuesta
+                        </button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                            ${currentQuestionIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                selectOption(userAnswers[currentQuestionIndex]);
+                submitAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestionIndex];
+            
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update score
+            score = userAnswers.filter((answer, index) => answer === questions[index].correct).length;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showFinalScore() {
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('finalScore').classList.add('show');
+            document.getElementById('finalScoreCircle').textContent = finalScore + '%';
+            
+            let message = '';
+            if (finalScore >= 80) {
+                message = '🎉 ¡Excelente! Dominas el proceso de instalación de tablas en SAP HANA.';
+            } else if (finalScore >= 60) {
+                message = '👍 Buen trabajo. Repasa los pasos de configuración y namespace para perfeccionar.';
+            } else {
+                message = '📚 Necesitas reforzar los procedimientos de instalación y configuración.';
+            }
+            
+            document.getElementById('scoreMessage').innerHTML = `
+                <p>${message}</p>
+                <div class="study-tips">
+                    <h4>🛠️ Puntos clave para dominar la instalación de tablas:</h4>
+                    <ul>
+                        <li><strong>3 archivos por tabla:</strong> .hdbtable (estructura), .csv (datos), .hdbtabledata (config)</li>
+                        <li><strong>Proyecto Multi-Target:</strong> Nombre: base-datos-modelado, versión 0.0.1</li>
+                        <li><strong>Módulo HANA:</strong> SAP HANA 2.0 SPS03 + Build after creation ✅</li>
+                        <li><strong>Importación crítica:</strong> Marcar 'Extract Archive' obligatorio</li>
+                        <li><strong>Namespace formato:</strong> [PROYECTO].[MÓDULO].tablas</li>
+                        <li><strong>Orden de build:</strong> .hdbtable → .csv → .hdbtabledata</li>
+                        <li><strong>Verificación:</strong> Database Explorer → HDI Container → Tables</li>
+                        <li><strong>Truco eficiente:</strong> Notepad++ para cambios masivos de namespace</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('finalScore').classList.remove('show');
+            
+            initQuiz();
+        }
+
+        // Initialize quiz when page loads
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>
