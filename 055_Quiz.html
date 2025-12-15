@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz 055 - CREATE SCHEMA (SAP HANA)</title>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: rgba(255,255,255,.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+      color: #fff;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 { font-size: 2.4em; margin-bottom: 10px; }
+    .header p { opacity: .9; }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .stat-item {
+      background: rgba(255,255,255,.12);
+      padding: 15px 25px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      display: block;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,.25);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 18px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg,#4CAF50,#45a049);
+      width: 0%;
+      transition: width .6s ease;
+    }
+
+    .content { padding: 40px; }
+
+    .question-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.1);
+      border-left: 5px solid #14b8a6;
+      display: none;
+    }
+
+    .question-card.active { display:block; }
+
+    .question-number {
+      color:#0f766e;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .question-text {
+      font-size:1.25em;
+      font-weight:600;
+      margin-bottom:25px;
+      color:#333;
+    }
+
+    .options { display:grid; gap:15px; }
+
+    .option {
+      background: linear-gradient(135deg,#f0fdfa,#ccfbf1);
+      padding:18px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.25s;
+      border:2px solid transparent;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+    }
+
+    .option.selected {
+      background: linear-gradient(135deg,#14b8a6,#0f766e);
+      color:#fff;
+      border-color:#14b8a6;
+    }
+
+    .option.correct {
+      background: linear-gradient(135deg,#4CAF50,#45a049);
+      color:#fff;
+    }
+
+    .option.incorrect {
+      background: linear-gradient(135deg,#f44336,#da190b);
+      color:#fff;
+    }
+
+    .buttons {
+      display:flex;
+      justify-content:space-between;
+      margin-top:30px;
+      gap:15px;
+    }
+
+    .btn {
+      padding:14px 28px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,#14b8a6,#0f766e);
+      color:#fff;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg,#f0fdfa,#ccfbf1);
+      color:#134e4a;
+    }
+
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+    .explanation {
+      display:none;
+      margin-top:20px;
+      background:#ecfeff;
+      border-left:4px solid #14b8a6;
+      padding:18px;
+      border-radius:10px;
+    }
+
+    .explanation.show { display:block; }
+
+    .final-score {
+      display:none;
+      background: linear-gradient(135deg,#14b8a6,#0f766e);
+      color:#fff;
+      padding:40px;
+      border-radius:20px;
+      text-align:center;
+    }
+
+    .final-score.show { display:block; }
+
+    .score-circle {
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      background: rgba(255,255,255,.18);
+      margin:0 auto 20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2.5em;
+      font-weight:bold;
+    }
+
+    footer {
+      text-align:center;
+      color:#134e4a;
+      opacity:.7;
+      padding:15px 0 0;
+      font-size:.85em;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🎯 Quiz 055 | SAP HANA</h1>
+    <p>CREATE SCHEMA — Organización y permisos</p>
+
+    <div class="stats">
+      <div class="stat-item"><span class="stat-number" id="currentQuestion">1</span>Pregunta</div>
+      <div class="stat-item"><span class="stat-number" id="totalQuestions">8</span>Total</div>
+      <div class="stat-item"><span class="stat-number" id="score">0</span>Puntaje</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div id="questionContainer"></div>
+
+    <div class="final-score" id="finalScore">
+      <div class="score-circle" id="finalScoreCircle">0%</div>
+      <h2>¡Quiz Completado!</h2>
+      <p id="scoreMessage"></p>
+      <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questionsBase = [
+ {
+  question:"¿Qué es un schema en SAP HANA?",
+  options:[
+    "Una tabla especial",
+    "Una base de datos independiente",
+    "Una unidad organizativa para agrupar objetos",
+    "Un tipo de índice"
+  ],
+  correct:2,
+  explanation:"Un schema organiza objetos como tablas, vistas, índices y procedimientos."
+ },
+ {
+  question:"¿A qué se compara normalmente un schema?",
+  options:[
+    "Un usuario",
+    "Una carpeta de Windows",
+    "Una vista",
+    "Un trigger"
+  ],
+  correct:1,
+  explanation:"El schema funciona como una carpeta lógica que contiene distintos objetos."
+ },
+ {
+  question:"¿Qué objetos suelen almacenarse dentro de un schema?",
+  options:[
+    "Solo tablas",
+    "Tablas, vistas, índices y procedimientos",
+    "Usuarios y roles",
+    "Bases de datos completas"
+  ],
+  correct:1,
+  explanation:"Un schema puede contener distintos tipos de objetos relacionados."
+ },
+ {
+  question:"¿Quién es el propietario de un schema por defecto?",
+  options:[
+    "El sistema",
+    "El administrador",
+    "El usuario que lo crea",
+    "El último usuario conectado"
+  ],
+  correct:2,
+  explanation:"Por defecto, el creador del schema pasa a ser su propietario."
+ },
+ {
+  question:"¿Qué permite la cláusula OWNED BY?",
+  options:[
+    "Eliminar el schema",
+    "Cambiar el nombre del schema",
+    "Definir un propietario distinto",
+    "Asignar roles automáticamente"
+  ],
+  correct:2,
+  explanation:"OWNED BY permite definir un usuario diferente como propietario."
+ },
+ {
+  question:"Si no eres propietario del schema, ¿cómo consultas una tabla?",
+  options:[
+    "Usando solo el nombre de la tabla",
+    "No es posible",
+    "Indicando schema.tabla",
+    "Creando un índice"
+  ],
+  correct:2,
+  explanation:"Debes indicar el nombre completo del esquema y la tabla."
+ },
+ {
+  question:"¿Quién suele tener permisos para crear schemas?",
+  options:[
+    "Cualquier usuario",
+    "Solo aplicaciones",
+    "Usuarios administradores",
+    "Usuarios anónimos"
+  ],
+  correct:2,
+  explanation:"CREATE SCHEMA suele estar restringido a administradores."
+ },
+ {
+  question:"¿Por qué los schemas ayudan a la seguridad?",
+  options:[
+    "Porque eliminan usuarios",
+    "Porque separan y controlan accesos",
+    "Porque cifran los datos",
+    "Porque aceleran consultas"
+  ],
+  correct:1,
+  explanation:"Separar objetos en schemas permite asignar permisos de forma más controlada."
+ }
+];
+
+let questions=[], current=0, answers=[], score=0;
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function initQuiz(){
+ questions = questionsBase.map(q=>{
+  const correctText = q.options[q.correct];
+  const opts = shuffle(q.options);
+  return {...q, options:opts, correct:opts.indexOf(correctText)};
+ });
+ current=0; answers=[]; score=0;
+ document.getElementById("totalQuestions").textContent=questions.length;
+ showQuestion(); update();
+}
+
+function showQuestion(){
+ const q=questions[current];
+ document.getElementById("questionContainer").innerHTML=`
+ <div class="question-card active">
+  <div class="question-number">Pregunta ${current+1} de ${questions.length}</div>
+  <div class="question-text">${q.question}</div>
+  <div class="options">
+   ${q.options.map((o,i)=>`<div class="option" onclick="select(${i})">${String.fromCharCode(65+i)}) ${o}</div>`).join("")}
+  </div>
+  <div class="explanation" id="exp"><strong>💡 Explicación:</strong><br>${q.explanation}</div>
+  <div class="buttons">
+   <button class="btn btn-secondary" onclick="prev()" ${current===0?"disabled":""}>← Anterior</button>
+   <button class="btn btn-primary" id="confirm" disabled onclick="confirm()">Confirmar</button>
+   <button class="btn btn-primary" id="next" style="display:none" onclick="next()">${current===questions.length-1?"Resultados":"Siguiente →"}</button>
+  </div>
+ </div>`;
+}
+
+function select(i){
+ document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+ document.querySelectorAll(".option")[i].classList.add("selected");
+ document.getElementById("confirm").disabled=false;
+}
+
+function confirm(){
+ const sel=document.querySelector(".option.selected");
+ if(!sel)return;
+ const idx=[...sel.parentNode.children].indexOf(sel);
+ answers[current]=idx;
+ document.querySelectorAll(".option").forEach((o,i)=>{
+  if(i===questions[current].correct)o.classList.add("correct");
+  else if(i===idx)o.classList.add("incorrect");
+ });
+ document.getElementById("exp").classList.add("show");
+ document.getElementById("confirm").style.display="none";
+ document.getElementById("next").style.display="inline-block";
+ update();
+}
+
+function next(){
+ if(current<questions.length-1){current++;showQuestion();update();}
+ else finish();
+}
+
+function prev(){current--;showQuestion();update();}
+
+function update(){
+ score=answers.filter((a,i)=>a===questions[i]?.correct).length;
+ document.getElementById("score").textContent=score;
+ document.getElementById("currentQuestion").textContent=current+1;
+ document.getElementById("progressFill").style.width=((current+1)/questions.length*100)+"%";
+}
+
+function finish(){
+ document.getElementById("questionContainer").style.display="none";
+ document.getElementById("finalScore").classList.add("show");
+ const pct=Math.round(score/questions.length*100);
+ document.getElementById("finalScoreCircle").textContent=pct+"%";
+ document.getElementById("scoreMessage").textContent=
+  pct>=80?"🎉 Excelente dominio de CREATE SCHEMA":
+  pct>=60?"👍 Buen trabajo, repasa permisos y uso":
+  "⚠️ Revisa concepto de schema, propietario y acceso";
+}
+
+function restartQuiz(){
+ document.getElementById("finalScore").classList.remove("show");
+ document.getElementById("questionContainer").style.display="block";
+ initQuiz();
+}
+
+window.onload=initQuiz;
+</script>
+
+<footer>
+  Quiz basado en el resumen del Video 55 — CREATE SCHEMA (SAP HANA).
+</footer>
+</body>
+</html>
+  

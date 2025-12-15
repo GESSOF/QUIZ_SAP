@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz 058 - CREATE VIEW (SAP HANA)</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    body{
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+      min-height:100vh;
+      padding:20px;
+    }
+
+    .container{
+      max-width:1000px;
+      margin:auto;
+      background:rgba(255,255,255,.96);
+      border-radius:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,.15);
+      overflow:hidden;
+    }
+
+    .header{
+      background: linear-gradient(135deg, #15803d 0%, #14532d 100%);
+      color:#fff;
+      padding:30px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .header::before{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background: radial-gradient(circle, rgba(255,255,255,.12) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+    .header h1{
+      font-size:2.4em;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    .header p{
+      opacity:.9;
+      position:relative;
+      z-index:1;
+    }
+
+    .stats{
+      display:flex;
+      justify-content:center;
+      gap:40px;
+      margin-top:20px;
+      position:relative;
+      z-index:1;
+      flex-wrap:wrap;
+    }
+
+    .stat-item{
+      background:rgba(255,255,255,.14);
+      padding:15px 25px;
+      border-radius:15px;
+      text-align:center;
+      backdrop-filter: blur(10px);
+      min-width:140px;
+    }
+
+    .stat-number{
+      font-size:2em;
+      font-weight:bold;
+      display:block;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:8px;
+      background:rgba(255,255,255,.25);
+      border-radius:4px;
+      overflow:hidden;
+      margin-top:18px;
+      position:relative;
+      z-index:1;
+    }
+
+    .progress-fill{
+      height:100%;
+      background: linear-gradient(135deg,#4CAF50,#45a049);
+      width:0%;
+      transition: width .6s ease;
+    }
+
+    .content{padding:40px}
+
+    .question-card{
+      background:#fff;
+      border-radius:15px;
+      padding:30px;
+      box-shadow:0 10px 30px rgba(0,0,0,.1);
+      border-left:5px solid #22c55e;
+      display:none;
+    }
+    .question-card.active{display:block}
+
+    .question-number{
+      color:#15803d;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .question-text{
+      font-size:1.25em;
+      font-weight:600;
+      margin-bottom:25px;
+      color:#0f172a;
+      line-height:1.35;
+    }
+
+    .options{display:grid;gap:15px}
+
+    .option{
+      background: linear-gradient(135deg,#f0fdf4,#dcfce7);
+      padding:18px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.25s;
+      border:2px solid transparent;
+      color:#0f172a;
+    }
+
+    .option:hover{
+      transform: translateY(-2px);
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+    }
+
+    .option.selected{
+      background: linear-gradient(135deg,#22c55e,#15803d);
+      color:#fff;
+      border-color:#22c55e;
+    }
+
+    .option.correct{
+      background: linear-gradient(135deg,#4CAF50,#45a049);
+      color:#fff;
+    }
+
+    .option.incorrect{
+      background: linear-gradient(135deg,#f44336,#da190b);
+      color:#fff;
+    }
+
+    .buttons{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      margin-top:30px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:14px 28px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      transition:.2s;
+    }
+    .btn:hover{transform: translateY(-2px)}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    .btn-primary{
+      background: linear-gradient(135deg,#22c55e,#15803d);
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background: linear-gradient(135deg,#f0fdf4,#dcfce7);
+      color:#14532d;
+    }
+
+    .explanation{
+      display:none;
+      margin-top:20px;
+      background:#dcfce7;
+      border-left:4px solid #22c55e;
+      padding:18px;
+      border-radius:10px;
+      color:#0f172a;
+    }
+    .explanation.show{display:block}
+
+    .final-score{
+      display:none;
+      background: linear-gradient(135deg,#22c55e,#15803d);
+      color:#fff;
+      padding:40px;
+      border-radius:20px;
+      text-align:center;
+    }
+    .final-score.show{display:block}
+
+    .score-circle{
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      background: rgba(255,255,255,.18);
+      margin:0 auto 20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2.5em;
+      font-weight:bold;
+    }
+
+    @media (max-width:768px){
+      .content{padding:20px}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🎯 Quiz 058 | SAP HANA</h1>
+    <p>CREATE VIEW — Tablas virtuales, reutilización y restricciones</p>
+
+    <div class="stats">
+      <div class="stat-item"><span class="stat-number" id="currentQuestion">1</span>Pregunta</div>
+      <div class="stat-item"><span class="stat-number" id="totalQuestions">9</span>Total</div>
+      <div class="stat-item"><span class="stat-number" id="score">0</span>Puntaje</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div id="questionContainer"></div>
+
+    <div class="final-score" id="finalScore">
+      <div class="score-circle" id="finalScoreCircle">0%</div>
+      <h2>¡Quiz Completado!</h2>
+      <p id="scoreMessage"></p>
+      <button class="btn btn-primary" onclick="restartQuiz()">Reiniciar Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questionsBase = [
+  {
+    question: "¿Qué es una VIEW (vista) en SAP HANA?",
+    options: [
+      "Una tabla física que guarda datos duplicados",
+      "Una tabla virtual basada en un SELECT",
+      "Un tipo de índice",
+      "Un trigger que se ejecuta automáticamente"
+    ],
+    correct: 1,
+    explanation: "Una vista es un objeto virtual que representa el resultado de una consulta."
+  },
+  {
+    question: "¿Las vistas almacenan datos físicamente?",
+    options: [
+      "Sí, siempre guardan una copia",
+      "No, normalmente no almacenan datos; se construyen desde la consulta",
+      "Solo almacenan datos si tienen JOIN",
+      "Solo almacenan datos si tienen WHERE"
+    ],
+    correct: 1,
+    explanation: "En general, una vista no almacena datos, sino que los obtiene de las tablas base al consultarla."
+  },
+  {
+    question: "¿Cuál es un uso típico de las vistas?",
+    options: [
+      "Cifrar información",
+      "Simplificar consultas complejas y reutilizar JOINs",
+      "Aumentar el tamaño de la base de datos",
+      "Reemplazar la necesidad de permisos"
+    ],
+    correct: 1,
+    explanation: "Las vistas ayudan a encapsular consultas largas y reutilizarlas fácilmente."
+  },
+  {
+    question: "¿Cuál es la estructura correcta de CREATE VIEW?",
+    options: [
+      "CREATE VIEW nombre AS SELECT ...;",
+      "CREATE TABLE nombre AS SELECT ...;",
+      "VIEW CREATE nombre SELECT ...;",
+      "CREATE INDEX nombre FOR SELECT ...;"
+    ],
+    correct: 0,
+    explanation: "La sintaxis básica es CREATE VIEW nombre AS SELECT ...;"
+  },
+  {
+    question: "¿Cuándo es más probable que una vista permita INSERT/UPDATE sobre ella?",
+    options: [
+      "Cuando está basada en una sola tabla y es simple",
+      "Cuando tiene GROUP BY y DISTINCT",
+      "Cuando tiene múltiples JOIN complejos",
+      "Cuando está basada en otra vista"
+    ],
+    correct: 0,
+    explanation: "Las vistas actualizables suelen ser simples y basadas en una única tabla."
+  },
+  {
+    question: "¿Cuál de estas opciones suele impedir que una vista sea actualizable?",
+    options: [
+      "SELECT con columnas directas",
+      "Basarse en una sola tabla",
+      "Usar funciones de agregación / GROUP BY / DISTINCT",
+      "Tener un alias de columnas"
+    ],
+    correct: 2,
+    explanation: "Las agregaciones y operaciones como GROUP BY/DISTINCT generalmente impiden modificar datos vía la vista."
+  },
+  {
+    question: "Si una tabla base tiene columnas NOT NULL que no aparecen en la vista, ¿qué se necesita para insertar vía la vista?",
+    options: [
+      "Que esas columnas tengan DEFAULT",
+      "Que el usuario sea DBA",
+      "Que la vista tenga ORDER BY",
+      "Que exista un índice UNIQUE"
+    ],
+    correct: 0,
+    explanation: "Si no incluyes columnas NOT NULL, necesitas que tengan valores DEFAULT para que el INSERT funcione."
+  },
+  {
+    question: "¿Para qué ayuda una vista en seguridad?",
+    options: [
+      "Para eliminar usuarios",
+      "Para mostrar solo ciertas columnas/filas y restringir acceso",
+      "Para saltarse permisos",
+      "Para hacer backups automáticos"
+    ],
+    correct: 1,
+    explanation: "Puedes exponer solo una parte de los datos mediante una vista y dar permisos sobre la vista."
+  },
+  {
+    question: "En HDI, las vistas suelen definirse como artefactos con extensión:",
+    options: [
+      ".hdbtable",
+      ".hdbview",
+      ".hdbindex",
+      ".hdbsynonym"
+    ],
+    correct: 1,
+    explanation: "En entornos HDI es común definir vistas en archivos .hdbview (artefactos)."
+  }
+];
+
+let questions=[], current=0, answers=[], score=0;
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function initQuiz(){
+  questions = questionsBase.map(q=>{
+    const correctText = q.options[q.correct];
+    const opts = shuffle(q.options);
+    return {...q, options:opts, correct:opts.indexOf(correctText)};
+  });
+  current=0; answers=[]; score=0;
+  document.getElementById("totalQuestions").textContent = questions.length;
+  showQuestion(); update();
+}
+
+function showQuestion(){
+  const q = questions[current];
+  document.getElementById("questionContainer").innerHTML = `
+    <div class="question-card active">
+      <div class="question-number">Pregunta ${current+1} de ${questions.length}</div>
+      <div class="question-text">${q.question}</div>
+
+      <div class="options">
+        ${q.options.map((o,i)=>`
+          <div class="option" onclick="select(${i})">
+            ${String.fromCharCode(65+i)}) ${o}
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="explanation" id="exp">
+        <strong>💡 Explicación:</strong><br>${q.explanation}
+      </div>
+
+      <div class="buttons">
+        <button class="btn btn-secondary" onclick="prev()" ${current===0?"disabled":""}>← Anterior</button>
+        <button class="btn btn-primary" id="confirm" disabled onclick="confirmAnswer()">Confirmar</button>
+        <button class="btn btn-primary" id="next" style="display:none" onclick="next()">
+          ${current===questions.length-1 ? "Resultados" : "Siguiente →"}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function select(i){
+  document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+  document.querySelectorAll(".option")[i].classList.add("selected");
+  document.getElementById("confirm").disabled = false;
+}
+
+function confirmAnswer(){
+  const sel = document.querySelector(".option.selected");
+  if(!sel) return;
+
+  const idx = [...sel.parentNode.children].indexOf(sel);
+  answers[current] = idx;
+
+  document.querySelectorAll(".option").forEach((o,i)=>{
+    if(i === questions[current].correct) o.classList.add("correct");
+    else if(i === idx) o.classList.add("incorrect");
+    o.onclick = null;
+  });
+
+  document.getElementById("exp").classList.add("show");
+  document.getElementById("confirm").style.display = "none";
+  document.getElementById("next").style.display = "inline-block";
+  update();
+}
+
+function next(){
+  if(current < questions.length-1){
+    current++;
+    showQuestion();
+    update();
+  } else {
+    finish();
+  }
+}
+
+function prev(){
+  current--;
+  showQuestion();
+  update();
+}
+
+function update(){
+  score = answers.filter((a,i)=>a === questions[i]?.correct).length;
+  document.getElementById("score").textContent = score;
+  document.getElementById("currentQuestion").textContent = current+1;
+  document.getElementById("progressFill").style.width = ((current+1)/questions.length*100) + "%";
+}
+
+function finish(){
+  document.getElementById("questionContainer").style.display = "none";
+  document.getElementById("finalScore").classList.add("show");
+
+  const pct = Math.round(score / questions.length * 100);
+  document.getElementById("finalScoreCircle").textContent = pct + "%";
+
+  document.getElementById("scoreMessage").textContent =
+    pct >= 80 ? "🎉 Excelente dominio de CREATE VIEW" :
+    pct >= 60 ? "👍 Buen trabajo, repasa actualizabilidad y restricciones" :
+    "⚠️ Repasa: qué es una vista, para qué sirve y cuándo se puede modificar";
+}
+
+function restartQuiz(){
+  document.getElementById("finalScore").classList.remove("show");
+  document.getElementById("questionContainer").style.display = "block";
+  initQuiz();
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
